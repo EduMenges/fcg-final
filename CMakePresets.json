@@ -1,78 +1,82 @@
 {
-  "version": 3,
+  "version": 6,
   "configurePresets": [
     {
-      "name": "base",
+      "name": "default",
       "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE":"Debug"
+      },
       "binaryDir": "${sourceDir}/build/${presetName}",
       "installDir": "${sourceDir}/install/${presetName}"
     },
     {
-      "name": "debug",
+      "name": "release",
+      "hidden": true,
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_BUILD_TYPE": "Release"
       },
-      "hidden": true
+      "inherits": ["default"]
     },
     {
       "name": "mingw",
+      "displayName": "Default MinGW",
       "vendor": {
         "jetbrains.com/clion": {
           "toolchain": "MinGW"
         }
       },
-      "inherits": "base",
-      "hidden": true,
-      "generator": "Ninja"
-    },
-    {
-      "name": "mingw-debug",
-      "displayName": "MinGW Debug",
-      "inherits": [
-        "mingw",
-        "debug"
-      ]
-    },
-    {
-      "name": "release",
+      "inherits": ["default"],
+      "generator": "Ninja",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      },
-      "hidden": true
-    },
-    {
-      "name": "mingw-release",
-      "displayName": "MinGW Release",
-      "inherits": [
-        "mingw",
-        "release"
-      ]
+        "CMAKE_CXX_COMPILER":"C:/msys64/clang64/bin/clang++.exe",
+        "glfw3_DIR" : "C:/msys64/clang64/lib/cmake/glfw3",
+        "glm_DIR" : "C:/msys64/clang64/lib/cmake/glm"
+      }
     },
     {
       "name": "linux",
-      "hidden": true,
+      "displayName": "Linux",
+      "inherits": ["default"],
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
         "rhs": "Linux"
       },
-      "inherits": [
-        "base"
-      ]
+      "cacheVariables": {
+        "glfw3_DIR" : "/usr/lib/x86_64-linux-gnu/cmake/glfw3/",
+        "glm_DIR" : "/usr/lib/cmake/glm"
+      }
+    },
+    {
+      "name": "mingw-release",
+      "inherits": ["mingw", "release"]
+    },
+    {
+      "name" : "linux-release",
+      "inherits": ["linux", "release"]
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "mingw-debug",
+      "configurePreset": "mingw",
+      "displayName": "MinGW Debug"
     },
     {
       "name": "linux-debug",
-      "inherits": [
-        "linux",
-        "debug"
-      ]
+      "configurePreset": "linux",
+      "displayName": "Linux Debug"
+    },
+    {
+      "name": "mingw-release",
+      "configurePreset": "mingw-release",
+      "displayName": "MinGW Release"
     },
     {
       "name": "linux-release",
-      "inherits": [
-        "linux",
-        "release"
-      ]
+      "configurePreset": "linux-release",
+      "displayName": "Linux Release"
     }
   ]
 }

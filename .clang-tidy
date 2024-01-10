@@ -1,0 +1,88 @@
+---
+Checks: <
+  boost-*
+  
+  bugprone-*
+  -bugprone-exception-escape
+  -bugprone-easily-swappable-parameters
+  
+  cert-*
+  
+  concurrency-*
+  
+  cppcoreguidelines-*
+  -cppcoreguidelines-avoid-const-or-ref-data-members
+  -cppcoreguidelines-avoid-do-while
+  -cppcoreguidelines-init-variables
+  -cppcoreguidelines-non-private-member-variables-in-classes
+  -cppcoreguidelines-pro-bounds-array-to-pointer-decay
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic
+  -cppcoreguidelines-pro-type-reinterpret-cast
+  
+  fuchsia-*
+  -fuchsia-default-arguments-calls
+  -fuchsia-overloaded-operator
+  
+  google-*
+  -google-readability-namespace-comments
+  
+  hicpp-*
+  -hicpp-explicit-conversions
+  
+  llvm-*
+  -llvm-header-guard
+  -llvm-namespace-comment
+  
+  misc-*
+  -misc-non-private-member-variables-in-classes
+  -misc-include-cleaner
+  
+  modernize-*
+  -modernize-use-trailing-return-type
+  
+  performance-*
+  
+  portability-*
+
+  readability-*
+  -readability-identifier-length
+
+FormatStyle: file
+
+CheckOptions:
+  hicpp-signed-bitwise.IgnorePositiveIntegerLiterals: true
+
+  performance-unnecessary-value-param.IncludeStyle: google
+  performance-unnecessary-value-param.AllowedTypes: std::stop_token;std::function
+
+  readability-identifier-naming.IgnoreMainLikeFunctions: true
+
+  readability-identifier-naming.MacroDefinitionCase: UPPER_CASE
+
+  readability-identifier-naming.NamespaceCase: lower_case
+
+  readability-identifier-naming.ClassCase: CamelCase
+
+  readability-identifier-naming.EnumCase: CamelCase
+
+  readability-identifier-naming.UnionCase: CamelCase
+
+  readability-identifier-naming.TypedefCase: CamelCase
+
+  readability-identifier-naming.TypeTemplateParameterCase: CamelCase
+
+  readability-identifier-naming.MemberCase: lower_case
+
+  readability-identifier-naming.MemberSuffix: _
+
+  readability-identifier-naming.FunctionCase: CamelCase
+
+  readability-identifier-naming.MethodCase: CamelCase
+
+  readability-identifier-naming.ParameterCase: lower_case
+
+  readability-identifier-naming.VariableCase: lower_case
+
+  readability-identifier-naming.ConstantCase: CamelCase
+
+  readability-identifier-naming.ConstantPrefix: k

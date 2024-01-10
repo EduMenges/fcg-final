@@ -1,0 +1,35 @@
+---
+BasedOnStyle: Google
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: true
+AlignConsecutiveBitFields:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: true
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: true
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: true
+Standard: c++11
+InsertNewlineAtEOF: true
+FixNamespaceComments: false
+IndentWidth: 4
+ColumnLimit: 120
+SortIncludes: Never
+ReflowComments: true
+BinPackArguments: false
+DerivePointerAlignment: false
