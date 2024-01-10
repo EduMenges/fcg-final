@@ -18,11 +18,7 @@ Checks: <
   -cppcoreguidelines-pro-bounds-array-to-pointer-decay
   -cppcoreguidelines-pro-bounds-pointer-arithmetic
   -cppcoreguidelines-pro-type-reinterpret-cast
-  
-  fuchsia-*
-  -fuchsia-default-arguments-calls
-  -fuchsia-overloaded-operator
-  
+    
   google-*
   -google-readability-namespace-comments
   

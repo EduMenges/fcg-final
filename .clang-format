@@ -31,5 +31,4 @@ IndentWidth: 4
 ColumnLimit: 120
 SortIncludes: Never
 ReflowComments: true
-BinPackArguments: false
 DerivePointerAlignment: false
