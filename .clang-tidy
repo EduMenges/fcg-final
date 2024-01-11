@@ -28,6 +28,7 @@ Checks: <
   llvm-*
   -llvm-header-guard
   -llvm-namespace-comment
+  -llvm-include-order
   
   misc-*
   -misc-non-private-member-variables-in-classes

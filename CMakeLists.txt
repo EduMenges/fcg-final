@@ -52,4 +52,7 @@ else()
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+add_compile_definitions(_USE_MATH_DEFINES)
+
+add_subdirectory(glad)
 add_subdirectory(src)
