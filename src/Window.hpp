@@ -1,8 +1,8 @@
 #pragma once
 
 #include "string_view"
-#include "user_input/Mouse.hpp"
-#include "user_input/Keys.hpp"
+#include "input/Mouse.hpp"
+#include "input/Keys.hpp"
 #include "Camera.hpp"
 
 #include <glad/glad.h>
@@ -12,7 +12,7 @@ class Window {
    public:
     static constexpr std::string_view kGameName = "FooBar";
 
-    Window() : window_(glfwCreateWindow(width_, height_, "Boomerang Blitz", nullptr, nullptr)) {
+    Window() : window_(glfwCreateWindow(width_, height_, kGameName.data(), nullptr, nullptr)), camera_(FreeCamera()) {
         if (window_ == nullptr) {
             glfwTerminate();
             throw std::runtime_error("glfwCreateWindow() failed");
@@ -20,104 +20,78 @@ class Window {
 
         glfwSetWindowUserPointer(window_, this);
 
-        // Teclas
-        glfwSetKeyCallback(window_, [](GLFWwindow *window, int key, int scancode, int action, int mode) {
-            Window *self = static_cast<Window *>(glfwGetWindowUserPointer(window));
+        glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int scancode, int action, int mode) {
+            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
             self->KeyCallback(key, scancode, action, mode);
         });
-        // Botões do mouse
-        glfwSetMouseButtonCallback(window_, [](GLFWwindow *window, int button, int action, int mods) {
-            Window *self = static_cast<Window *>(glfwGetWindowUserPointer(window));
+
+        glfwSetMouseButtonCallback(window_, [](GLFWwindow* window, int button, int action, int mods) {
+            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
             self->MouseButtonCallback(button, action, mods);
         });
-        // Cursor do mouse
-        glfwSetCursorPosCallback(window_, [](GLFWwindow *window, double xpos, double ypos) {
-            Window *self = static_cast<Window *>(glfwGetWindowUserPointer(window));
+
+        glfwSetCursorPosCallback(window_, [](GLFWwindow* window, double xpos, double ypos) {
+            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
             self->CursorPosCallback(xpos, ypos);
         });
-        // Scroll do mouse
-        glfwSetScrollCallback(window_, [](GLFWwindow *window, double xoffset, double yoffset) {
-            Window *self = static_cast<Window *>(glfwGetWindowUserPointer(window));
-            self->ScrollCallback(xoffset, yoffset);
+
+        glfwSetFramebufferSizeCallback(window_, [](GLFWwindow* window, int width, int height) {
+            auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            self->FrameBufferSizeCallback(width, height);
         });
-        // Tamanho da janela
-        glfwSetFramebufferSizeCallback(window_, [](GLFWwindow *window, int width, int height) {
-            Window *self = static_cast<Window *>(glfwGetWindowUserPointer(window));
-            self->FramebufferSizeCallback(width, height);
-        });
+
+        glfwSetWindowSize(window_, width_, height_); // Definição de screenRatio.
+
+        glfwMakeContextCurrent(window_);
+
+        gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
     }
 
     void Start();
 
-    void KeyCallback(int key, int  /*scancode*/, int action, int  /*mode*/) {
+    void KeyCallback(int key, int /*scancode*/, int action, int /*mode*/) {
         if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
             glfwSetWindowShouldClose(glfwGetCurrentContext(), GL_TRUE);
         }
 
-        keys_.TakeAction(key, static_cast<Key::Action>(action));
+        keys_.TakeAction(key, static_cast<input::Action>(action));
     }
 
-    void MouseButtonCallback(int button, int action, int mods) {
-        // Caso o jogo esteja pausado
-        if (this->isPaused_) {
-            return;
-        }
-
-        // Caso o usuário pressione os botões do mouse
-        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
-        {
-            this->camera_.keys.M1 = true;
-        }
-        if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
-        {
-            this->camera_.keys.M1 = false;
-        }
-        if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
-        {
-            this->camera_.keys.M2 = true;
-        }
-        if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE)
-        {
-            this->camera_.keys.M2 = false;
-        }
+    void FrameBufferSizeCallback(int width, int height) {
+        glViewport(0, 0, width, height);
+        height_ = height;
+        width_  = width;
     }
+
+    void MouseButtonCallback(int button, int action, int /*mods*/) {
+        mouse_.TakeAction(button, static_cast<input::Action>(action));
+    }
+
     void CursorPosCallback(double xpos, double ypos) {
-        // Deslocamento do cursor do mouse em x e y de coordenadas de tela!
-        float dx = xpos - this->lastCursorPosX;
-        float dy = ypos - this->lastCursorPosY;
+        const double dx = xpos - mouse_.x;
+        const double dy = ypos - mouse_.y;
 
-        // Caso esteja pausado, não atualiza a posição do cursor
-        if (this->isPaused_) {
-            this->lastCursorPosX = xpos;
-            this->lastCursorPosY = ypos;
-            return;
+        if (auto* free_camera = std::get_if<FreeCamera>(&camera_)) {
+            const double angle_x = dx / (static_cast<double>(width_) / 2) * 2 * std::numbers::pi;
+            const double angle_y = dy / (static_cast<double>(height_) / 2) * 2 * std::numbers::pi;
+
+            free_camera->UpdateViewVector(angle_x, angle_y);
+            free_camera->UpdateSpheric(angle_x);
+        } else {
+            auto look_at_camera = std::get<LookAtCamera>(camera_);
+            look_at_camera.UpdateSpheric(dx, dy);
         }
 
-        // Atualizamos parâmetros da câmera com os deslocamentos
-        if (this->camera_.isUseFreeCamera()) {
-
-            // Em câmera livre, calcula o ângulo rotação horizontal conforme a porcentagem da tela movida
-            float angleX = dx/((float) this->screenWidth/2)  * 2 * M_PI;
-            float angleY = dy/((float) this->screenHeight/2) * 2 * M_PI;
-            this->camera_.updateViewVector(angleX, angleY);
-            this->camera_.updateSphericAngles(angleX);
-        }
-        else {
-            // Em câmera look-at, atualiza os angulos esféricos para os do cursor
-            this->camera_.updateSphericAngles(dx, dy);
-        }
-
-        // Atualizamos as variáveis globais para armazenar a posição atual do cursor como sendo a última posição conhecida do cursor.
-        this->lastCursorPosX = xpos;
-        this->lastCursorPosY = ypos;
+        mouse_.x = xpos;
+        mouse_.y = ypos;
     }
 
    private:
     int height_ = 800;
     int width_  = 600;
 
-    GLFWwindow* window_ = nullptr;
-    Camera      camera_;
-    Keys keys_;
-    Mouse       mouse_{static_cast<double>(width_) / 2, static_cast<double>(height_) / 2};
+    GLFWwindow*                            window_ = nullptr;
+    std::variant<FreeCamera, LookAtCamera> camera_;
+    input::Keys                            keys_;
+    input::Mouse                           mouse_{static_cast<double>(width_) / 2, static_cast<double>(height_) / 2};
 };

@@ -139,6 +139,10 @@ constexpr float Norm(glm::vec4 v) {
     return sqrt(vx * vx + vy * vy + vz * vz);
 }
 
+constexpr glm::vec4 Normalize(glm::vec4 v) {
+    return (v / Norm(v));
+}
+
 // Matriz R de "rotação de um ponto" em relação à origem do sistema de
 // coordenadas e em torno do eixo definido pelo vetor 'axis'. Esta matriz pode
 // ser definida pela fórmula de Rodrigues. Lembre-se que o vetor que define o
@@ -169,28 +173,28 @@ constexpr glm::vec4 CrossProduct(glm::vec4 u, glm::vec4 v) {
     float v2 = v.y;
     float v3 = v.z;
 
-    return glm::vec4(u2 * v3 - u3 * v2,  // Primeiro coeficiente
-                     u3 * v1 - u1 * v3,  // Segundo coeficiente
-                     u1 * v2 - u2 * v1,  // Terceiro coeficiente
-                     0.0F                // w = 0 para vetores.
-    );
+    return {
+        u2 * v3 - u3 * v2,  // Primeiro coeficiente
+        u3 * v1 - u1 * v3,  // Segundo coeficiente
+        u1 * v2 - u2 * v1,  // Terceiro coeficiente
+        0.0F                // w = 0 para vetores.
+    };
 }
 
 // Produto escalar entre dois vetores u e v definidos em um sistema de
 // coordenadas ortonormal.
 constexpr float DotProduct(glm::vec4 u, glm::vec4 v) {
-    float u1 = u.x;
-    float u2 = u.y;
-    float u3 = u.z;
-    float u4 = u.w;
-    float v1 = v.x;
-    float v2 = v.y;
-    float v3 = v.z;
-    float v4 = v.w;
+    float const u1 = u.x;
+    float const u2 = u.y;
+    float const u3 = u.z;
+    float const u4 = u.w;
+    float const v1 = v.x;
+    float const v2 = v.y;
+    float const v3 = v.z;
+    float const v4 = v.w;
 
     if (u4 != 0.0F || v4 != 0.0F) {
-        fmt::println(stderr, "Dot product não está definido para pontos.");
-        std::terminate();
+        throw std::runtime_error("Dot product não está definido para pontos.");
     }
 
     return u1 * v1 + u2 * v2 + u3 * v3;
@@ -205,23 +209,13 @@ constexpr glm::mat4 MatrixCameraView(glm::vec4 position_c, glm::vec4 view_vector
     w = w / Norm(w);
     u = u / Norm(u);
 
-    glm::vec4 v = CrossProduct(w, u);
+    glm::vec4 const v = CrossProduct(w, u);
 
-    glm::vec4 origin_o = glm::vec4(0.0F, 0.0F, 0.0F, 1.0F);
+    glm::vec4 const origin_o = glm::vec4(0.0F, 0.0F, 0.0F, 1.0F);
 
-    float ux = u.x;
-    float uy = u.y;
-    float uz = u.z;
-    float vx = v.x;
-    float vy = v.y;
-    float vz = v.z;
-    float wx = w.x;
-    float wy = w.y;
-    float wz = w.z;
-
-    return Matrix(ux, uy, uz, -DotProduct(u, position_c - origin_o),  //
-                  vx, vy, vz, -DotProduct(v, position_c - origin_o),  //
-                  wx, wy, wz, -DotProduct(w, position_c - origin_o),  //
+    return Matrix(u.x, u.y, u.z, -DotProduct(u, position_c - origin_o),  //
+                  v.x, v.y, v.z, -DotProduct(v, position_c - origin_o),  //
+                  w.x, w.y, w.z, -DotProduct(w, position_c - origin_o),  //
                   0.0F, 0.0F, 0.0F, 1.0F);
 }
 
@@ -235,15 +229,16 @@ constexpr glm::mat4 Matrix_Orthographic(float l, float r, float b, float t, floa
 
 // Matriz de projeção perspectiva
 inline glm::mat4 MatrixPerspective(float field_of_view, float aspect, float n, float f) {
-    float t = fabs(n) * tanf(field_of_view / 2.0F);
-    float b = -t;
-    float r = t * aspect;
-    float l = -r;
+    float const t = fabs(n) * tanf(field_of_view / 2.0F);
+    float const b = -t;
+    float const r = t * aspect;
+    float const l = -r;
 
-    glm::mat4 P = Matrix(n, 0.0F, 0.0F, 0.0F, 0.0F, n, 0.0F, 0.0F, 0.0F, 0.0F, n + f, -f * n, 0.0F, 0.0F, 1.0F, 0.0F);
+    glm::mat4 const P =
+        Matrix(n, 0.0F, 0.0F, 0.0F, 0.0F, n, 0.0F, 0.0F, 0.0F, 0.0F, n + f, -f * n, 0.0F, 0.0F, 1.0F, 0.0F);
 
     // A matriz M é a mesma computada acima em Matrix_Orthographic().
-    glm::mat4 M = Matrix_Orthographic(l, r, b, t, n, f);
+    glm::mat4 const M = Matrix_Orthographic(l, r, b, t, n, f);
 
     // Note que as matrizes M*P e -M*P fazem exatamente a mesma projeção
     // perspectiva, já que o sinal de negativo não irá afetar o resultado
@@ -280,52 +275,4 @@ inline glm::mat4 MatrixPerspective(float field_of_view, float aspect, float n, f
     // w seja positivo.
     //
     return -M * P;
-}
-
-// Função que imprime uma matriz M no terminal
-void PrintMatrix(glm::mat4 M) {
-    printf("\n");
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ]\n", M[0][0], M[1][0], M[2][0], M[3][0]);
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ]\n", M[0][1], M[1][1], M[2][1], M[3][1]);
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ]\n", M[0][2], M[1][2], M[2][2], M[3][2]);
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ]\n", M[0][3], M[1][3], M[2][3], M[3][3]);
-}
-
-// Função que imprime um vetor v no terminal
-void PrintVector(glm::vec4 v) {
-    printf("\n");
-    printf("[ %+0.2F ]\n", v[0]);
-    printf("[ %+0.2F ]\n", v[1]);
-    printf("[ %+0.2F ]\n", v[2]);
-    printf("[ %+0.2F ]\n", v[3]);
-}
-
-// Função que imprime o produto de uma matriz por um vetor no terminal
-void PrintMatrixVectorProduct(glm::mat4 M, glm::vec4 v) {
-    auto r = M * v;
-    printf("\n");
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ][ %+0.2F ]   [ %+0.2F ]\n", M[0][0], M[1][0], M[2][0], M[3][0], v[0],
-           r[0]);
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ][ %+0.2F ] = [ %+0.2F ]\n", M[0][1], M[1][1], M[2][1], M[3][1], v[1],
-           r[1]);
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ][ %+0.2F ]   [ %+0.2F ]\n", M[0][2], M[1][2], M[2][2], M[3][2], v[2],
-           r[2]);
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ][ %+0.2F ]   [ %+0.2F ]\n", M[0][3], M[1][3], M[2][3], M[3][3], v[3],
-           r[3]);
-}
-
-// Função que imprime o produto de uma matriz por um vetor, junto com divisão
-// por w, no terminal.
-void PrintMatrixVectorProductDivW(glm::mat4 M, glm::vec4 v) {
-    auto r = M * v;
-    auto w = r[3];
-    printf("\n");
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ][ %+0.2F ]   [ %+0.2F ]            [ %+0.2F ]\n", M[0][0], M[1][0],
-           M[2][0], M[3][0], v[0], r[0], r[0] / w);
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ][ %+0.2F ] = [ %+0.2F ] =(div w)=> [ %+0.2F ]\n", M[0][1], M[1][1],
-           M[2][1], M[3][1], v[1], r[1], r[1] / w);
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ][ %+0.2F ]   [ %+0.2F ]            [ %+0.2F ]\n", M[0][2], M[1][2],
-           M[2][2], M[3][2], v[2], r[2], r[2] / w);
-    printf("[ %+0.2F  %+0.2F  %+0.2F  %+0.2F ][ %+0.2F ]   [ %+0.2F ]            [ %+0.2F ]\n", M[0][3], M[1][3],
-           M[2][3], M[3][3], v[3], r[3], r[3] / w);
 }
