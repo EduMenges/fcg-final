@@ -12,6 +12,8 @@ struct ObjModel {
 
     void ComputeNormals();
 
+    void BuildTrianglesAndAddToVirtualScene();
+
     tinyobj::attrib_t                attrib_;
     std::vector<tinyobj::shape_t>    shapes_;
     std::vector<tinyobj::material_t> materials_;

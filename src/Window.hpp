@@ -4,6 +4,7 @@
 #include "input/Mouse.hpp"
 #include "input/Keys.hpp"
 #include "Camera.hpp"
+#include "Renderer.hpp"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -94,4 +95,5 @@ class Window {
     std::variant<FreeCamera, LookAtCamera> camera_;
     input::Keys                            keys_;
     input::Mouse                           mouse_{static_cast<double>(width_) / 2, static_cast<double>(height_) / 2};
+    Renderer renderer_;
 };
