@@ -14,7 +14,7 @@ uniform mat4 projection;
 // Atributos de vértice que serão gerados como saída ("out") pelo Vertex Shader.
 // ** Estes serão interpolados pelo rasterizador! ** gerando, assim, valores
 // para cada fragmento, os quais serão recebidos como entrada pelo Fragment
-// Shader. Veja o arquivo "shader_fragment.glsl".
+// Shader. Veja o arquivo "phong_fragment.glsl".
 out vec4 position_world;
 out vec4 position_model;
 out vec4 normal;

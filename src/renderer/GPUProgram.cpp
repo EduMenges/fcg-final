@@ -1,7 +1,7 @@
 #include "GPUProgram.hpp"
 #include "fmt/core.h"
 
-GPUProgram::GPUProgram(Shader&& vertex, Shader&& fragment) { // NOLINT(*-rvalue-reference-param-not-moved)
+GPUProgram::GPUProgram(Shader&& vertex, Shader&& fragment) {  // NOLINT(*-rvalue-reference-param-not-moved)
     glAttachShader(id_, vertex.GetId());
     glAttachShader(id_, fragment.GetId());
 
@@ -24,4 +24,9 @@ GPUProgram::GPUProgram(Shader&& vertex, Shader&& fragment) { // NOLINT(*-rvalue-
 
         throw std::runtime_error("Failure to bind shaders");
     }
+}
+
+void GPUProgram::InsertLocation(std::string&& name) {
+    GLint const kUniform = glGetUniformLocation(GetId(), name.c_str());
+    locations_.insert(std::make_pair(std::move(name), kUniform));
 }

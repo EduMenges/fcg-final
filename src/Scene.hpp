@@ -2,7 +2,7 @@
 
 #include <list>
 
-#include "Entity.hpp"
+#include "entity/Entity.hpp"
 
 class Scene {
    public:

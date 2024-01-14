@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Shader.hpp"
+#include <unordered_map>
 
 class GPUProgram {
    public:
@@ -14,9 +15,20 @@ class GPUProgram {
 
     [[nodiscard]] constexpr GLuint GetId() const noexcept { return id_; }
 
+    void InsertLocation(std::string&& name);
+
+    template <typename ...Names>
+    void InsertLocation(std::string&& name, Names... names) {
+        InsertLocation(std::move(name));
+        InsertLocation(names...);
+    }
+
    private:
     /// GPU program id
     GLuint id_{glCreateProgram()};
+
+    std::unordered_map<std::string, GLint> locations_;
+
     /// Model matrix
     GLint model_uniform_{glGetUniformLocation(id_, "model")};
     /// View matrix

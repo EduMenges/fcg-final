@@ -20,12 +20,14 @@ class Shader {
     GLuint shader_id_;
 };
 
-class VertexShader : public Shader {
+namespace shader {
+class Vertex : public Shader {
    public:
-    explicit VertexShader(const std::filesystem::path& filename) : Shader(filename, glCreateShader(GL_VERTEX_SHADER)) {}
+    explicit Vertex(const std::filesystem::path& filename) : Shader(filename, glCreateShader(GL_VERTEX_SHADER)) {}
 };
 
-class FragmentShader : public Shader {
+class Fragment : public Shader {
    public:
-    explicit FragmentShader(const std::filesystem::path& filename) : Shader(filename, glCreateShader(GL_FRAGMENT_SHADER)) {}
+    explicit Fragment(const std::filesystem::path& filename) : Shader(filename, glCreateShader(GL_FRAGMENT_SHADER)) {}
 };
+}

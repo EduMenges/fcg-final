@@ -3,7 +3,7 @@
 // Atributos de fragmentos recebidos como entrada ("in") pelo Fragment Shader.
 // Neste exemplo, este atributo foi gerado pelo rasterizador como a
 // interpolação da posição global e a normal de cada vértice, definidas em
-// "shader_vertex.glsl" e "main.cpp".
+// "phong_vertex.glsl" e "main.cpp".
 in vec4 position_world;
 in vec4 normal;
 

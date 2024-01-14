@@ -5,7 +5,7 @@
 #include "input/Mouse.hpp"
 #include "input/Keys.hpp"
 #include "Camera.hpp"
-#include "Renderer.hpp"
+#include "renderer/Renderer.hpp"
 
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
