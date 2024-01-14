@@ -69,5 +69,5 @@ endif()
 add_compile_definitions(_USE_MATH_DEFINES)
 
 add_subdirectory(glad)
-
+add_subdirectory(stb)
 add_subdirectory(src)

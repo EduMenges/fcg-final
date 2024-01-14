@@ -2,6 +2,7 @@
 
 #include <array>
 #include <optional>
+#include <ranges>
 
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
@@ -40,14 +41,16 @@ struct Keys {
         }
     }
 
-    [[nodiscard]] std::optional<bool> IsOn(char code) const {
-        if (const auto* result = std::ranges::find_if(keys_, [&](Key i) { return i.code_ == code; }); result != keys_.end()) {
+    [[nodiscard]] std::optional<bool> IsOn(int code) const {
+        if (const auto* result = std::ranges::find_if(keys_, [&](Key i) { return i.code_ == code; });
+            result != keys_.end()) {
             return result->pressed_;
         }
         return std::nullopt;
     }
 
-    static constexpr size_t        kAmountOfKeys = 4;
-    std::array<Key, kAmountOfKeys> keys_         = {{{GLFW_KEY_W}, {GLFW_KEY_A}, {GLFW_KEY_S}, {GLFW_KEY_D}}};
+    static constexpr size_t        kAmountOfKeys = 5;
+    std::array<Key, kAmountOfKeys> keys_         = {
+        {{GLFW_KEY_W}, {GLFW_KEY_A}, {GLFW_KEY_S}, {GLFW_KEY_D}, {GLFW_KEY_ESCAPE}}};
 };
 }

@@ -22,10 +22,10 @@ class Shader {
 
 class VertexShader : public Shader {
    public:
-    VertexShader(const std::filesystem::path& filename) : Shader(filename, glCreateShader(GL_VERTEX_SHADER)) {}
+    explicit VertexShader(const std::filesystem::path& filename) : Shader(filename, glCreateShader(GL_VERTEX_SHADER)) {}
 };
 
 class FragmentShader : public Shader {
    public:
-    FragmentShader(const std::filesystem::path& filename) : Shader(filename, glCreateShader(GL_FRAGMENT_SHADER)) {}
+    explicit FragmentShader(const std::filesystem::path& filename) : Shader(filename, glCreateShader(GL_FRAGMENT_SHADER)) {}
 };

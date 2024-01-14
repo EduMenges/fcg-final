@@ -84,8 +84,8 @@ constexpr glm::mat4 MatrixScale(float sx, float sy, float sz) {
 //
 // onde 'c' e 's' são o cosseno e o seno do ângulo de rotação, respectivamente.
 constexpr glm::mat4 MatrixRotateX(float angle) {
-    float c = cos(angle);
-    float s = sin(angle);
+    float c = std::cos(angle);
+    float s = std::sin(angle);
 
     return Matrix(1.0F, 0.0F, 0.0F, 0.0F,  //
                   0.0F, c, -s, 0.0F,       //
@@ -102,8 +102,8 @@ constexpr glm::mat4 MatrixRotateX(float angle) {
 //
 // onde 'c' e 's' são o cosseno e o seno do ângulo de rotação, respectivamente.
 constexpr glm::mat4 MatrixRotateY(float angle) {
-    float c = cos(angle);
-    float s = sin(angle);
+    float c = std::cos(angle);
+    float s = std::sin(angle);
 
     return Matrix(c, 0.0F, s, 0.0F,        //
                   0.0F, 1.0F, 0.0F, 0.0F,  //
@@ -120,8 +120,8 @@ constexpr glm::mat4 MatrixRotateY(float angle) {
 //
 // onde 'c' e 's' são o cosseno e o seno do ângulo de rotação, respectivamente.
 constexpr glm::mat4 MatrixRotateZ(float angle) {
-    float c = cos(angle);
-    float s = sin(angle);
+    float c = std::cos(angle);
+    float s = std::sin(angle);
 
     return Matrix(c, -s, 0.0F, 0.0F,       //
                   s, c, 0.0F, 0.0F,        //
@@ -148,8 +148,8 @@ constexpr glm::vec4 Normalize(glm::vec4 v) {
 // ser definida pela fórmula de Rodrigues. Lembre-se que o vetor que define o
 // eixo de rotação deve ser normalizado!
 constexpr glm::mat4 MatrixRotate(float angle, glm::vec4 axis) {
-    float c = cos(angle);
-    float s = sin(angle);
+    float c = std::cos(angle);
+    float s = std::sin(angle);
 
     glm::vec4 v = axis / Norm(axis);
 

@@ -18,6 +18,7 @@ Checks: <
   -cppcoreguidelines-pro-bounds-array-to-pointer-decay
   -cppcoreguidelines-pro-bounds-pointer-arithmetic
   -cppcoreguidelines-pro-type-reinterpret-cast
+  -cppcoreguidelines-pro-type-union-access
     
   google-*
   -google-readability-namespace-comments
@@ -68,9 +69,8 @@ CheckOptions:
 
   readability-identifier-naming.TypeTemplateParameterCase: CamelCase
 
-  readability-identifier-naming.MemberCase: lower_case
-
-  readability-identifier-naming.MemberSuffix: _
+  readability-identifier-naming.ClassMemberCase: lower_case
+  readability-identifier-naming.ClassMemberSuffix: _
 
   readability-identifier-naming.FunctionCase: CamelCase
 

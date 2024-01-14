@@ -16,10 +16,10 @@ class Camera {
     virtual glm::mat4 GetViewMatrix() = 0;
 
     virtual void Update(float delta_t) {
-        float const     cameraSpeed = 2.0F;
+        float const cameraSpeed = 2.0F;
 
-        glm::vec4 const w           = -(Normalize(view_));
-        glm::vec4 const u           = Normalize(CrossProduct(kUpVector, w));
+        glm::vec4 const w = -(Normalize(view_));
+        glm::vec4 const u = Normalize(CrossProduct(kUpVector, w));
 
         if (*keys_.IsOn('W')) {
             position_ -= w * cameraSpeed * delta_t;
@@ -38,15 +38,15 @@ class Camera {
     }
 
    protected:
-    static constexpr glm::vec4 kUpVector = {0.0f, 1.0f, 0.0f, 0.0f};
+    static constexpr glm::vec4 kUpVector{0.0f, 1.0f, 0.0f, 0.0f};
 
     /// Where the camera is located, in cartesian coordinates.
-    glm::vec4 position_ = {0.4F, 0.8F, 0.0F, 1.0F};
+    glm::vec4 position_{0.4F, 0.8F, 0.0F, 1.0F};
 
     coords::Spheric s_position_;
 
-    float nearPlane_ = -0.1F;
-    float farPlane_  = -100.0F;
+    float near_plane_{-0.1F};
+    float far_plane_{-100.0F};
 
     /// Orientation as to where the camera is pointing to.
     glm::vec4 view_;
@@ -59,34 +59,21 @@ class FreeCamera : public Camera {
    public:
     FreeCamera() = default;
 
+    virtual ~FreeCamera() = default;
+
     void UpdateSpheric(float angle) { this->s_position_.theta -= angle; }
 
-    void UpdateViewVector(float angle_x, float angle_y) {
-        // Caso angulo não tenha sido alterado, retorna
-        if (angle_x == 0 && angle_y == 0) {
-            return;
-        }
-
-        // Trava da rotação vertical
-        glm::vec4 side = CrossProduct(Camera::kUpVector, view_);
-
-        // Calcula o lado, para rotacionar verticalmente
-        glm::vec4 aux = view_ * MatrixRotate(-angle_y, side);  // Rotação no eixo lado (vertical)
-
-        // Testa se o novo valor de lado é igual ao antigo
-        if (DotProduct(side, CrossProduct(Camera::kUpVector, aux)) > 0) {
-            view_ = aux;
-        }
-
-        // Atualiza vetor view
-        view_ = Normalize(view_ * MatrixRotate(angle_x, kUpVector));
-    }
+    void UpdateViewVector(float angle_x, float angle_y);
 
     glm::mat4 GetViewMatrix() override { return MatrixCameraView(position_, view_, kUpVector); }
 };
 
 class LookAtCamera : public Camera {
    public:
+    LookAtCamera() = default;
+
+    virtual ~LookAtCamera() = default;
+
     void UpdateSpheric(float dx, float dy) {
         // Angle should be in [0, 45] degreess to avoid player looking inside the ground.
         float const kNewPhi = std::clamp(this->s_position_.phi + 0.003F * dy, 0.0F, std::numbers::pi_v<float> / 4);
@@ -97,12 +84,12 @@ class LookAtCamera : public Camera {
     }
 
     glm::mat4 GetViewMatrix() override {
-        const glm::vec4 pos(s_position_.radius * cos(s_position_.phi) * sin(s_position_.theta),
-                            s_position_.radius * sin(s_position_.phi),
-                            s_position_.radius * cos(s_position_.phi) * cos(s_position_.theta),  //
-                            1.0F);
+        const glm::vec4 kPos{s_position_.radius * std::cos(s_position_.phi) * std::sin(s_position_.theta),  //
+                            s_position_.radius * std::sin(s_position_.phi),                           //
+                            s_position_.radius * std::cos(s_position_.phi) * std::cos(s_position_.theta),  //
+                            1.0F};
 
-        glm::vec4 position = look_at_ + pos;
+        glm::vec4 position = look_at_ + kPos;
         position.w         = 1.0F;
 
         return MatrixCameraView(position, view_, Camera::kUpVector);
@@ -112,17 +99,7 @@ class LookAtCamera : public Camera {
 
     void SetLookAt(glm::vec4 look_at) { look_at_ = look_at; }
 
-    void UpdateViewVector() {
-        // Calcula a posição cartesiana a partir da posição esférica
-        glm::vec4 vec = look_at_;
-
-        vec.x += s_position_.radius * cos(s_position_.phi) * sin(s_position_.theta);
-        vec.y += s_position_.radius * sin(s_position_.phi);
-        vec.z += s_position_.radius * cos(s_position_.phi) * cos(s_position_.theta);
-        vec.w = 1.0f;
-
-        view_ = Normalize(GetLookAt() - vec);
-    }
+    void UpdateViewVector();
 
     void Update(float delta_t) override {
         Camera::Update(delta_t);

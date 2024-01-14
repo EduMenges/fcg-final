@@ -5,6 +5,7 @@
 #include "glfw/glfw3.h"
 
 #include "Window.hpp"
+#include "scene/Menu.hpp"
 
 extern "C" void ErrorCallback(int error_code, const char* description) {
     fmt::println(stderr, "ERROR {}: {}", error_code, description);
@@ -12,7 +13,7 @@ extern "C" void ErrorCallback(int error_code, const char* description) {
 
 int main() {
     if (glfwInit() == GLFW_FALSE) {
-        fmt::println(stderr, "ERROR: glfwInit() failed.") ;
+        fmt::println(stderr, "ERROR: glfwInit() failed.");
         return EXIT_FAILURE;
     }
 
@@ -24,4 +25,5 @@ int main() {
 
     Window window;
     window.Start();
+    window.Loop();
 }

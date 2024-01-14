@@ -1,6 +1,6 @@
 #include "Renderer.hpp"
 #include "fmt/core.h"
-#include "stb_image.h"
+#include "stb/stb_image.h"
 
 void Renderer::LoadTextureImage(const std::filesystem::path& filename) {
     fmt::println("{}: loading image \"{}\"", __func__, filename.string().c_str());
