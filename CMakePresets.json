@@ -27,6 +27,11 @@
         }
       },
       "inherits": ["default"],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
       "generator": "Ninja",
       "cacheVariables": {
         "CMAKE_CXX_COMPILER":"C:/msys64/clang64/bin/clang++.exe",
