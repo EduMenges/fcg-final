@@ -10,7 +10,6 @@ GPUProgram::GPUProgram(Shader&& vertex, Shader&& fragment) {  // NOLINT(*-rvalue
     GLint linked_ok = GL_FALSE;
     glGetProgramiv(id_, GL_LINK_STATUS, &linked_ok);
 
-    // Imprime no terminal qualquer erro de linkagem
     if (linked_ok == GL_FALSE) {
         GLint log_length = 0;
         glGetProgramiv(id_, GL_INFO_LOG_LENGTH, &log_length);
