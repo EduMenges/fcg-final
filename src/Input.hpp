@@ -10,6 +10,10 @@ public:
         return instance;
     }
 
+    bool IsOn(int code) {
+        return keys_.IsOn(code);
+    }
+
     input::Keys keys_;
     input::Mouse mouse_;
 

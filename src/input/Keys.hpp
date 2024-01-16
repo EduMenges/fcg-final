@@ -40,12 +40,9 @@ struct Keys {
         }
     }
 
-    [[nodiscard]] std::optional<bool> IsOn(int code) const {
-        if (const auto* result = std::ranges::find_if(keys_, [&](Key i) { return i.code_ == code; });
-            result != keys_.end()) {
-            return result->pressed_;
-        }
-        return std::nullopt;
+    [[nodiscard]] bool IsOn(int code) const {
+        const auto* result = std::ranges::find_if(keys_, [&](Key i) { return i.code_ == code; });
+        return result->pressed_;
     }
 
     static constexpr size_t        kAmountOfKeys = 5;

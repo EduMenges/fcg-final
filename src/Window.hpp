@@ -20,19 +20,13 @@ public:
         return window_;
     }
 
-    void Start();
-
-    void Loop();
-
     void FrameBufferSizeCallback(int width, int height) {
         glViewport(0, 0, width, height);
         height_ = height;
         width_ = width;
     }
 
-    float Update();
-
-    bool ShouldClose();
+    [[nodiscard]] bool ShouldClose() { return (glfwWindowShouldClose(window_) == GLFW_TRUE); }
 
 private:
     struct Timer {

@@ -2,44 +2,44 @@
 
 #include <list>
 
-#include "entity/Entity.hpp"
+#include "Model.hpp"
 
 class Scene {
    public:
     Scene() = default;
 
     virtual ~Scene() {
-        for (Entity* e : this->entities) {
+        for (auto* e : this->models) {
             delete e;
         }
     }
 
     virtual Scene* Update(float dt) {
-        for (auto* e : entities) {
+        for (auto* e : models) {
                 e->Update(dt);
         }
         return this;
     }
 
     virtual void Draw() {
-        for (auto* e : entities) {
+        for (auto* e : models) {
                 e->Draw(*camera_);
         }
     }
 
     template<typename T>
-    T* AddEntity(T* e) {
-        this->entities.push_back(e);
+    T* AddModel(T* e) {
+        this->models.push_back(e);
         return e;
     }
 
-    void RemoveEntity(Entity* e) {
-        this->entities.remove(e);
+    void RemoveModel(auto* e) {
+        this->models.remove(e);
         delete e;
     }
 
     Camera* camera_{nullptr};
 
    protected:
-    std::list<Entity*> entities;
+    std::list<Model*> models;
 };
