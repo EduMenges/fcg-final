@@ -3,7 +3,7 @@
 #include <variant>
 #include "string_view"
 #include "Camera.hpp"
-#include "renderer/Renderer.hpp"
+#include "Renderer.hpp"
 
 #include "glad/glad.h"
 #include "glfw/glfw3.h"

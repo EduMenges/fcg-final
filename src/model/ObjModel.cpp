@@ -8,6 +8,7 @@
 #include "matrices.hpp"
 #include "glm/glm.hpp"
 #include "SceneObject.hpp"
+#include "Renderer.hpp"
 
 ObjModel::ObjModel(const std::string& file_name) noexcept(false) {
     fmt::println("{}: Loading object \"{}\"", __func__, file_name);
@@ -133,7 +134,7 @@ void ObjModel::BuildTriangles(const std::string& base_path) {
                 this->bbox_min_.push_back(bbox_min);
                 this->bbox_max_.push_back(bbox_max);
                 this->texture_id_.push_back(
-                    GraphicsManager::LoadTexture(base_path + this->materials_[material_id].diffuse_texname));
+                    Renderer::LoadTexture(base_path + this->materials_[material_id].diffuse_texname));
 
                 first_index = indices.size();
                 bbox_min    = glm::vec3(kMaxval, kMaxval, kMaxval);

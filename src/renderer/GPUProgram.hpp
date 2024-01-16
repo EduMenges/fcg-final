@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Shader.hpp"
+#include "Camera.hpp"
 #include <unordered_map>
+#include <glm/fwd.hpp>
 
 class GPUProgram {
 public:
@@ -23,8 +25,8 @@ public:
         InsertLocation(names...);
     }
 
-    void SetProperty(const std::string &location, float value) {
-        glUniform1f(locations_.at(location), value);
+    GLint GetUniform(const std::string& name) {
+        return locations_.at(name);
     }
 
 private:

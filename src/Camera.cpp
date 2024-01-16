@@ -1,34 +1,32 @@
 #include "Camera.hpp"
 
-void LookAtCamera::UpdateViewVector() {
-    // Calcula a posição cartesiana a partir da posição esférica
-    glm::vec4 vec = look_at_;
+#include "matrices.hpp"
 
-    vec.x += s_position_.radius * std::cos(s_position_.phi) * std::sin(s_position_.theta);
-    vec.y += s_position_.radius * std::sin(s_position_.phi);
-    vec.z += s_position_.radius * std::cos(s_position_.phi) * std::cos(s_position_.theta);
-    vec.w = 1.0F;
+glm::vec4 LookAtCamera::GetViewVec() {
+    glm::vec4 center = GetCenter();
 
-    view_ = Normalize(GetLookAt() - vec);
+    glm::vec4 look_at_point = glm::vec4(look_at_, 1.0F);
+
+    return look_at_point - center;
 }
 
-void FreeCamera::UpdateViewVector(float angle_x, float angle_y) {
-    // Caso angulo não tenha sido alterado, retorna
-    if (angle_x == 0 && angle_y == 0) {
-        return;
-    }
+glm::vec4 LookAtCamera::GetCenter() {
+    float r = distance_;
+    float y = r * std::sin(rot_y_);
+    float z = r * std::cos(rot_y_) * std::cos(rot_x_);
+    float x = r * std::cos(rot_y_) * std::sin(rot_x_);
 
-    // Trava da rotação vertical
-    glm::vec4 side = CrossProduct(Camera::kUpVector, view_);
+    return {glm::vec3(x, y, z) + look_at_, 1.0F};
+}
 
-    // Calcula o lado, para rotacionar verticalmente
-    glm::vec4 aux = view_ * MatrixRotate(-angle_y, side);  // Rotação no eixo lado (vertical)
+glm::vec4 FreeCamera::GetViewVec() {
+    return {std::cos(rot_y_) * std::sin(rot_x_), -std::sin(rot_y_), std::cos(rot_y_) * std::cos(rot_x_), 0.0F};
+}
 
-    // Testa se o novo valor de lado é igual ao antigo
-    if (DotProduct(side, CrossProduct(Camera::kUpVector, aux)) > 0) {
-        view_ = aux;
-    }
+glm::mat4 Camera::GetMatrix() {
+    glm::vec4 center = GetCenter();
 
-    // Atualiza vetor view
-    view_ = Normalize(view_ * MatrixRotate(angle_x, kUpVector));
+    glm::vec4 view = GetViewVec();
+
+    return MatrixCameraView(center, view, kUp);
 }
