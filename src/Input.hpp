@@ -1,16 +1,18 @@
 #pragma once
 
-#include "Singleton.hpp"
 #include "input/Keys.hpp"
 #include "input/Mouse.hpp"
 
-class Input : public Singleton<Input> {
+class Input {
 public:
-    static void Init();
+    static Input &Instance() {
+        static Input instance;
+        return instance;
+    }
 
-    Input() = default;
-
-private:
     input::Keys keys_;
     input::Mouse mouse_;
+
+private:
+    Input() = default;
 };

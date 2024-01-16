@@ -8,13 +8,18 @@
 #include "glad/glad.h"
 #include "glfw/glfw3.h"
 
-class Window : public Singleton<Window> {
+class Window {
 public:
     static constexpr std::string_view kGameName = "FooBar";
 
-    static void Init();
+    static Window &Instance() {
+        static Window instance;
+        return instance;
+    }
 
-    Window();
+    GLFWwindow *GetWindow() const {
+        return window_;
+    }
 
     void Start();
 
@@ -30,13 +35,13 @@ public:
 
     bool ShouldClose();
 
-    GLFWwindow *GetWindow() { return window_; }
-
 private:
     struct Timer {
         double current = 0;
         double previous = 0;
     };
+
+    Window();
 
     int width_ = 800;
     int height_ = 600;

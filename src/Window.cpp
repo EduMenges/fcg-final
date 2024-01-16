@@ -14,13 +14,6 @@ Window::Window()
         throw std::runtime_error("glfwCreateWindow() failed");
     }
 
-    glfwSetWindowUserPointer(window_, this);
-
-    glfwSetFramebufferSizeCallback(window_, [](GLFWwindow* window, int width, int height) {
-        auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
-        self->FrameBufferSizeCallback(width, height);
-    });
-
     glfwSetWindowSize(window_, width_, height_);  // Definição de screenRatio.
 
     glfwMakeContextCurrent(window_);
@@ -56,8 +49,4 @@ void Window::Loop() {
         glfwSwapBuffers(window_);
         glfwPollEvents();
     }
-}
-
-void Window::Init() {
-    InitSingleton();
 }

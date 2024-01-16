@@ -1,15 +1,18 @@
 #pragma once
 
-#include "Singleton.hpp"
 #include "Shader.hpp"
 #include "renderer/GPUProgram.hpp"
 
-class Renderer : public Singleton<Renderer> {
+class Renderer {
 public:
-    static void Init();
+    static Renderer& Instance() {
+        static Renderer instance;
+        return instance;
+    }
 
-    Renderer();
 private:
+    Renderer();
+
     GPUProgram phong_;
     GPUProgram gouraud_;
 };
