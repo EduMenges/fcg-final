@@ -1,9 +1,5 @@
 #include "Window.hpp"
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
-#include <utility>
-
 #include "fmt/core.h"
 #include "Scene.hpp"
 #include "scene/Menu.hpp"

@@ -5,8 +5,7 @@
 #include "Camera.hpp"
 #include "Renderer.hpp"
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
+#include "OpenGL.h"
 
 class Window {
 public:

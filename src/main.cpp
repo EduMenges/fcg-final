@@ -1,8 +1,7 @@
 #include <iostream>
 #include "matrices.hpp"
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
+#include "OpenGL.h"
 
 #include "Window.hpp"
 #include "scene/Menu.hpp"

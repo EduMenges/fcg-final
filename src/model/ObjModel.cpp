@@ -2,24 +2,23 @@
 
 #include <utility>
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
+#include "OpenGL.h"
 
 #include "matrices.hpp"
 #include "glm/glm.hpp"
 #include "SceneObject.hpp"
 #include "Renderer.hpp"
 
-ObjModel::ObjModel(const std::string& file_name) noexcept(false) {
+ObjModel::ObjModel(const std::string &file_name) noexcept(false) {
     fmt::println("{}: Loading object \"{}\"", __func__, file_name);
 
-    const char* basepath = nullptr;
+    const char *basepath = nullptr;
 
     std::string dirname;
 
     auto i = file_name.find_last_of("/");
     if (i != std::string::npos) {
-        dirname  = file_name.substr(0, i + 1);
+        dirname = file_name.substr(0, i + 1);
         basepath = dirname.c_str();
     }
 
@@ -42,18 +41,19 @@ ObjModel::ObjModel(const std::string& file_name) noexcept(false) {
     ComputeNormals();
     BuildTriangles(basepath);
 }
+
 void ObjModel::ComputeNormals() {
-    if (!this->attrib_.normals.empty()) {
+    if (!attrib_.normals.empty()) {
         return;
     }
 
-    size_t const kNumVertices = this->attrib_.vertices.size() / 3;
+    size_t const kNumVertices = attrib_.vertices.size() / 3;
 
-    std::vector<int>       num_triangles_per_vertex(kNumVertices, 0);
+    std::vector<int> num_triangles_per_vertex(kNumVertices, 0);
     std::vector<glm::vec4> vertex_normals(kNumVertices, glm::vec4(0.0F, 0.0F, 0.0F, 0.0F));
 
     // Triangle normals computation
-    for (auto& shape : shapes_) {
+    for (auto &shape: shapes_) {
         size_t const kNumTriangles = shape.mesh.num_face_vertices.size();
 
         for (size_t triangle = 0; triangle < kNumTriangles; ++triangle) {
@@ -62,10 +62,10 @@ void ObjModel::ComputeNormals() {
             std::array<glm::vec4, 3> vertices{};
             for (size_t vertex = 0; vertex < vertices.size(); ++vertex) {
                 tinyobj::index_t const kIdx = shape.mesh.indices[3 * triangle + vertex];
-                const float            kVx  = this->attrib_.vertices[3 * kIdx.vertex_index + 0];
-                const float            kVy  = this->attrib_.vertices[3 * kIdx.vertex_index + 1];
-                const float            kVz  = this->attrib_.vertices[3 * kIdx.vertex_index + 2];
-                vertices[vertex]            = glm::vec4(kVx, kVy, kVz, 1.0);
+                const float kVx = attrib_.vertices[3 * kIdx.vertex_index + 0];
+                const float kVy = attrib_.vertices[3 * kIdx.vertex_index + 1];
+                const float kVz = attrib_.vertices[3 * kIdx.vertex_index + 2];
+                vertices[vertex] = glm::vec4(kVx, kVy, kVz, 1.0);
             }
 
             const glm::vec4 a = vertices[0];
@@ -83,32 +83,33 @@ void ObjModel::ComputeNormals() {
         }
     }
 
-    this->attrib_.normals.resize(3 * kNumVertices);
+    attrib_.normals.resize(3 * kNumVertices);
 
     // Vertex normal computation, to be used in Gouraud shading
     for (size_t i = 0; i < vertex_normals.size(); ++i) {
         glm::vec4 n = vertex_normals[i] / static_cast<float>(num_triangles_per_vertex[i]);
         n /= Norm(n);
-        this->attrib_.normals[3 * i + 0] = n.x;
-        this->attrib_.normals[3 * i + 1] = n.y;
-        this->attrib_.normals[3 * i + 2] = n.z;
+        attrib_.normals[3 * i + 0] = n.x;
+        attrib_.normals[3 * i + 1] = n.y;
+        attrib_.normals[3 * i + 2] = n.z;
     }
 }
-void ObjModel::BuildTriangles(const std::string& base_path) {
+
+void ObjModel::BuildTriangles(const std::string &base_path) {
     GLuint vertex_array_object_id;
     glGenVertexArrays(1, &vertex_array_object_id);
     glBindVertexArray(vertex_array_object_id);
 
     std::vector<GLuint> indices;
-    std::vector<float>  model_coefficients;
-    std::vector<float>  normal_coefficients;
-    std::vector<float>  texture_coefficients;
+    std::vector<float> model_coefficients;
+    std::vector<float> normal_coefficients;
+    std::vector<float> texture_coefficients;
 
     constexpr float kMinval = std::numeric_limits<float>::min();
     constexpr float kMaxval = std::numeric_limits<float>::max();
 
-    for (auto& shape : this->shapes_) {
-        size_t       first_index   = indices.size();
+    for (auto &shape: shapes_) {
+        size_t first_index = indices.size();
         size_t const kNumTriangles = shape.mesh.num_face_vertices.size();
 
         uint32_t material_id = 0;
@@ -128,17 +129,17 @@ void ObjModel::BuildTriangles(const std::string& base_path) {
             if (material_id != kLastMaterialId) {
                 size_t const kLastIndex = indices.size() - 1;
 
-                this->first_index_.push_back(first_index);                     // Primeiro índice
-                this->index_count_.push_back((kLastIndex + 1) - first_index);  // Número de indices
-                this->vbo_ids_.push_back(vertex_array_object_id);
-                this->bbox_min_.push_back(bbox_min);
-                this->bbox_max_.push_back(bbox_max);
-                this->texture_id_.push_back(
-                    Renderer::LoadTexture(base_path + this->materials_[material_id].diffuse_texname));
+                first_index_.push_back(first_index);                     // Primeiro índice
+                index_count_.push_back((kLastIndex + 1) - first_index);  // Número de indices
+                vbo_ids_.push_back(vertex_array_object_id);
+                bbox_min_.push_back(bbox_min);
+                bbox_max_.push_back(bbox_max);
+                texture_id_.push_back(
+                        Renderer::Instance().LoadTexture(base_path + materials_[material_id].diffuse_texname).value());
 
                 first_index = indices.size();
-                bbox_min    = glm::vec3(kMaxval, kMaxval, kMaxval);
-                bbox_max    = glm::vec3(kMinval, kMinval, kMinval);
+                bbox_min = glm::vec3(kMaxval, kMaxval, kMaxval);
+                bbox_max = glm::vec3(kMinval, kMinval, kMinval);
             }
 
             for (size_t vertex = 0; vertex < 3; ++vertex) {
@@ -146,9 +147,9 @@ void ObjModel::BuildTriangles(const std::string& base_path) {
 
                 indices.push_back(first_index + 3 * triangle + vertex);
 
-                const float vx = this->attrib_.vertices[3 * kIdx.vertex_index + 0];
-                const float vy = this->attrib_.vertices[3 * kIdx.vertex_index + 1];
-                const float vz = this->attrib_.vertices[3 * kIdx.vertex_index + 2];
+                const float vx = attrib_.vertices[3 * kIdx.vertex_index + 0];
+                const float vy = attrib_.vertices[3 * kIdx.vertex_index + 1];
+                const float vz = attrib_.vertices[3 * kIdx.vertex_index + 2];
 
                 model_coefficients.insert(model_coefficients.end(), {vx, vy, vz, 1.0F});
 
@@ -156,16 +157,16 @@ void ObjModel::BuildTriangles(const std::string& base_path) {
                 bbox_max = {std::max(bbox_max.x, vx), std::max(bbox_max.y, vy), std::max(bbox_max.z, vz)};
 
                 if (kIdx.normal_index != -1) {
-                    const float nx = this->attrib_.normals[3 * kIdx.normal_index + 0];
-                    const float ny = this->attrib_.normals[3 * kIdx.normal_index + 1];
-                    const float nz = this->attrib_.normals[3 * kIdx.normal_index + 2];
+                    const float nx = attrib_.normals[3 * kIdx.normal_index + 0];
+                    const float ny = attrib_.normals[3 * kIdx.normal_index + 1];
+                    const float nz = attrib_.normals[3 * kIdx.normal_index + 2];
 
                     normal_coefficients.insert(normal_coefficients.end(), {nx, ny, nz, 0.0F});
                 }
 
                 if (kIdx.texcoord_index != -1) {
-                    const float u = this->attrib_.texcoords[2 * kIdx.texcoord_index + 0];
-                    const float v = this->attrib_.texcoords[2 * kIdx.texcoord_index + 1];
+                    const float u = attrib_.texcoords[2 * kIdx.texcoord_index + 0];
+                    const float v = attrib_.texcoords[2 * kIdx.texcoord_index + 1];
 
                     texture_coefficients.push_back(u);
                     texture_coefficients.push_back(v);
@@ -180,7 +181,7 @@ void ObjModel::BuildTriangles(const std::string& base_path) {
         vbo_ids_.push_back(vertex_array_object_id);
         bbox_min_.push_back(bbox_min);
         bbox_max_.push_back(bbox_max);
-        texture_id_.push_back(GraphicsManager::LoadTexture(base_path + this->materials_[material_id].diffuse_texname));
+        texture_id_.push_back(Renderer::Instance().LoadTexture(base_path + materials_[material_id].diffuse_texname).value());
     }
 
     GLuint VBO_model_coefficients_id;
@@ -188,8 +189,8 @@ void ObjModel::BuildTriangles(const std::string& base_path) {
     glBindBuffer(GL_ARRAY_BUFFER, VBO_model_coefficients_id);
     glBufferData(GL_ARRAY_BUFFER, model_coefficients.size() * sizeof(float), NULL, GL_STATIC_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER, 0, model_coefficients.size() * sizeof(float), model_coefficients.data());
-    GLuint location             = 0;  // "(location = 0)" em "phong_vertex.glsl"
-    GLint  number_of_dimensions = 4;  // vec4 em "phong_vertex.glsl"
+    GLuint location = 0;  // "(location = 0)" em "phong_vertex.glsl"
+    GLint number_of_dimensions = 4;  // vec4 em "phong_vertex.glsl"
     glVertexAttribPointer(location, number_of_dimensions, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(location);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -200,7 +201,7 @@ void ObjModel::BuildTriangles(const std::string& base_path) {
         glBindBuffer(GL_ARRAY_BUFFER, VBO_normal_coefficients_id);
         glBufferData(GL_ARRAY_BUFFER, normal_coefficients.size() * sizeof(float), nullptr, GL_STATIC_DRAW);
         glBufferSubData(GL_ARRAY_BUFFER, 0, normal_coefficients.size() * sizeof(float), normal_coefficients.data());
-        location             = 1;  // "(location = 1)" em "phong_vertex.glsl"
+        location = 1;  // "(location = 1)" em "phong_vertex.glsl"
         number_of_dimensions = 4;  // vec4 em "phong_vertex.glsl"
         glVertexAttribPointer(location, number_of_dimensions, GL_FLOAT, GL_FALSE, 0, 0);
         glEnableVertexAttribArray(location);
@@ -213,7 +214,7 @@ void ObjModel::BuildTriangles(const std::string& base_path) {
         glBindBuffer(GL_ARRAY_BUFFER, VBO_texture_coefficients_id);
         glBufferData(GL_ARRAY_BUFFER, texture_coefficients.size() * sizeof(float), nullptr, GL_STATIC_DRAW);
         glBufferSubData(GL_ARRAY_BUFFER, 0, texture_coefficients.size() * sizeof(float), texture_coefficients.data());
-        location             = 2;  // "(location = 1)" em "phong_vertex.glsl"
+        location = 2;  // "(location = 1)" em "phong_vertex.glsl"
         number_of_dimensions = 2;  // vec2 em "phong_vertex.glsl"
         glVertexAttribPointer(location, number_of_dimensions, GL_FLOAT, GL_FALSE, 0, 0);
         glEnableVertexAttribArray(location);
@@ -230,23 +231,23 @@ void ObjModel::BuildTriangles(const std::string& base_path) {
     glBindVertexArray(0);
 }
 
-void ObjModel::Draw(Camera& c) {
-    glm::mat4 const kModel = MatrixTranslate(this->position_.x, this->position_.y, this->position_.z) *
-                             MatrixScale(this->scale_.x, this->scale_.y, this->scale_.z) *
-                             MatrixRotateX(this->rotation_.x) *  //
-                             MatrixRotateY(this->rotation_.y) *  //
-                             MatrixRotateZ(this->rotation_.z);
+void ObjModel::Draw(Camera &c) {
+    glm::mat4 const kModel = MatrixTranslate(position_.x, position_.y, position_.z) *
+                             MatrixScale(scale_.x, scale_.y, scale_.z) *
+                             MatrixRotateX(rotation_.x) *  //
+                             MatrixRotateY(rotation_.y) *  //
+                             MatrixRotateZ(rotation_.z);
 
-    for (unsigned int i = 0; i < this->vbo_ids_.size(); i++) {
-        if (this->phong_) {
-            GraphicsManager::DrawElements(kModel, c, this->bbox_min_[i], this->bbox_max_[i], this->texture_id_[i],
-                                          this->vbo_ids_[i], GL_TRIANGLES, this->index_count_[i], GL_UNSIGNED_INT,
-                                          reinterpret_cast<void*>(this->first_index_[i] * sizeof(GLuint)));
+    for (unsigned int i = 0; i < vbo_ids_.size(); i++) {
+        if (phong_) {
+            Renderer::Instance().DrawPhong(kModel, c, bbox_min_[i], bbox_max_[i], texture_id_[i],
+                                          vbo_ids_[i], GL_TRIANGLES, index_count_[i], GL_UNSIGNED_INT,
+                                          reinterpret_cast<void *>(first_index_[i] * sizeof(GLuint)));
         } else {
-            GraphicsManager::DrawElementsGouraud(kModel, c, this->bbox_min_[i], this->bbox_max_[i],
-                                                 this->texture_id_[i], this->vbo_ids_[i], GL_TRIANGLES,
-                                                 this->index_count_[i], GL_UNSIGNED_INT,
-                                                 reinterpret_cast<void*>(this->first_index_[i] * sizeof(GLuint)));
+//            GraphicsManager::DrawElementsGouraud(kModel, c, bbox_min_[i], bbox_max_[i],
+//                                                 texture_id_[i], vbo_ids_[i], GL_TRIANGLES,
+//                                                 index_count_[i], GL_UNSIGNED_INT,
+//                                                 reinterpret_cast<void *>(first_index_[i] * sizeof(GLuint)));
         }
     }
 }

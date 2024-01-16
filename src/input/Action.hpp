@@ -1,7 +1,6 @@
 #pragma once
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
+#include "OpenGL.h"
 
 namespace input {
 enum class Action : int {  // NOLINT

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <numbers>
+
 #include "Shader.hpp"
 #include "renderer/GPUProgram.hpp"
 #include "tl/expected.hpp"

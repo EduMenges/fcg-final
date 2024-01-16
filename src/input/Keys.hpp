@@ -4,8 +4,7 @@
 #include <optional>
 #include <ranges>
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
+#include "OpenGL.h"
 
 #include "Action.hpp"
 

@@ -64,9 +64,9 @@ void Renderer::DrawPhong(glm::mat4 model, Camera& cam, glm::vec3 bbox_min, glm::
     glBindVertexArray(vertex_array_id);
 
     glUniformMatrix4fv(phong_.GetUniform("model"), 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(phong_.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(cam.GetViewMatrix()));
+    glUniformMatrix4fv(phong_.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(cam.GetMatrix()));
     glUniformMatrix4fv(phong_.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(perspective_));
-    glUniform4fv(phong_.GetUniform("view_vec"), 1, glm::value_ptr(cam->GetViewVec()));
+    glUniform4fv(phong_.GetUniform("view_vec"), 1, glm::value_ptr(cam.GetViewVec()));
     glUniform4fv(phong_.GetUniform("bbox_min"), 1, glm::value_ptr(bbox_min));
     glUniform4fv(phong_.GetUniform("bbox_max"), 1, glm::value_ptr(bbox_max));
     glUniform1i(phong_.GetUniform("color_texture"), texture);

@@ -4,8 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "glad/glad.h"
-#include "glfw/glfw3.h"
+#include "OpenGL.h"
 
 class Shader {
    public:

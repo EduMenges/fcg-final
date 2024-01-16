@@ -5,6 +5,7 @@
 #include <filesystem>
 #include "tiny_obj_loader.h"
 #include "model/Model.hpp"
+#include "OpenGL.h"
 
 /// Estrutura que representa um modelo geométrico carregado a partir de um arquivo ".obj".
 class ObjModel : Model {
