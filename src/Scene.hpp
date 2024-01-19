@@ -12,7 +12,7 @@ class Scene {
     using ModelContainer  = std::list<std::unique_ptr<Model>>;
     using EntityContainer = std::list<std::unique_ptr<Entity>>;
 
-    Scene(ModelContainer&& models, EntityContainer&& entities);
+    Scene(std::unique_ptr<Camera>&& camera, Scene::ModelContainer&& models, Scene::EntityContainer&& entities);
 
     virtual ~Scene() = default;
 

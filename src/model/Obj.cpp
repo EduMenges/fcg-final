@@ -13,19 +13,19 @@
 model::Obj::Obj(const std::string& file_name, glm::vec3 position, glm::vec3 scale) : Model(position, scale) {
     fmt::println("{}: Loading object \"{}\"", CURRENT_FUNCTION, file_name);
 
-    const char* basepath = nullptr;
+    const char* base_path = nullptr;
 
     std::string dirname;
 
     auto i = file_name.find_last_of("/");
     if (i != std::string::npos) {
         dirname  = file_name.substr(0, i + 1);
-        basepath = dirname.c_str();
+        base_path = dirname.c_str();
     }
 
     std::string warn;
     std::string err;
-    bool const kRet = tinyobj::LoadObj(&attrib_, &shapes_, &materials_, &warn, &err, file_name.c_str(), basepath, true);
+    bool const kRet = tinyobj::LoadObj(&attrib_, &shapes_, &materials_, &warn, &err, file_name.c_str(), base_path, true);
 
     if (!err.empty()) {
         fmt::println(stderr, "{} ERROR: {}", CURRENT_FUNCTION, err);
@@ -40,7 +40,7 @@ model::Obj::Obj(const std::string& file_name, glm::vec3 position, glm::vec3 scal
     }
 
     ComputeNormals();
-    BuildTriangles(basepath);
+    BuildTriangles(base_path);
 }
 
 void model::Obj::ComputeNormals() {

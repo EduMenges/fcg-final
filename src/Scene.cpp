@@ -10,8 +10,8 @@ void Scene::Draw() {
     }
 }
 
-Scene::Scene(Scene::ModelContainer&& models, Scene::EntityContainer&& entities)
-    : models_(std::move(models)), entities_(std::move(entities)) {}
+Scene::Scene(std::unique_ptr<Camera>&& camera, Scene::ModelContainer&& models, Scene::EntityContainer&& entities)
+    : camera_(std::move(camera)), models_(std::move(models)), entities_(std::move(entities)) {}
 
 Scene* Scene::Update(float delta) {
     for (auto& entity : entities_) {
