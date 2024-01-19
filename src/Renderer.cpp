@@ -2,6 +2,7 @@
 #include "stb/stb_image.h"
 #include "fmt/core.h"
 #include "glm/gtc/type_ptr.hpp"
+#include "utils.hpp"
 
 Renderer::Renderer() : phong_(shader::Vertex("../../shader/phong_vertex.glsl"),
                               shader::Fragment("../../shader/phong_fragment.glsl")),
@@ -12,7 +13,7 @@ Renderer::Renderer() : phong_(shader::Vertex("../../shader/phong_vertex.glsl"),
 }
 
 tl::expected<GLuint, std::error_code> Renderer::LoadTexture(std::string filename) {
-    fmt::println("{}: loading texture {}", __func__, filename);
+    fmt::println("{}: loading texture {}", CURRENT_FUNCTION, filename);
 
     stbi_set_flip_vertically_on_load(GLFW_TRUE);
     int width;
@@ -22,11 +23,11 @@ tl::expected<GLuint, std::error_code> Renderer::LoadTexture(std::string filename
 
     if (data == nullptr) {
         auto error = static_cast<std::errc>(errno);
-        fmt::println(stderr, "{} ERROR: cannot open texture", __func__);
+        fmt::println(stderr, "{} ERROR: cannot open texture", CURRENT_FUNCTION);
         return tl::make_unexpected(std::make_error_code(error));
     }
 
-    fmt::println("{} SUCCESS: {} x {}", __func__, width, height);
+    fmt::println("{} SUCCESS: {} x {}", CURRENT_FUNCTION, width, height);
 
     GLuint texture_id;
     GLuint sampler_id;

@@ -8,9 +8,17 @@ Window::Window()
         throw std::runtime_error("glfwCreateWindow() failed");
     }
 
-    glfwSetWindowSize(window_, width_, height_);  // Definição de screenRatio.
+    glfwSetWindowUserPointer(window_, this);
+
+    glfwSetWindowSize(window_, width_, height_);
 
     glfwMakeContextCurrent(window_);
 
     gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
+}
+
+void Window::FrameBufferSizeCallback(int width, int height)  {
+    glViewport(0, 0, width, height);
+    height_ = height;
+    width_  = width;
 }

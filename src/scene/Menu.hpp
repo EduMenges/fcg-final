@@ -3,6 +3,7 @@
 
 namespace scene {
     class Menu: public Scene {
-
+       public:
+        Menu();
     };
 }

@@ -19,7 +19,7 @@ if (WIN32)
 else ()
     find_package(OpenGL REQUIRED)
     find_package(X11 REQUIRED)
-    set(LIBS ${PROJECT_SOURCE_DIR}/lib-linux/libglfw3.a X11 Xrandr Xinerama Xi Xxf86vm Xcursor GL)
+    set(LIBS ${PROJECT_SOURCE_DIR}/lib-linux/libglfw3.a X11 GL)
 endif ()
 
 link_libraries(${LIBS})

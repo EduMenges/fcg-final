@@ -22,17 +22,16 @@ struct Key {
                 On();
                 break;
             case Action::kRepeat:
-                // Do nothing for now.
+                // Do nothing
                 break;
         }
     }
 
-    void On() { pressed_ = true; }
+    constexpr void On() { pressed_ = true; }
 
-    void Off() { pressed_ = false; }
+    constexpr void Off() { pressed_ = false; }
 };
 
-/// If a key is pressed, it is assigned `true`.
 struct Keys {
     void TakeAction(int key, Action action) {
         if (auto* result = std::ranges::find_if(keys_, [&](Key i) { return i.code_ == key; }); result != keys_.end()) {

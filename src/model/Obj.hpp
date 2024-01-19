@@ -1,7 +1,6 @@
 #pragma once
 
 #include "fmt/core.h"
-#include "Scene.hpp"
 #include <filesystem>
 #include "tiny_obj_loader.h"
 #include "Model.hpp"
@@ -10,13 +9,9 @@
 namespace model {
 class Obj : Model {
    public:
-    explicit Obj(const std::string& file_name);
+    explicit Obj(const std::string& file_name, glm::vec3 position = glm::vec3(0), glm::vec3 scale = glm::vec3(1));
 
     void Draw(Camera& c) override;
-
-    glm::vec3 position_ = glm::vec3(0);
-    glm::vec3 rotation_ = glm::vec3(0);
-    glm::vec3 scale_    = glm::vec3(1);
 
     std::vector<glm::vec3> bbox_min_;
     std::vector<glm::vec3> bbox_max_;

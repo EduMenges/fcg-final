@@ -11,26 +11,6 @@ extern "C" void ErrorCallback(int error_code, const char* description) {
     fmt::println(stderr, "ERROR {}: {}", error_code, description);
 }
 
-static void SetCallbacks() {
-    GLFWwindow* window = Window::Instance().GetWindow();
-
-    glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {
-        Window::Instance().FrameBufferSizeCallback(width, height);
-    });
-
-    glfwSetKeyCallback(window, [](GLFWwindow* window, int key, int scancode, int action, int mode) {
-        Input::Instance().keys_.TakeAction(key, static_cast<input::Action>(action));
-    });
-
-    glfwSetMouseButtonCallback(window, [](GLFWwindow* window, int button, int action, int mods) {
-        Input::Instance().mouse_.TakeAction(button, static_cast<input::Action>(action));
-    });
-
-    glfwSetCursorPosCallback(window, [](GLFWwindow* window, double xpos, double ypos) {
-        Input::Instance().mouse_.SetPos(xpos, ypos);
-    });
-}
-
 /**
  * Updates internal timer between cycles.
  * @return How much time elapsed between this and last cycle.
@@ -55,12 +35,10 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    SetCallbacks();
-
     Scene* s = new scene::Menu();
-    Window& window = Window::Instance();
+    Window&  game = Window::Instance();
 
-    while (!window.ShouldClose() && !Input::Instance().IsOn(GLFW_KEY_ESCAPE)) {
+    while (!game.ShouldClose() && !Input::Instance().IsOn(GLFW_KEY_ESCAPE)) {
         double delta = UpdateTimer();
         Scene* next = s->Update(delta);
 
@@ -77,7 +55,7 @@ int main() {
             s = next;
         }
 
-        glfwSwapBuffers(window.GetWindow());
+        glfwSwapBuffers(game.GetWindow());
         glfwPollEvents();
     }
 }
