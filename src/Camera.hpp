@@ -4,9 +4,10 @@
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 
+#include "trait/Updatable.hpp"
 #include "matrices.hpp"
 
-class Camera {
+class Camera: public trait::Updatable {
 public:
     Camera()          = default;
     virtual ~Camera() = default;
@@ -29,6 +30,8 @@ public:
     explicit LookAtCamera(glm::vec3 look_at) : look_at_(look_at) {}
 
     glm::vec4 GetViewVec() override;
+
+
 
     glm::vec3 look_at_;
     float     distance_ = 3.5F;

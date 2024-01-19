@@ -17,5 +17,8 @@ Scene* Scene::Update(float delta) {
     for (auto& entity : entities_) {
         entity->Update(delta);
     }
+
+    camera_->Update(delta);
+
     return this;
 }

@@ -20,7 +20,7 @@ class Scene {
 
     virtual void Draw();
 
-    std::variant<FreeCamera, LookAtCamera> camera_;
+    std::unique_ptr<Camera> camera_;
 
    protected:
     ModelContainer  models_;
