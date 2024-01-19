@@ -2,8 +2,7 @@
 
 #include "fmt/core.h"
 
-Window::Window()
-    : window_(glfwCreateWindow(width_, height_, kGameName.data(), nullptr, nullptr)), camera_(FreeCamera()) {
+Window::Window() : window_(glfwCreateWindow(width_, height_, kGameName.data(), nullptr, nullptr)) {
     if (window_ == nullptr) {
         throw std::runtime_error("glfwCreateWindow() failed");
     }
