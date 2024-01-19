@@ -10,15 +10,15 @@ void Scene::Draw() {
     }
 }
 
-Scene::Scene(std::unique_ptr<Camera>&& camera, Scene::ModelContainer&& models, Scene::EntityContainer&& entities)
-    : camera_(std::move(camera)), models_(std::move(models)), entities_(std::move(entities)) {}
+Scene::Scene(Scene::ModelContainer&& models, Scene::EntityContainer&& entities)
+    : models_(std::move(models)), entities_(std::move(entities)), camera_(player_.GetCamera()) {}
 
-Scene* Scene::Update(float delta) {
+Scene* Scene::Update(double delta) {
     for (auto& entity : entities_) {
         entity->Update(delta);
     }
 
-    camera_->Update(delta);
+    player_.Update(delta);
 
     return this;
 }

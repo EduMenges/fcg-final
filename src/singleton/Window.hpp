@@ -3,7 +3,7 @@
 #include <variant>
 #include "string_view"
 #include "Camera.hpp"
-#include "Renderer.hpp"
+#include "singleton/Renderer.hpp"
 
 #include "OpenGL.h"
 

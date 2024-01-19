@@ -3,7 +3,10 @@
 #include "Action.hpp"
 
 namespace input {
-struct Mouse {
+class Mouse {
+   public:
+    Mouse() = default;
+
     void TakeAction(int button, Action action) {
         bool active;
 
@@ -32,14 +35,19 @@ struct Mouse {
         last_y = std::exchange(y, ypos);
     }
 
+    [[nodiscard]] constexpr std::tuple<double, double> GetDelta() const {
+        return {x - last_x, y - last_y};
+    }
+
+    bool M1 = false;
+    bool M2 = false;
+
+   private:
     double x = 0.0;
     double y = 0.0;
 
     double last_x = 0.0;
     double last_y = 0.0;
-
-    bool M1 = false;
-    bool M2 = false;
 
 };
 }

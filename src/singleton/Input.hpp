@@ -14,6 +14,10 @@ public:
         return keys_.IsOn(code);
     }
 
+    [[nodiscard]] constexpr auto GetDelta() const {
+        return mouse_.GetDelta();
+    }
+
     input::Keys keys_;
     input::Mouse mouse_;
 

@@ -8,7 +8,7 @@
 #include "matrices.hpp"
 #include "glm/glm.hpp"
 #include "SceneObject.hpp"
-#include "Renderer.hpp"
+#include "singleton/Renderer.hpp"
 
 model::Obj::Obj(const std::string& file_name, glm::vec3 position, glm::vec3 scale) : Model(position, scale) {
     fmt::println("{}: Loading object \"{}\"", CURRENT_FUNCTION, file_name);

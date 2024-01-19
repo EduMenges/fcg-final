@@ -3,9 +3,9 @@
 
 #include "OpenGL.h"
 
-#include "Window.hpp"
+#include "singleton/Window.hpp"
 #include "scene/Menu.hpp"
-#include "Input.hpp"
+#include "singleton/Input.hpp"
 
 extern "C" void ErrorCallback(int error_code, const char* description) {
     fmt::println(stderr, "ERROR {}: {}", error_code, description);
@@ -66,6 +66,8 @@ int main() {
 
         glClearColor(255, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        s->Draw();
 
         // Switch scenes if needed
         if (s != next) {
