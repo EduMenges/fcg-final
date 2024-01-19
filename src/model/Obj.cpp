@@ -1,4 +1,4 @@
-#include "ObjModel.hpp"
+#include "Obj.hpp"
 
 #include <utility>
 
@@ -9,7 +9,7 @@
 #include "SceneObject.hpp"
 #include "Renderer.hpp"
 
-ObjModel::ObjModel(const std::string &file_name) noexcept(false) {
+model::Obj::Obj(const std::string &file_name) noexcept(false) {
     fmt::println("{}: Loading object \"{}\"", __func__, file_name);
 
     const char *basepath = nullptr;
@@ -42,7 +42,7 @@ ObjModel::ObjModel(const std::string &file_name) noexcept(false) {
     BuildTriangles(basepath);
 }
 
-void ObjModel::ComputeNormals() {
+void model::Obj::ComputeNormals() {
     if (!attrib_.normals.empty()) {
         return;
     }
@@ -95,7 +95,7 @@ void ObjModel::ComputeNormals() {
     }
 }
 
-void ObjModel::BuildTriangles(const std::string &base_path) {
+void model::Obj::BuildTriangles(const std::string &base_path) {
     GLuint vertex_array_object_id;
     glGenVertexArrays(1, &vertex_array_object_id);
     glBindVertexArray(vertex_array_object_id);
@@ -231,7 +231,7 @@ void ObjModel::BuildTriangles(const std::string &base_path) {
     glBindVertexArray(0);
 }
 
-void ObjModel::Draw(Camera &c) {
+void model::Obj::Draw(Camera &c) {
     glm::mat4 const kModel = MatrixTranslate(position_.x, position_.y, position_.z) *
                              MatrixScale(scale_.x, scale_.y, scale_.z) *
                              MatrixRotateX(rotation_.x) *  //

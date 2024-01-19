@@ -1,45 +1,32 @@
 #pragma once
 
 #include <list>
+#include <memory>
 
 #include "Model.hpp"
+#include "Entity.hpp"
 
 class Scene {
    public:
-    Scene() = default;
+    using ModelContainer = std::list<std::unique_ptr<Model>>;
+    using EntityContainer = std::list<std::unique_ptr<Entity>>;
 
-    virtual ~Scene() {
-        for (auto* e : this->models) {
-            delete e;
-        }
-    }
+    Scene(ModelContainer&& models, EntityContainer&& entities);
 
-    virtual Scene* Update(float dt) {
-        for (auto* e : models) {
-                e->Update(dt);
+    virtual ~Scene() = default;
+
+    virtual Scene* Update(float delta) {
+        for (auto& entity : entities_) {
+            entity->Update(delta);
         }
         return this;
     }
 
-    virtual void Draw() {
-        for (auto* e : models) {
-                e->Draw(*camera_);
-        }
-    }
-
-    template<typename T>
-    T* AddModel(T* e) {
-        this->models.push_back(e);
-        return e;
-    }
-
-    void RemoveModel(auto* e) {
-        this->models.remove(e);
-        delete e;
-    }
+    virtual void Draw();
 
     Camera* camera_{nullptr};
 
    protected:
-    std::list<Model*> models;
+    ModelContainer  models_;
+    EntityContainer entities_;
 };

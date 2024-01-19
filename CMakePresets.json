@@ -8,7 +8,8 @@
         "CMAKE_BUILD_TYPE":"Debug"
       },
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "installDir": "${sourceDir}/install/${presetName}"
+      "installDir": "${sourceDir}/install/${presetName}",
+      "generator": "Ninja"
     },
     {
       "name": "release",

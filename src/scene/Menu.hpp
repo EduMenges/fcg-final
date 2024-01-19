@@ -5,6 +5,4 @@ namespace scene {
     class Menu: public Scene {
 
     };
-
-
 }
