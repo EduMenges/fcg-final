@@ -37,5 +37,6 @@ glm::mat4 Camera::GetMatrix() {
 void Camera::SetRotation(Camera::Rotation rotation) {
     static constexpr double kMaxY = (std::numbers::pi / 2) - std::numeric_limits<double>::epsilon();
     static constexpr double kMinY = -kMaxY;
+
     rotation_ = {std::get<0>(rotation), std::clamp(std::get<1>(rotation), kMinY, kMaxY)};
 }

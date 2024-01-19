@@ -16,7 +16,7 @@ class Window {
         return instance;
     }
 
-    GLFWwindow* GetWindow() const { return window_; }
+    [[nodiscard]] GLFWwindow* GetWindow() const { return window_; }
 
     void FrameBufferSizeCallback(int width, int height);
 
