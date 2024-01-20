@@ -15,16 +15,18 @@ class Scene {
 
     Scene(Scene::ModelContainer&& models, Scene::EntityContainer&& entities);
 
+    Scene(Scene&& other) = default;
+
     virtual ~Scene() = default;
 
     virtual Scene* Update(double delta);
 
     virtual void Draw();
 
+    Player player_;
    protected:
     ModelContainer  models_;
     EntityContainer entities_;
 
-    Player player_;
     Camera* camera_{nullptr};
 };

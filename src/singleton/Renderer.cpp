@@ -4,12 +4,17 @@
 #include "glm/gtc/type_ptr.hpp"
 #include "utils.hpp"
 
-Renderer::Renderer() : phong_(shader::Vertex("../../shader/phong_vertex.glsl"),
-                              shader::Fragment("../../shader/phong_fragment.glsl")),
-                       gouraud_(shader::Vertex("../../shader/gouraud_vertex.glsl"),
-                                shader::Fragment("../../shader/gouraud_fragment.glsl")) {
+Renderer::Renderer() : phong_(shader::Vertex("../../../shader/phong_vertex.glsl"),
+                              shader::Fragment("../../../shader/phong_fragment.glsl")),
+                       gouraud_(shader::Vertex("../../../shader/gouraud_vertex.glsl"),
+                                shader::Fragment("../../../shader/gouraud_fragment.glsl")) {
     phong_.InsertLocation("model", "view", "projection", "view_vec", "bbox_min", "bbox_max", "color_texture", "time");
     phong_.InsertLocation("model", "view", "projection", "view_vec", "color_texture", "time");
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
 }
 
 tl::expected<GLuint, std::error_code> Renderer::LoadTexture(std::string filename) {
@@ -65,7 +70,7 @@ void Renderer::DrawPhong(glm::mat4 model, Camera& cam, glm::vec3 bbox_min, glm::
     glBindVertexArray(vertex_array_id);
 
     glUniformMatrix4fv(phong_.GetUniform("model"), 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(phong_.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(cam.GetMatrix()));
+    glUniformMatrix4fv(phong_.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(cam.GetViewMatrix()));
     glUniformMatrix4fv(phong_.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(perspective_));
     glUniform4fv(phong_.GetUniform("view_vec"), 1, glm::value_ptr(cam.GetViewVec()));
     glUniform4fv(phong_.GetUniform("bbox_min"), 1, glm::value_ptr(bbox_min));

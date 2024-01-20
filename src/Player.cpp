@@ -2,17 +2,13 @@
 #include "singleton/Input.hpp"
 
 void Player::Update(double delta) {
-    auto [dx, dy] = Input::Instance().GetDelta();
+    camera_.ComputeRotation(Input::Instance().GetDelta() * kMouseAcceleration);
 
-    camera_.SetRotation({dx * kMouseAcceleration, dy * kMouseAcceleration});
-
+    // Camera target
     glm::vec4 w = camera_.GetViewVec();
-    w.y         = 0.0;
 
-    glm::vec4 u = CrossProduct(glm::vec4(0, 1, 0, 0), w);
-
-    w = w / Norm(w);
-    u = u / Norm(u);
+    // Camera right
+    glm::vec4 u = CrossProduct(Camera::kUp, w);
 
     auto movement = glm::vec4(0);
 
@@ -30,12 +26,9 @@ void Player::Update(double delta) {
         movement -= u;
     }
 
-    if (Norm(movement) > 0) {
-        movement = movement / Norm(movement);
-    }
+    glm::vec4 new_pos = GetPosition() + movement * static_cast<float>(delta * kMoveSpeed);
 
-    glm::vec3 new_pos =
-        GetPosition() + glm::vec3(movement.x, movement.y, movement.z) * static_cast<float>(delta * kMoveSpeed);
+    /// @todo Collision treatment
 
     camera_.SetPosition(new_pos);
 }

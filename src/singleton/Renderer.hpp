@@ -25,6 +25,10 @@ public:
 
     void DrawGouraud();
 
+    void SetScreenRatio(float ratio) {
+        perspective_ = MatrixPerspective(kFov, ratio, kNearPlane, kFarPlane);
+    }
+
 private:
     static constexpr float kFov       = std::numbers::pi_v<float> / 3.0F;
     static constexpr float kNearPlane = -0.1F;
@@ -35,6 +39,7 @@ private:
     GLuint loaded_textures_ = 0;
 
     glm::mat4 perspective_{MatrixPerspective(kFov, 1, kNearPlane, kFarPlane)};
+
     GPUProgram phong_;
     GPUProgram gouraud_;
 };

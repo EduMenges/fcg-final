@@ -136,7 +136,7 @@ constexpr float Norm(glm::vec4 v) {
     float vy = v.y;
     float vz = v.z;
 
-    return sqrt(vx * vx + vy * vy + vz * vz);
+    return std::sqrt(vx * vx + vy * vy + vz * vz);
 }
 
 constexpr glm::vec4 Normalize(glm::vec4 v) {
@@ -153,9 +153,7 @@ constexpr glm::mat4 MatrixRotate(float angle, glm::vec4 axis) {
 
     glm::vec4 v = axis / Norm(axis);
 
-    float vx = v.x;
-    float vy = v.y;
-    float vz = v.z;
+    auto [vx, vy, vz, vw] = v;
 
     return Matrix(vx * vx * (1.0F - c) + c, vx * vy * (1.0F - c) - vz * s, vx * vz * (1 - c) + vy * s, 0.0F,  //
                   vx * vy * (1.0F - c) + vz * s, vy * vy * (1.0F - c) + c, vy * vz * (1 - c) - vx * s, 0.0F,  //
@@ -166,35 +164,25 @@ constexpr glm::mat4 MatrixRotate(float angle, glm::vec4 axis) {
 // Produto vetorial entre dois vetores u e v definidos em um sistema de
 // coordenadas ortonormal.
 constexpr glm::vec4 CrossProduct(glm::vec4 u, glm::vec4 v) {
-    float u1 = u.x;
-    float u2 = u.y;
-    float u3 = u.z;
-    float v1 = v.x;
-    float v2 = v.y;
-    float v3 = v.z;
+    auto [u1, u2, u3, _u4] = u;
+    auto [v1, v2, v3, _v4] = v;
 
     return {
-        u2 * v3 - u3 * v2,  // Primeiro coeficiente
-        u3 * v1 - u1 * v3,  // Segundo coeficiente
-        u1 * v2 - u2 * v1,  // Terceiro coeficiente
-        0.0F                // w = 0 para vetores.
+        u2 * v3 - u3 * v2,  //
+        u3 * v1 - u1 * v3,  //
+        u1 * v2 - u2 * v1,  //
+        0.0F                //
     };
 }
 
 // Produto escalar entre dois vetores u e v definidos em um sistema de
 // coordenadas ortonormal.
 constexpr float DotProduct(glm::vec4 u, glm::vec4 v) {
-    float const u1 = u.x;
-    float const u2 = u.y;
-    float const u3 = u.z;
-    float const u4 = u.w;
-    float const v1 = v.x;
-    float const v2 = v.y;
-    float const v3 = v.z;
-    float const v4 = v.w;
+    auto [u1, u2, u3, u4] = u;
+    auto [v1, v2, v3, v4] = v;
 
     if (u4 != 0.0F || v4 != 0.0F) {
-        throw std::runtime_error("Dot product não está definido para pontos.");
+        throw std::runtime_error("Dot product não está definido para pontos");
     }
 
     return u1 * v1 + u2 * v2 + u3 * v3;
@@ -220,7 +208,7 @@ constexpr glm::mat4 MatrixCameraView(glm::vec4 position_c, glm::vec4 view_vector
 }
 
 // Matriz de projeção paralela ortográfica
-constexpr glm::mat4 Matrix_Orthographic(float l, float r, float b, float t, float n, float f) {
+constexpr glm::mat4 MatrixOrthographic(float l, float r, float b, float t, float n, float f) {
     return Matrix(2.0F / (r - l), 0.0F, 0.0F, -(r + l) / (r - l),  //
                   0.0F, 2.0F / (t - b), 0.0F, -(t + b) / (t - b),  //
                   0.0F, 0.0F, 2.0F / (f - n), -(f + n) / (f - n),  //
@@ -228,51 +216,4 @@ constexpr glm::mat4 Matrix_Orthographic(float l, float r, float b, float t, floa
 }
 
 // Matriz de projeção perspectiva
-inline glm::mat4 MatrixPerspective(float field_of_view, float aspect, float n, float f) {
-    float const t = fabs(n) * tanf(field_of_view / 2.0F);
-    float const b = -t;
-    float const r = t * aspect;
-    float const l = -r;
-
-    glm::mat4 const P =
-        Matrix(n, 0.0F, 0.0F, 0.0F, 0.0F, n, 0.0F, 0.0F, 0.0F, 0.0F, n + f, -f * n, 0.0F, 0.0F, 1.0F, 0.0F);
-
-    // A matriz M é a mesma computada acima em Matrix_Orthographic().
-    glm::mat4 const M = Matrix_Orthographic(l, r, b, t, n, f);
-
-    // Note que as matrizes M*P e -M*P fazem exatamente a mesma projeção
-    // perspectiva, já que o sinal de negativo não irá afetar o resultado
-    // devido à divisão por w. Por exemplo, seja q = [qx,qy,qz,1] um ponto:
-    //
-    //      M*P*q = [ qx', qy', qz', w ]
-    //   =(div w)=> [ qx'/w, qy'/w, qz'/w, 1 ]   Eq. (*)
-    //
-    // agora com o sinal de negativo:
-    //
-    //     -M*P*q = [ -qx', -qy', -qz', -w ]
-    //   =(div w)=> [ -qx'/-w, -qy'/-w, -qz'/-w, -w/-w ]
-    //            = [ qx'/w, qy'/w, qz'/w, 1 ]   Eq. (**)
-    //
-    // Note que o ponto final, após divisão por w, é igual: Eq. (*) == Eq. (**).
-    //
-    // Então, por que utilizamos -M*P ao invés de M*P? Pois a especificação de
-    // OpenGL define que os pontos fora do cubo unitário NDC deverão ser
-    // descartados já que não irão aparecer na tela. O teste que define se um ponto
-    // q está dentro do cubo unitário NDC pode ser expresso como:
-    //
-    //      -1 <= qx'/w <= 1   &&  -1 <= qy'/w <= 1   &&  -1 <= qz'/w <= 1
-    //
-    // ou, de maneira equivalente SE w > 0, a placa de vídeo faz o seguinte teste
-    // ANTES da divisão por w:
-    //
-    //      -w <= qx' <= w   &&  -w <= qy' <= w   &&  -w <= qz' <= w
-    //
-    // Note que o teste acima economiza uma divisão por w caso o ponto seja
-    // descartado (quando esteja fora de NDC), entretanto, este último teste só
-    // é equivalente ao primeiro teste SE E SOMENTE SE w > 0 (isto é, se w for
-    // positivo). Como este último teste é o que a placa de vídeo (GPU) irá fazer,
-    // precisamos utilizar a matriz -M*P para projeção perspectiva, de forma que
-    // w seja positivo.
-    //
-    return -M * P;
-}
+glm::mat4 MatrixPerspective(float field_of_view, float aspect, float n, float f);

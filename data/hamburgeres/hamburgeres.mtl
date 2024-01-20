@@ -10,8 +10,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 1
-map_Kd textures\texturaHamburger.png
-map_Bump -bm 3.000000 textures\\texturaHamburger.png
+map_Kd texturaHamburger.png
+map_Bump -bm 3.000000 texturaHamburger.png
 
 newmtl Material.001
 Ns 3.921569
@@ -22,8 +22,8 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd textures\texturaHamburger.png
-map_Bump -bm 0.200000 textures\\texturaHamburger.png
+map_Kd texturaHamburger.png
+map_Bump -bm 0.200000 texturaHamburger.png
 
 newmtl Material.002
 Ns 96.078431
@@ -34,7 +34,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd textures\texturaHamburger.png
+map_Kd texturaHamburger.png
 
 newmtl Material.003
 Ns 35.294118
@@ -45,7 +45,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd textures\texturaHamburger.png
+map_Kd texturaHamburger.png
 
 newmtl Material.005
 Ns 96.078431
@@ -56,4 +56,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd textures\2b.png
+map_Kd 2b.png

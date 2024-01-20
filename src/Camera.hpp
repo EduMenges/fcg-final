@@ -8,32 +8,32 @@
 
 class Camera {
    public:
-    using Rotation = std::tuple<double, double>;
-
     Camera()          = default;
     virtual ~Camera() = default;
 
-    virtual glm::mat4 GetMatrix();
+    [[nodiscard]] virtual glm::mat4 GetViewMatrix() const;
 
-    virtual glm::vec4 GetViewVec() = 0;
+    [[nodiscard]] virtual glm::vec4 GetViewVec() const = 0;
 
-    void SetRotation(Rotation rotation);
+    void SetRotation(glm::dvec2 rotation);
 
-   protected:
+    void ComputeRotation(glm::dvec2 mouse_delta);
+
     static constexpr glm::vec4 kUp{0.0F, 1.0F, 0.0F, 0.0F};
+   protected:
 
-    virtual glm::vec4 GetCenter() = 0;
-    Rotation          rotation_{0.0, 0.0};
+    [[nodiscard]] virtual glm::vec4 GetCenter() const = 0;
+    glm::dvec2          rotation_{0.0, 0.0};
 };
 
 class LookAtCamera : public Camera {
    public:
     explicit LookAtCamera(glm::vec3 look_at) : look_at_(look_at) {}
 
-    glm::vec4 GetViewVec() override;
+    [[nodiscard]] glm::vec4 GetViewVec() const override;
 
    private:
-    glm::vec4 GetCenter() override;
+    [[nodiscard]] glm::vec4 GetCenter() const override;
 
     glm::vec3 look_at_;
     double    distance_ = 3.5;
@@ -41,14 +41,18 @@ class LookAtCamera : public Camera {
 
 class FreeCamera : public Camera {
    public:
-    glm::vec4 GetViewVec() override;
+    FreeCamera() = default;
 
-    [[nodiscard]] constexpr glm::vec3 GetPosition() const { return position_; }
+    explicit FreeCamera(glm::vec4 position): position_(position) {}
 
-    constexpr void SetPosition(glm::vec3 position) { position_ = position; }
+    [[nodiscard]] glm::vec4 GetViewVec() const override;
+
+    [[nodiscard]] constexpr glm::vec4 GetPosition() const { return position_; }
+
+    constexpr void SetPosition(glm::vec4 position) { position_ = position; }
 
    private:
-    glm::vec4 GetCenter() override { return {position_, 1.0F}; }
+    [[nodiscard]] glm::vec4 GetCenter() const override { return GetPosition(); }
 
-    glm::vec3 position_ = glm::vec3(0);
+    glm::vec4 position_{0, 0, 0, 1};
 };

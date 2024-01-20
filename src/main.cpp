@@ -1,5 +1,4 @@
 #include <iostream>
-#include "matrices.hpp"
 
 #include "OpenGL.h"
 
@@ -62,29 +61,35 @@ int main() {
 
     SetCallbacks();
 
-    Scene*  s      = new scene::Menu();
+    Scene* scene = new scene::Menu();
     Window& window = Window::Instance();
+    Input&  input  = Input::Instance();
+
+    input.UpdateMouse();
 
     while (!window.ShouldClose() && !Input::Instance().IsOn(GLFW_KEY_ESCAPE)) {
-        double delta = UpdateTimer();
-        Scene* next  = s->Update(delta);
+        glClearColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-        glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        s->Draw();
+        double delta = UpdateTimer();
+        input.UpdateMouse();
 
-        // Switch scenes if needed
-        if (s != next) {
+        Scene* next = scene->Update(delta);
+
+        scene->Draw();
+
+        if (scene != next) {
             if (next == nullptr) {
                 break;
             }
 
-            delete s;
-            s = next;
+            delete scene;
+            scene = next;
         }
 
         glfwSwapBuffers(window.GetWindow());
+
         glfwPollEvents();
     }
 }

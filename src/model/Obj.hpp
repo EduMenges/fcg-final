@@ -9,7 +9,7 @@
 namespace model {
 class Obj : Model {
    public:
-    explicit Obj(const std::string& file_name, glm::vec3 position = glm::vec3(0), glm::vec3 scale = glm::vec3(1));
+    explicit Obj(const std::filesystem::path& file_name, glm::vec3 position = glm::vec3(0), glm::vec3 scale = glm::vec3(1));
 
     void Draw(Camera& c) override;
 
@@ -20,7 +20,7 @@ class Obj : Model {
    private:
     void ComputeNormals();
 
-    void BuildTriangles(const std::string& base_path);
+    void BuildTriangles(const std::filesystem::path& base_path);
 
     std::vector<GLuint> vbo_ids_;
     std::vector<int>    first_index_;

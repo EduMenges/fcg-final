@@ -33,6 +33,7 @@ if (NOT glm_FOUND)
     )
     FetchContent_MakeAvailable(glm)
 endif ()
+add_compile_definitions(GLM_FORCE_XYZW_ONLY)
 
 find_package(tinyobjloader CONFIG)
 if (NOT tinyobjloader_FOUND)

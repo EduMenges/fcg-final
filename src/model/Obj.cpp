@@ -10,25 +10,19 @@
 #include "SceneObject.hpp"
 #include "singleton/Renderer.hpp"
 
-model::Obj::Obj(const std::string& file_name, glm::vec3 position, glm::vec3 scale) : Model(position, scale) {
-    fmt::println("{}: Loading object \"{}\"", CURRENT_FUNCTION, file_name);
+model::Obj::Obj(const std::filesystem::path& file_name, glm::vec3 position, glm::vec3 scale) : Model(position, scale) {
+    fmt::println("{}: Loading object \"{}\"", CURRENT_FUNCTION, file_name.string().c_str());
 
-    const char* base_path = nullptr;
-
-    std::string dirname;
-
-    auto i = file_name.find_last_of("/");
-    if (i != std::string::npos) {
-        dirname  = file_name.substr(0, i + 1);
-        base_path = dirname.c_str();
-    }
+    const std::string kBasePath = file_name.parent_path().string();
 
     std::string warn;
     std::string err;
-    bool const kRet = tinyobj::LoadObj(&attrib_, &shapes_, &materials_, &warn, &err, file_name.c_str(), base_path, true);
+    bool const  kRet = tinyobj::LoadObj(&attrib_, &shapes_, &materials_, &warn, &err, file_name.string().c_str(),
+                                        kBasePath.c_str(), true);
 
     if (!err.empty()) {
         fmt::println(stderr, "{} ERROR: {}", CURRENT_FUNCTION, err);
+        throw std::runtime_error("Could not load object");
     }
 
     if (!warn.empty()) {
@@ -40,7 +34,7 @@ model::Obj::Obj(const std::string& file_name, glm::vec3 position, glm::vec3 scal
     }
 
     ComputeNormals();
-    BuildTriangles(base_path);
+    BuildTriangles(kBasePath);
 }
 
 void model::Obj::ComputeNormals() {
@@ -96,7 +90,7 @@ void model::Obj::ComputeNormals() {
     }
 }
 
-void model::Obj::BuildTriangles(const std::string& base_path) {
+void model::Obj::BuildTriangles(const std::filesystem::path& base_path) {
     GLuint vertex_array_object_id;
     glGenVertexArrays(1, &vertex_array_object_id);
     glBindVertexArray(vertex_array_object_id);
@@ -136,7 +130,7 @@ void model::Obj::BuildTriangles(const std::string& base_path) {
                 bbox_min_.push_back(bbox_min);
                 bbox_max_.push_back(bbox_max);
                 texture_id_.push_back(
-                    Renderer::Instance().LoadTexture(base_path + materials_[material_id].diffuse_texname).value());
+                    Renderer::Instance().LoadTexture(base_path / materials_[material_id].diffuse_texname).value());
 
                 first_index = indices.size();
                 bbox_min    = glm::vec3(kMaxval, kMaxval, kMaxval);
@@ -183,13 +177,13 @@ void model::Obj::BuildTriangles(const std::string& base_path) {
         bbox_min_.push_back(bbox_min);
         bbox_max_.push_back(bbox_max);
         texture_id_.push_back(
-            Renderer::Instance().LoadTexture(base_path + materials_[material_id].diffuse_texname).value());
+            Renderer::Instance().LoadTexture(base_path / materials_[material_id].diffuse_texname).value());
     }
 
     GLuint VBO_model_coefficients_id;
     glGenBuffers(1, &VBO_model_coefficients_id);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_model_coefficients_id);
-    glBufferData(GL_ARRAY_BUFFER, model_coefficients.size() * sizeof(float), NULL, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, model_coefficients.size() * sizeof(float), nullptr, GL_STATIC_DRAW);
     glBufferSubData(GL_ARRAY_BUFFER, 0, model_coefficients.size() * sizeof(float), model_coefficients.data());
     GLuint location             = 0;  // "(location = 0)" em "phong_vertex.glsl"
     GLint  number_of_dimensions = 4;  // vec4 em "phong_vertex.glsl"
