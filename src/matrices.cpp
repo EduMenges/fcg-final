@@ -50,3 +50,55 @@ glm::mat4 MatrixPerspective(float field_of_view, float aspect, float n, float f)
     //
     return -M * P;
 }
+
+glm::mat4 MatrixRotateX(float angle) {
+    float c = std::cos(angle);
+    float s = std::sin(angle);
+
+    return Matrix(1.0F, 0.0F, 0.0F, 0.0F,  //
+                  0.0F, c, -s, 0.0F,       //
+                  0.0F, s, c, 0.0F,        //
+                  0.0F, 0.0F, 0.0F, 1.0F);
+}
+
+glm::mat4 MatrixRotateY(float angle) {
+    float c = std::cos(angle);
+    float s = std::sin(angle);
+
+    return Matrix(c, 0.0F, s, 0.0F,        //
+                  0.0F, 1.0F, 0.0F, 0.0F,  //
+                  -s, 0.0F, c, 0.0F,       //
+                  0.0F, 0.0F, 0.0F, 1.0F);
+}
+
+glm::mat4 MatrixRotateZ(float angle) {
+    float c = std::cos(angle);
+    float s = std::sin(angle);
+
+    return Matrix(c, -s, 0.0F, 0.0F,       //
+                  s, c, 0.0F, 0.0F,        //
+                  0.0F, 0.0F, 1.0F, 0.0F,  //
+                  0.0F, 0.0F, 0.0F, 1.0F);
+}
+
+float Norm(glm::vec4 v) {
+    float vx = v.x;
+    float vy = v.y;
+    float vz = v.z;
+
+    return std::sqrt(vx * vx + vy * vy + vz * vz);
+}
+
+glm::mat4 MatrixRotate(float angle, glm::vec4 axis) {
+    float c = std::cos(angle);
+    float s = std::sin(angle);
+
+    glm::vec4 v = axis / Norm(axis);
+
+    auto [vx, vy, vz, vw] = v;
+
+    return Matrix(vx * vx * (1.0F - c) + c, vx * vy * (1.0F - c) - vz * s, vx * vz * (1 - c) + vy * s, 0.0F,  //
+                  vx * vy * (1.0F - c) + vz * s, vy * vy * (1.0F - c) + c, vy * vz * (1 - c) - vx * s, 0.0F,  //
+                  vx * vz * (1 - c) - vy * s, vy * vz * (1 - c) + vx * s, vz * vz * (1.0F - c) + c, 0.0F,     //
+                  0.0F, 0.0F, 0.0F, 1.0F);
+}

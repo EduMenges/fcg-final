@@ -7,6 +7,7 @@
 #include <glm/vec4.hpp>
 
 #include "fmt/core.h"
+#include <stdexcept>
 
 // Esta função Matrix() auxilia na criação de matrizes usando a biblioteca GLM.
 // Note que em OpenGL (e GLM) as matrizes são definidas como "column-major",
@@ -83,15 +84,7 @@ constexpr glm::mat4 MatrixScale(float sx, float sy, float sz) {
 //   R*p = [ px, c*py-s*pz, s*py+c*pz, pw ];
 //
 // onde 'c' e 's' são o cosseno e o seno do ângulo de rotação, respectivamente.
-constexpr glm::mat4 MatrixRotateX(float angle) {
-    float c = std::cos(angle);
-    float s = std::sin(angle);
-
-    return Matrix(1.0F, 0.0F, 0.0F, 0.0F,  //
-                  0.0F, c, -s, 0.0F,       //
-                  0.0F, s, c, 0.0F,        //
-                  0.0F, 0.0F, 0.0F, 1.0F);
-}
+glm::mat4 MatrixRotateX(float angle);
 
 // Matriz R de "rotação de um ponto" em relação à origem do sistema de
 // coordenadas e em torno do eixo Y (segundo vetor da base do sistema de
@@ -101,15 +94,7 @@ constexpr glm::mat4 MatrixRotateX(float angle) {
 //   R*p = [ c*px+s*pz, py, -s*px+c*pz, pw ];
 //
 // onde 'c' e 's' são o cosseno e o seno do ângulo de rotação, respectivamente.
-constexpr glm::mat4 MatrixRotateY(float angle) {
-    float c = std::cos(angle);
-    float s = std::sin(angle);
-
-    return Matrix(c, 0.0F, s, 0.0F,        //
-                  0.0F, 1.0F, 0.0F, 0.0F,  //
-                  -s, 0.0F, c, 0.0F,       //
-                  0.0F, 0.0F, 0.0F, 1.0F);
-}
+glm::mat4 MatrixRotateY(float angle);
 
 // Matriz R de "rotação de um ponto" em relação à origem do sistema de
 // coordenadas e em torno do eixo Z (terceiro vetor da base do sistema de
@@ -119,27 +104,13 @@ constexpr glm::mat4 MatrixRotateY(float angle) {
 //   R*p = [ c*px-s*py, s*px+c*py, pz, pw ];
 //
 // onde 'c' e 's' são o cosseno e o seno do ângulo de rotação, respectivamente.
-constexpr glm::mat4 MatrixRotateZ(float angle) {
-    float c = std::cos(angle);
-    float s = std::sin(angle);
-
-    return Matrix(c, -s, 0.0F, 0.0F,       //
-                  s, c, 0.0F, 0.0F,        //
-                  0.0F, 0.0F, 1.0F, 0.0F,  //
-                  0.0F, 0.0F, 0.0F, 1.0F);
-}
+glm::mat4 MatrixRotateZ(float angle);
 
 // Função que calcula a norma Euclidiana de um vetor cujos coeficientes são
 // definidos em uma base ortonormal qualquer.
-constexpr float Norm(glm::vec4 v) {
-    float vx = v.x;
-    float vy = v.y;
-    float vz = v.z;
+float Norm(glm::vec4 v);
 
-    return std::sqrt(vx * vx + vy * vy + vz * vz);
-}
-
-constexpr glm::vec4 Normalize(glm::vec4 v) {
+inline glm::vec4 Normalize(glm::vec4 v) {
     return (v / Norm(v));
 }
 
@@ -147,19 +118,7 @@ constexpr glm::vec4 Normalize(glm::vec4 v) {
 // coordenadas e em torno do eixo definido pelo vetor 'axis'. Esta matriz pode
 // ser definida pela fórmula de Rodrigues. Lembre-se que o vetor que define o
 // eixo de rotação deve ser normalizado!
-constexpr glm::mat4 MatrixRotate(float angle, glm::vec4 axis) {
-    float c = std::cos(angle);
-    float s = std::sin(angle);
-
-    glm::vec4 v = axis / Norm(axis);
-
-    auto [vx, vy, vz, vw] = v;
-
-    return Matrix(vx * vx * (1.0F - c) + c, vx * vy * (1.0F - c) - vz * s, vx * vz * (1 - c) + vy * s, 0.0F,  //
-                  vx * vy * (1.0F - c) + vz * s, vy * vy * (1.0F - c) + c, vy * vz * (1 - c) - vx * s, 0.0F,  //
-                  vx * vz * (1 - c) - vy * s, vy * vz * (1 - c) + vx * s, vz * vz * (1.0F - c) + c, 0.0F,     //
-                  0.0F, 0.0F, 0.0F, 1.0F);
-}
+glm::mat4 MatrixRotate(float angle, glm::vec4 axis);
 
 // Produto vetorial entre dois vetores u e v definidos em um sistema de
 // coordenadas ortonormal.

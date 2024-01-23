@@ -9,6 +9,7 @@
 #include "glm/glm.hpp"
 #include "SceneObject.hpp"
 #include "singleton/Renderer.hpp"
+#include <array>
 
 model::Obj::Obj(const std::filesystem::path& file_name, glm::vec3 position, glm::vec3 scale) : Model(position, scale) {
     fmt::println("{}: Loading object \"{}\"", CURRENT_FUNCTION, file_name.string().c_str());
@@ -130,7 +131,7 @@ void model::Obj::BuildTriangles(const std::filesystem::path& base_path) {
                 bbox_min_.push_back(bbox_min);
                 bbox_max_.push_back(bbox_max);
                 texture_id_.push_back(
-                    Renderer::Instance().LoadTexture(base_path / materials_[material_id].diffuse_texname).value());
+                    Renderer::Instance().LoadTexture((base_path / materials_[material_id].diffuse_texname).string()).value());
 
                 first_index = indices.size();
                 bbox_min    = glm::vec3(kMaxval, kMaxval, kMaxval);
@@ -177,7 +178,7 @@ void model::Obj::BuildTriangles(const std::filesystem::path& base_path) {
         bbox_min_.push_back(bbox_min);
         bbox_max_.push_back(bbox_max);
         texture_id_.push_back(
-            Renderer::Instance().LoadTexture(base_path / materials_[material_id].diffuse_texname).value());
+            Renderer::Instance().LoadTexture((base_path / materials_[material_id].diffuse_texname).string()).value());
     }
 
     GLuint VBO_model_coefficients_id;

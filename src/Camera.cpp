@@ -1,6 +1,8 @@
 #include "Camera.hpp"
 
 #include "matrices.hpp"
+#include <numbers>
+#include <algorithm>
 
 glm::vec4 LookAtCamera::GetViewVec() const {
     glm::vec4 center = GetCenter();
