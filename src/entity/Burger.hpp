@@ -8,7 +8,9 @@ class Burger : public Entity {
    public:
     explicit Burger(glm::vec3 position);
 
+    void Update(double delta) override;
 
+    Obj& GetObj() override;
 };
 
 }

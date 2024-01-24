@@ -148,23 +148,7 @@ constexpr float DotProduct(glm::vec4 u, glm::vec4 v) {
 }
 
 // Matriz de mudança de coordenadas para o sistema de coordenadas da Câmera.
-constexpr glm::mat4 MatrixCameraView(glm::vec4 position_c, glm::vec4 view_vector, glm::vec4 up_vector) {
-    glm::vec4 w = -view_vector;
-    glm::vec4 u = CrossProduct(up_vector, w);
-
-    // Normalizamos os vetores u e w
-    w = w / Norm(w);
-    u = u / Norm(u);
-
-    glm::vec4 const v = CrossProduct(w, u);
-
-    glm::vec4 const origin_o = glm::vec4(0.0F, 0.0F, 0.0F, 1.0F);
-
-    return Matrix(u.x, u.y, u.z, -DotProduct(u, position_c - origin_o),  //
-                  v.x, v.y, v.z, -DotProduct(v, position_c - origin_o),  //
-                  w.x, w.y, w.z, -DotProduct(w, position_c - origin_o),  //
-                  0.0F, 0.0F, 0.0F, 1.0F);
-}
+glm::mat4 MatrixCameraView(glm::vec4 position_c, glm::vec4 view_vector, glm::vec4 up_vector);
 
 // Matriz de projeção paralela ortográfica
 constexpr glm::mat4 MatrixOrthographic(float l, float r, float b, float t, float n, float f) {

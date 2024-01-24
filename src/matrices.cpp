@@ -102,3 +102,21 @@ glm::mat4 MatrixRotate(float angle, glm::vec4 axis) {
                   vx * vz * (1 - c) - vy * s, vy * vz * (1 - c) + vx * s, vz * vz * (1.0F - c) + c, 0.0F,     //
                   0.0F, 0.0F, 0.0F, 1.0F);
 }
+
+glm::mat4 MatrixCameraView(glm::vec4 position_c, glm::vec4 view_vector, glm::vec4 up_vector) {
+    glm::vec4 w = -view_vector;
+    glm::vec4 u = CrossProduct(up_vector, w);
+
+    // Normalizamos os vetores u e w
+    w = w / Norm(w);
+    u = u / Norm(u);
+
+    glm::vec4 const v = CrossProduct(w, u);
+
+    glm::vec4 const origin_o = glm::vec4(0.0F, 0.0F, 0.0F, 1.0F);
+
+    return Matrix(u.x, u.y, u.z, -DotProduct(u, position_c - origin_o),  //
+                  v.x, v.y, v.z, -DotProduct(v, position_c - origin_o),  //
+                  w.x, w.y, w.z, -DotProduct(w, position_c - origin_o),  //
+                  0.0F, 0.0F, 0.0F, 1.0F);
+}

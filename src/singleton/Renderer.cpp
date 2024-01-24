@@ -9,7 +9,7 @@ Renderer::Renderer() : phong_(shader::Vertex("../../../shader/phong_vertex.glsl"
                        gouraud_(shader::Vertex("../../../shader/gouraud_vertex.glsl"),
                                 shader::Fragment("../../../shader/gouraud_fragment.glsl")) {
     phong_.InsertLocation("model", "view", "projection", "view_vec", "bbox_min", "bbox_max", "color_texture", "time");
-    phong_.InsertLocation("model", "view", "projection", "view_vec", "color_texture", "time");
+    gouraud_.InsertLocation("model", "view", "projection", "view_vec", "color_texture", "time");
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);

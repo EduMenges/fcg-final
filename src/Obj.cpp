@@ -7,11 +7,10 @@
 
 #include "matrices.hpp"
 #include "glm/glm.hpp"
-#include "SceneObject.hpp"
 #include "singleton/Renderer.hpp"
 #include <array>
 
-model::Obj::Obj(const std::filesystem::path& file_name, glm::vec3 position, glm::vec3 scale) : Model(position, scale) {
+Obj::Obj(const std::filesystem::path& file_name, glm::vec3 position, glm::vec3 scale) {
     fmt::println("{}: Loading object \"{}\"", CURRENT_FUNCTION, file_name.string().c_str());
 
     const std::string kBasePath = file_name.parent_path().string();
@@ -38,7 +37,7 @@ model::Obj::Obj(const std::filesystem::path& file_name, glm::vec3 position, glm:
     BuildTriangles(kBasePath);
 }
 
-void model::Obj::ComputeNormals() {
+void Obj::ComputeNormals() {
     if (!attrib_.normals.empty()) {
         return;
     }
@@ -91,7 +90,7 @@ void model::Obj::ComputeNormals() {
     }
 }
 
-void model::Obj::BuildTriangles(const std::filesystem::path& base_path) {
+void Obj::BuildTriangles(const std::filesystem::path& base_path) {
     GLuint vertex_array_object_id;
     glGenVertexArrays(1, &vertex_array_object_id);
     glBindVertexArray(vertex_array_object_id);
@@ -130,8 +129,9 @@ void model::Obj::BuildTriangles(const std::filesystem::path& base_path) {
                 vbo_ids_.push_back(vertex_array_object_id);
                 bbox_min_.push_back(bbox_min);
                 bbox_max_.push_back(bbox_max);
-                texture_id_.push_back(
-                    Renderer::Instance().LoadTexture((base_path / materials_[material_id].diffuse_texname).string()).value());
+                texture_id_.push_back(Renderer::Instance()
+                                          .LoadTexture((base_path / materials_[material_id].diffuse_texname).string())
+                                          .value());
 
                 first_index = indices.size();
                 bbox_min    = glm::vec3(kMaxval, kMaxval, kMaxval);
@@ -228,15 +228,10 @@ void model::Obj::BuildTriangles(const std::filesystem::path& base_path) {
     glBindVertexArray(0);
 }
 
-void model::Obj::Draw(Camera& c) {
-    glm::mat4 const kModel = MatrixTranslate(position_.x, position_.y, position_.z) *
-                             MatrixScale(scale_.x, scale_.y, scale_.z) * MatrixRotateX(rotation_.x) *  //
-                             MatrixRotateY(rotation_.y) *                                              //
-                             MatrixRotateZ(rotation_.z);
-
+void Obj::Draw(Camera& c, glm::mat4 model_matrix) {
     for (unsigned int i = 0; i < vbo_ids_.size(); i++) {
         if (phong_) {
-            Renderer::Instance().DrawPhong(kModel, c, bbox_min_[i], bbox_max_[i], texture_id_[i], vbo_ids_[i],
+            Renderer::Instance().DrawPhong(model_matrix, c, bbox_min_[i], bbox_max_[i], texture_id_[i], vbo_ids_[i],
                                            GL_TRIANGLES, index_count_[i], GL_UNSIGNED_INT,
                                            reinterpret_cast<void*>(first_index_[i] * sizeof(GLuint)));
         } else {
