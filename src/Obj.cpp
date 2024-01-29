@@ -105,7 +105,7 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
 
     for (auto& shape : shapes_) {
         size_t       first_index   = indices.size();
-        size_t const kNumTriangles = shape.mesh.num_face_vertices.size();
+        const size_t kNumTriangles = shape.mesh.num_face_vertices.size();
 
         uint32_t material_id = 0;
 
@@ -124,9 +124,10 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
             if (material_id != kLastMaterialId) {
                 size_t const kLastIndex = indices.size() - 1;
 
+//                VertexPackage package{vertex_array_object_id, first_index, index_count_, };
+                vbo_ids_.push_back(vertex_array_object_id);
                 first_index_.push_back(first_index);                     // Primeiro índice
                 index_count_.push_back((kLastIndex + 1) - first_index);  // Número de indices
-                vbo_ids_.push_back(vertex_array_object_id);
                 bbox_min_.push_back(bbox_min);
                 bbox_max_.push_back(bbox_max);
                 texture_id_.push_back(Renderer::Instance()
