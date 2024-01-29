@@ -3,6 +3,7 @@
 #include "trait/Updatable.hpp"
 #include "Camera.hpp"
 #include "Model.hpp"
+#include "singleton/Collision.hpp"
 
 class Entity: public trait::Updatable, public Model {
    public:
@@ -10,7 +11,10 @@ class Entity: public trait::Updatable, public Model {
 
     Entity(Entity&& other) = default;
 
-    ~Entity() override = default;
+    void AddHitBox(HitBox hb);
+
+    ~Entity() override;
 
    protected:
+    std::vector<HitBox> hit_boxes_;
 };
