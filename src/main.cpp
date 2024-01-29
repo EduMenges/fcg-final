@@ -61,13 +61,16 @@ int main() {
 
     SetCallbacks();
 
-    Scene* scene = new scene::Menu();
     Window& window = Window::Instance();
     Input&  input  = Input::Instance();
+    Scene* scene = new scene::Menu();
 
     input.UpdateMouse();
 
     while (!window.ShouldClose() && !Input::Instance().IsOn(GLFW_KEY_ESCAPE)) {
+        glfwPollEvents();
+        glfwSwapBuffers(window.GetWindow());
+
         glClearColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -88,8 +91,5 @@ int main() {
             scene = next;
         }
 
-        glfwSwapBuffers(window.GetWindow());
-
-        glfwPollEvents();
     }
 }

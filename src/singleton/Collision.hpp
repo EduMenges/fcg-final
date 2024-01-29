@@ -6,9 +6,15 @@
 
 class HitBox {
    public:
-    HitBox(glm::vec3 bbox_min, glm::vec3 bbox_max) : bbox_min_(bbox_min), bbox_max_(bbox_max) {}
+    constexpr HitBox(glm::vec3 bbox_min, glm::vec3 bbox_max) : bbox_min_(bbox_min), bbox_max_(bbox_max) {}
 
-    bool Colides(HitBox other);
+    [[nodiscard]] constexpr bool Colides(HitBox other) const {
+        return other.bbox_max_.x > bbox_min_.x && other.bbox_min_.x < bbox_max_.x &&  // Overlap in `x` plane
+               other.bbox_max_.y > bbox_min_.y && other.bbox_min_.y < bbox_max_.y &&  // Overlap in `y` plane
+               other.bbox_max_.z > bbox_min_.z && other.bbox_min_.z < bbox_max_.z;    // Overlap in `z` plane
+    }
+
+    constexpr HitBox operator+(glm::vec3 pos) const { return {bbox_min_ + pos, bbox_max_ + pos}; }
 
    private:
     glm::vec3 bbox_min_;
@@ -39,7 +45,7 @@ class Collision {
 
     void RemoveSphere(HitSphere* sphere);
 
-    bool ColidesWithBox(HitBox box) {
+    [[nodiscard]] constexpr bool ColidesWithBox(HitBox box) const {
         return std::ranges::any_of(boxes_, [&](auto other) { return box.Colides(*other); });
     }
 
