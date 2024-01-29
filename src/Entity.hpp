@@ -2,16 +2,19 @@
 
 #include "trait/Updatable.hpp"
 #include "Camera.hpp"
-#include "model/Obj.hpp"
+#include "Model.hpp"
+#include "singleton/Collision.hpp"
 
-class Entity: public trait::Updatable {
+class Entity: public trait::Updatable, public Model {
    public:
-    explicit Entity(model::Obj&& model) : model_(std::move(model)) {}
+    explicit Entity(glm::vec3 position, glm::vec3 scale = glm::vec3(1), glm::vec3 rotation = glm::vec3(0)): Model(position, scale, rotation) {}
 
-    ~Entity() override = default;
+    Entity(Entity&& other) = default;
 
-    virtual void Draw(Camera& c) { model_.Draw(c); }
+    void AddHitBox(HitBox hb);
+
+    ~Entity() override;
 
    protected:
-    model::Obj model_;
+    std::vector<HitBox> hit_boxes_;
 };

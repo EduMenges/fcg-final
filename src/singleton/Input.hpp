@@ -10,13 +10,15 @@ public:
         return instance;
     }
 
-    bool IsOn(int code) {
+    [[nodiscard]] bool IsOn(int code) const {
         return keys_.IsOn(code);
     }
 
-    [[nodiscard]] constexpr auto GetDelta() const {
+    [[nodiscard]] auto GetDelta() const {
         return mouse_.GetDelta();
     }
+
+    void UpdateMouse();
 
     input::Keys keys_;
     input::Mouse mouse_;

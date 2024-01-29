@@ -27,5 +27,6 @@ GPUProgram::GPUProgram(Shader&& vertex, Shader&& fragment) {  // NOLINT(*-rvalue
 
 void GPUProgram::InsertLocation(std::string&& name) {
     GLint const kUniform = glGetUniformLocation(GetId(), name.c_str());
+
     locations_.insert(std::make_pair(std::move(name), kUniform));
 }

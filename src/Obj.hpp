@@ -2,25 +2,30 @@
 
 #include "fmt/core.h"
 #include <filesystem>
+#include <glm/vec3.hpp>
 #include "tiny_obj_loader.h"
-#include "Model.hpp"
 #include "OpenGL.h"
+#include "Camera.hpp"
 
-namespace model {
-class Obj : Model {
+class Obj {
    public:
-    explicit Obj(const std::string& file_name, glm::vec3 position = glm::vec3(0), glm::vec3 scale = glm::vec3(1));
+    explicit Obj(const std::filesystem::path& file_name, glm::vec3 position = glm::vec3(0), glm::vec3 scale = glm::vec3(1));
 
-    void Draw(Camera& c) override;
+    Obj(Obj&& other) = default;
+
+    Obj(const Obj& other) = delete;
+
+    void Draw(Camera& c, glm::mat4 model_matrix);
 
     std::vector<glm::vec3> bbox_min_;
     std::vector<glm::vec3> bbox_max_;
 
     bool phong_ = true;  // Should I render using phong_ shading?
+
    private:
     void ComputeNormals();
 
-    void BuildTriangles(const std::string& base_path);
+    void BuildTriangles(const std::filesystem::path& base_path);
 
     std::vector<GLuint> vbo_ids_;
     std::vector<int>    first_index_;
@@ -31,4 +36,3 @@ class Obj : Model {
     std::vector<tinyobj::shape_t>    shapes_;
     std::vector<tinyobj::material_t> materials_;
 };
-}

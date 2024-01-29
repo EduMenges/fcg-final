@@ -20,6 +20,15 @@
       "inherits": ["default"]
     },
     {
+      "name": "windows",
+      "inherits": ["default"],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
       "name": "mingw",
       "displayName": "Default MinGW",
       "vendor": {
@@ -27,17 +36,7 @@
           "toolchain": "MinGW"
         }
       },
-      "inherits": ["default"],
-      "condition": {
-        "type": "equals",
-        "lhs": "${hostSystemName}",
-        "rhs": "Windows"
-      },
-      "cacheVariables": {
-        "CMAKE_CXX_COMPILER":"C:/msys64/clang64/bin/clang++.exe",
-        "glfw3_DIR" : "C:/msys64/clang64/lib/cmake/glfw3",
-        "glm_DIR" : "C:/msys64/clang64/lib/cmake/glm"
-      }
+      "inherits": ["windows"]
     },
     {
       "name": "linux",
@@ -82,6 +81,11 @@
       "name": "linux-release",
       "configurePreset": "linux-release",
       "displayName": "Linux Release"
+    },
+    {
+      "name": "windows-debug",
+      "configurePreset": "windows",
+      "displayName": "Windows Debug"
     }
   ]
 }

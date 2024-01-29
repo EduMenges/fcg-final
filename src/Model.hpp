@@ -1,16 +1,22 @@
 #pragma once
 
 #include "Camera.hpp"
+#include "Obj.hpp"
 
 class Model {
    public:
-    Model() = default;
+    explicit Model(glm::vec3 position, glm::vec3 scale = glm::vec3(1), glm::vec3 rotation = glm::vec3(0))
+        : position_(position), scale_(scale), rotation_(rotation) {}
 
-    explicit Model(glm::vec3 position = glm::vec3(0), glm::vec3 scale = glm::vec3(0)): position_(position), scale_(scale) {}
+    Model(Model&& other) = default;
+
+    Model(const Model& other) = delete;
 
     virtual ~Model() = default;
 
-    virtual void Draw(Camera& c) {}
+    virtual void Draw(Camera& c);
+
+    virtual Obj& GetObj() = 0;
 
     glm::vec3 position_{0};
     glm::vec3 scale_{1};

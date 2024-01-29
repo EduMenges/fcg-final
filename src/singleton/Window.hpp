@@ -26,7 +26,7 @@ class Window {
     Window();
 
     int width_  = 800;
-    int height_ = 600;
+    int height_ = 800;
 
     GLFWwindow* window_ = nullptr;
 };

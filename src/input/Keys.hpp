@@ -34,13 +34,13 @@ struct Key {
 
 struct Keys {
     void TakeAction(int key, Action action) {
-        if (auto* result = std::ranges::find_if(keys_, [&](Key i) { return i.code_ == key; }); result != keys_.end()) {
+        if (auto result = std::ranges::find_if(keys_, [&](Key i) { return i.code_ == key; }); result != keys_.end()) {
             result->TakeAction(action);
         }
     }
 
     [[nodiscard]] bool IsOn(int code) const {
-        const auto* result = std::ranges::find_if(keys_, [&](Key i) { return i.code_ == code; });
+        const auto result = std::ranges::find_if(keys_, [&](Key i) { return i.code_ == code; });
         return result->pressed_;
     }
 

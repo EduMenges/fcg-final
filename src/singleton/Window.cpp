@@ -18,6 +18,8 @@ Window::Window() : window_(glfwCreateWindow(width_, height_, kGameName.data(), n
 
 void Window::FrameBufferSizeCallback(int width, int height)  {
     glViewport(0, 0, width, height);
-    height_ = height;
     width_  = width;
+    height_ = height;
+
+    Renderer::Instance().SetScreenRatio(static_cast<float>(width_) / static_cast<float>(height_));
 }

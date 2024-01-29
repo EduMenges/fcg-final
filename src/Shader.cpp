@@ -28,10 +28,8 @@ Shader::Shader(const std::filesystem::path& filename, GLuint shader_id) : shader
 
         if (compiled_ok == GLFW_FALSE) {
             fmt::println(stderr, "ERROR: OpenGL compilation of \"{}\"", filename.string().c_str());
+            fmt::print(stderr, "{}", output);
             throw std::runtime_error("Couldn't compile shader");
-        } else {
-            fmt::println("ERROR: OpenGL compilation of \"{}\"", filename.string().c_str());
         }
-        fmt::print(stderr, "{}", output);
     }
 }
