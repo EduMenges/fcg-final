@@ -8,23 +8,26 @@ void Player::Update(double delta) {
     // Camera target
     glm::vec4 w = camera_.GetViewVec();
 
+    // Camera-facing horizontal movement
+    glm::vec4 forward = Normalize(glm::vec4(w.x, 0, w.y, 0));
+
     // Camera right
-    glm::vec4 u = CrossProduct(Camera::kUp, w);
+    glm::vec4 right = CrossProduct(Camera::kUp, forward);
 
     auto movement = glm::vec4(0);
 
     auto& input = Input::Instance();
     if (input.IsOn(GLFW_KEY_W)) {
-        movement += w;
+        movement += forward;
     }
     if (input.IsOn(GLFW_KEY_S)) {
-        movement -= w;
+        movement -= forward;
     }
     if (input.IsOn(GLFW_KEY_A)) {
-        movement += u;
+        movement += right;
     }
     if (input.IsOn(GLFW_KEY_D)) {
-        movement -= u;
+        movement -= right;
     }
 
     glm::vec3 new_pos = GetPosition() + movement * static_cast<float>(delta * kMoveSpeed);
