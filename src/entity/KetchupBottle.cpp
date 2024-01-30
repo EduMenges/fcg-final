@@ -1,7 +1,7 @@
-#include "Table.hpp"
+#include "KetchupBottle.hpp"
 #include "singleton/Collision.hpp"
 
-entity::Table::Table(glm::vec3 position) : Entity(position, glm::vec3(0.3)) {
+entity::KetchupBottle::KetchupBottle(glm::vec3 position) : Entity(position, glm::vec3(0.2)) {
     for (size_t i = 0; i < GetObj().bbox_min_.size(); ++i) {
         glm::vec3 bbox_min = GetObj().bbox_min_[i] * scale_;
         glm::vec3 bbox_max = GetObj().bbox_max_[i] * scale_;
@@ -11,9 +11,9 @@ entity::Table::Table(glm::vec3 position) : Entity(position, glm::vec3(0.3)) {
     }
 }
 
-void entity::Table::Update(double delta) { /* rotation_.y += static_cast<float>(delta); */ }
+void entity::KetchupBottle::Update(double delta) { /* rotation_.y += static_cast<float>(delta); */ }
 
-Obj& entity::Table::GetObj() {
-    static Obj obj("../../../data/table/table.obj");
+Obj& entity::KetchupBottle::GetObj() {
+    static Obj obj("../../../data/condiments/ketchup.obj");
     return obj;
 }
