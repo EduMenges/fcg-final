@@ -9,7 +9,7 @@ void Player::Update(double delta) {
     glm::vec4 w = camera_.GetViewVec();
 
     // Camera-facing horizontal movement
-    glm::vec4 forward = Normalize(glm::vec4(w.x, 0, w.y, 0));
+    glm::vec4 forward = Normalize(glm::vec4(w.x, 0, w.z, 0));
 
     // Camera right
     glm::vec4 right = CrossProduct(Camera::kUp, forward);
