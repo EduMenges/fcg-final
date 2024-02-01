@@ -11,6 +11,8 @@ enum class Ingredient : int {  // NOLINT
     TOMATO = 6,
     CHEESE = 7,
     EGG = 8,
-    BACON = 9
+    BACON = 9,
+    TOPBUN = 10,
+    COUNT = 11
 };
 }
