@@ -1,7 +1,7 @@
-#include "Ketchup.hpp"
+#include "Mustard.hpp"
 #include "singleton/Collision.hpp"
 
-ingredient::Ketchup::Ketchup(glm::vec3 position) : Ingredient(position, glm::vec3(0.3)) {
+ingredient::Mustard::Mustard(glm::vec3 position) : Ingredient(position, glm::vec3(0.3)) {
     for (size_t i = 0; i < GetObj().bbox_min_.size(); ++i) {
         glm::vec3 bbox_min = GetObj().bbox_min_[i] * scale_;
         glm::vec3 bbox_max = GetObj().bbox_max_[i] * scale_;
@@ -11,9 +11,9 @@ ingredient::Ketchup::Ketchup(glm::vec3 position) : Ingredient(position, glm::vec
     }
 }
 
-void ingredient::Ketchup::Update(double delta) {}
+void ingredient::Mustard::Update(double delta) {}
 
-Obj& ingredient::Ketchup::GetObj() {
-    static Obj obj("../../../data/ingredients/ketchup-splash.obj");
+Obj& ingredient::Mustard::GetObj() {
+    static Obj obj("../../../data/ingredients/mustard-splash.obj");
     return obj;
 }
