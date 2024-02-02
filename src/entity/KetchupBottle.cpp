@@ -20,6 +20,7 @@ void entity::KetchupBottle::Update(double delta) {
 }
 
 Obj& entity::KetchupBottle::GetObj() {
+    //static Obj obj("../../../data/ingredients/egg_fried.obj");
     static Obj obj("../../../data/condiments/ketchup.obj");
     return obj;
 }
