@@ -12,20 +12,11 @@ void Model::Draw(Camera& c) {
 
 void Model::ComputeHitBoxes() {
     for (auto box : GetObj().boxes_) {
-        //        glm::vec3 bbox_min = box.min_ * scale_;
-        //        glm::vec3 bbox_max = box.max_ * scale_;
-        //
-        //        HitBox working(bbox_min + position_, bbox_max + position_);
-
-        //        glm::mat4 transform = MatrixScale(scale_) * MatrixRotateX(rotation_.x) * MatrixRotateY(rotation_.y) *
-        //        MatrixRotateZ(rotation_.z);
         glm::mat4 transform = MatrixTranslate(position_) *  //
                               MatrixScale(scale_) *         //
                               MatrixRotateX(rotation_.x) *  //
                               MatrixRotateY(rotation_.y) *  //
                               MatrixRotateZ(rotation_.z);
-
-        glm::mat4 transform_ok = MatrixTranslate(position_) * MatrixScale(scale_);
 
         HitBox hb(transform * (glm::vec4(box.min_, 1.0)), transform * (glm::vec4(box.max_, 1.0)));
         hb.AdjustValues();
