@@ -14,11 +14,9 @@ void input::Mouse::TakeAction(int button, input::Action action) {
             return;
     }
 
-    if (button == GLFW_MOUSE_BUTTON_LEFT)
-    {
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
         M1 = active;
-    } else if (button == GLFW_MOUSE_BUTTON_RIGHT)
-    {
+    } else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
         M2 = active;
     }
 }

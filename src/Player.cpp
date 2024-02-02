@@ -31,7 +31,7 @@ void Player::Update(double delta) {
     }
 
     glm::vec3 new_pos = GetPosition() + movement * static_cast<float>(delta * kMoveSpeed);
-    HitBox hb = kBaseHitBox + new_pos;
+    HitBox    hb      = kBaseHitBox + new_pos;
 
     if (!Collision::Instance().ColidesWithBox(hb)) {
         camera_.SetPosition(glm::vec4(new_pos, 1.0F));
