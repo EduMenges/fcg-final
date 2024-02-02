@@ -6,7 +6,7 @@
 namespace recipe {
 
     // Define os ingredientes para uma dada receita
-    Recipe::Recipe(RecipeName recipe_name) : text("hi") {
+    Recipe::Recipe(RecipeName recipe_name) {
 
         switch(recipe_name) {
             case RecipeName::BLT:
