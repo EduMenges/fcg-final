@@ -14,6 +14,6 @@ ingredient::BottomBun::BottomBun(glm::vec3 position) : Ingredient(position, glm:
 void ingredient::BottomBun::Update(double delta) {}
 
 Obj& ingredient::BottomBun::GetObj() {
-    static Obj obj("../../../data/ingredients/ketchup-splash.obj");
+    static Obj obj("../../../data/ingredients/bottom_bun.obj");
     return obj;
 }
