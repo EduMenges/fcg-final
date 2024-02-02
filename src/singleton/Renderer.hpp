@@ -5,6 +5,7 @@
 #include "Shader.hpp"
 #include "renderer/GPUProgram.hpp"
 #include "tl/expected.hpp"
+#include "Collision.hpp"
 
 class Renderer {
 public:
@@ -20,7 +21,7 @@ public:
      */
     tl::expected<GLuint, std::error_code> LoadTexture(std::string filename);
 
-    void DrawPhong(glm::mat4 model, Camera& cam, glm::vec3 bbox_min, glm::vec3 bbox_max, GLuint texture,
+    void DrawPhong(glm::mat4 model, Camera& cam, HitBox box, GLuint texture,
                    GLuint vertex_array_id, GLenum draw_mode, GLsizei el_count, GLenum type, void *first_index);
 
     void DrawGouraud();

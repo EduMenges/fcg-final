@@ -1,4 +1,3 @@
-#pragma once
 #include "EIngredient.hpp"
 #include "Recipe.hpp"
 #include <cstdlib>

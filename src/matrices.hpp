@@ -63,6 +63,8 @@ constexpr glm::mat4 MatrixTranslate(float tx, float ty, float tz) {
                   0.0F, 0.0F, 0.0F, 1.0F);
 }
 
+constexpr glm::mat4 MatrixTranslate(glm::vec3 point) { return MatrixTranslate(point.x, point.y, point.z); }
+
 // Matriz S de "escalamento de um ponto" em relação à origem do sistema de
 // coordenadas. Seja p=[px,py,pz,pw] um ponto em coordenadas homogêneas.
 // Então, a matriz S é definida pela seguinte igualdade:
@@ -75,6 +77,8 @@ constexpr glm::mat4 MatrixScale(float sx, float sy, float sz) {
                   0.0F, 0.0F, sz, 0.0F,  //
                   0.0F, 0.0F, 0.0F, 1.0F);
 }
+
+constexpr glm::mat4 MatrixScale(glm::vec3 point) { return MatrixScale(point.x, point.y, point.z); }
 
 // Matriz R de "rotação de um ponto" em relação à origem do sistema de
 // coordenadas e em torno do eixo X (primeiro vetor da base do sistema de
@@ -110,9 +114,7 @@ glm::mat4 MatrixRotateZ(float angle);
 // definidos em uma base ortonormal qualquer.
 float Norm(glm::vec4 v);
 
-inline glm::vec4 Normalize(glm::vec4 v) {
-    return (v / Norm(v));
-}
+inline glm::vec4 Normalize(glm::vec4 v) { return (v / Norm(v)); }
 
 // Matriz R de "rotação de um ponto" em relação à origem do sistema de
 // coordenadas e em torno do eixo definido pelo vetor 'axis'. Esta matriz pode
