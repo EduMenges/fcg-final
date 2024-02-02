@@ -1,12 +1,13 @@
 #pragma once
 #include "Recipe.hpp"
-#include "../entity/Burger.hpp"
+#include "entity/Burger.hpp"
 
 namespace recipe {
 
 class Order {
    public:
-    explicit Order(const Recipe recipe);
+    explicit Order(Recipe recipe);
+
     Recipe recipe;
     int score;
     entity::Burger delivery;

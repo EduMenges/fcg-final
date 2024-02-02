@@ -36,5 +36,5 @@ glm::vec3 CubicBezier::Get() const {
     return std::pow(r, 3.0F) * points_[0] +             // b 0,3
            3.0F * t * std::pow(r, 2.0F) * points_[1] +  // b 1,3
            3.0F * std::pow(t, 2.0F) * r * points_[2] +  // b 2,3
-           pow(t, 3.0F) * points_[3];                   // b 3,3
+           std::pow(t, 3.0F) * points_[3];                   // b 3,3
 }

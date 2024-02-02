@@ -1,7 +1,7 @@
 #pragma once
 
 namespace recipe {
-enum class Ingredient : int {  // NOLINT
+enum class EIngredient : int {  // NOLINT
     BOTTOMBUN = 0,
     BEEFPATTY = 1,
     VEGPATTY = 2,

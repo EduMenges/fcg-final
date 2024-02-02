@@ -1,6 +1,7 @@
 #pragma once
-#include "Ingredient.hpp"
+#include "EIngredient.hpp"
 #include <vector>
+
 
 namespace recipe {
 enum class RecipeName : int {  
@@ -17,7 +18,8 @@ class Recipe {
     public:
       explicit Recipe(RecipeName recipe_name);
       explicit Recipe();
-      std::vector<Ingredient> recipe;
+
+    private: std::vector<EIngredient> recipe;
       
 };
 
