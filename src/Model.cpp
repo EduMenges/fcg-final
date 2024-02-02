@@ -1,11 +1,40 @@
 #include "Model.hpp"
 
 void Model::Draw(Camera& c) {
-    glm::mat4 model_matrix = MatrixTranslate(position_.x, position_.y, position_.z) *
-                             MatrixScale(scale_.x, scale_.y, scale_.z) *  //
-                             MatrixRotateX(rotation_.x) *                 //
-                             MatrixRotateY(rotation_.y) *                 //
+    glm::mat4 model_matrix = MatrixTranslate(position_) *  //
+                             MatrixScale(scale_) *         //
+                             MatrixRotateX(rotation_.x) *  //
+                             MatrixRotateY(rotation_.y) *  //
                              MatrixRotateZ(rotation_.z);
 
     GetObj().Draw(c, model_matrix);
+}
+
+void Model::ComputeHitBoxes() {
+    for (auto box : GetObj().boxes_) {
+        //        glm::vec3 bbox_min = box.min_ * scale_;
+        //        glm::vec3 bbox_max = box.max_ * scale_;
+        //
+        //        HitBox working(bbox_min + position_, bbox_max + position_);
+
+        //        glm::mat4 transform = MatrixScale(scale_) * MatrixRotateX(rotation_.x) * MatrixRotateY(rotation_.y) *
+        //        MatrixRotateZ(rotation_.z);
+        glm::mat4 transform = MatrixTranslate(position_) *  //
+                              MatrixScale(scale_) *         //
+                              MatrixRotateX(rotation_.x) *  //
+                              MatrixRotateY(rotation_.y) *  //
+                              MatrixRotateZ(rotation_.z);
+
+        glm::mat4 transform_ok = MatrixTranslate(position_) * MatrixScale(scale_);
+
+        HitBox hb(transform * (glm::vec4(box.min_, 1.0)), transform * (glm::vec4(box.max_, 1.0)));
+        hb.AdjustValues();
+
+        AddHitBox(hb);
+    }
+}
+
+void Model::AddHitBox(HitBox hb) {
+    auto& location = hit_boxes_.emplace_back(hb);
+    Collision::Instance().AddBox(&location);
 }
