@@ -3,5 +3,5 @@
 
 namespace recipe{
 
-    Order::Order(Recipe recipe) : recipe(recipe) {};
+//    Order::Order(Recipe recipe) : recipe(recipe) {};
 }
