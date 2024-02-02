@@ -19,13 +19,8 @@ class Recipe {
     public:
       explicit Recipe(RecipeName recipe_name);
       explicit Recipe();
-      std::string text;
-
-    private: std::vector<Ingredient> recipe;
+      std::vector<Ingredient> recipe;
       
 };
 
-std::ostream& operator<<(std::ostream& os, const Recipe& recipe) {
-    os << recipe.text;
-};
 }
