@@ -25,17 +25,6 @@ uniform sampler2D color_texture;
 // O valor de saída ("out") de um Fragment Shader é a cor final do fragmento.
 out vec4 color;
 
-// FONTE: https://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
-float random (vec2 st) {
-    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43757.441);
-}
-
-// FONTE: https://easings.net/#easeInOutSine
-float easeInOutSine(float x) {
-    return -(cos(3.1415 * x) - 1) / 2;
-
-}
-
 void main()
 {
     // Obtemos a posição da câmera utilizando a inversa da matriz que define o
@@ -85,14 +74,9 @@ void main()
 
     float beta = dot(-l, view_vec);
 
-    // Illumination
+    // Iluminação
     color.rgb = (1-beta) * (lambert_diffuse_term + ambient_term + phong_specular_term) +
     ambient_term;
-
-    // "Fog", maximum distance to illuminate things
-    float d = distance(p, camera_position);
-    float distanceNormalized = min(1, d / 60);
-    color.rgb *= 1 - easeInOutSine(distanceNormalized);
 
     // Cor final com correção gamma, considerando monitor sRGB.
     // Veja https://en.wikipedia.org/w/index.php?title=Gamma_correction&oldid=751281772#Windows.2C_Mac.2C_sRGB_and_TV.2Fvideo_standard_gammas
