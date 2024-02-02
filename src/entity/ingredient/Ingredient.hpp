@@ -7,5 +7,7 @@ namespace ingredient{
         public:
           explicit Ingredient(glm::vec3 position, glm::vec3 scale);
           const recipe::EIngredient index = recipe::EIngredient::COUNT;
+
+          
     };
 }

@@ -22,6 +22,8 @@ class Model {
 
     void AddHitBox(HitBox hb);
 
+    float GetHitboxHeight();
+
     glm::vec3 position_{0};
     glm::vec3 scale_{1};
     glm::vec3 rotation_{0};
