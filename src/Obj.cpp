@@ -107,7 +107,7 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
         size_t       first_index   = indices.size();
         const size_t kNumTriangles = shape.mesh.num_face_vertices.size();
 
-        uint32_t material_id = 0;
+        uint32_t material_id      = 0;
 
         if (!shape.mesh.material_ids.empty()) {
             material_id = shape.mesh.material_ids[0];
@@ -124,12 +124,10 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
             if (material_id != kLastMaterialId) {
                 size_t const kLastIndex = indices.size() - 1;
 
-//                VertexPackage package{vertex_array_object_id, first_index, index_count_, };
                 vbo_ids_.push_back(vertex_array_object_id);
                 first_index_.push_back(first_index);                     // Primeiro índice
                 index_count_.push_back((kLastIndex + 1) - first_index);  // Número de indices
-                bbox_min_.push_back(bbox_min);
-                bbox_max_.push_back(bbox_max);
+                boxes_.emplace_back(bbox_min, bbox_max);
                 texture_id_.push_back(Renderer::Instance()
                                           .LoadTexture((base_path / materials_[material_id].diffuse_texname).string())
                                           .value());
@@ -176,8 +174,7 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
         first_index_.push_back(first_index);                     // Primeiro índice
         index_count_.push_back((kLastIndex + 1) - first_index);  // Número de indices
         vbo_ids_.push_back(vertex_array_object_id);
-        bbox_min_.push_back(bbox_min);
-        bbox_max_.push_back(bbox_max);
+        boxes_.emplace_back(bbox_min, bbox_max);
         texture_id_.push_back(
             Renderer::Instance().LoadTexture((base_path / materials_[material_id].diffuse_texname).string()).value());
     }
@@ -232,11 +229,11 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
 void Obj::Draw(Camera& c, glm::mat4 model_matrix) {
     for (unsigned int i = 0; i < vbo_ids_.size(); i++) {
         if (phong_) {
-            Renderer::Instance().DrawPhong(model_matrix, c, bbox_min_[i], bbox_max_[i], texture_id_[i], vbo_ids_[i],
-                                           GL_TRIANGLES, index_count_[i], GL_UNSIGNED_INT,
+            Renderer::Instance().DrawPhong(model_matrix, c, boxes_[i], texture_id_[i], vbo_ids_[i], GL_TRIANGLES,
+                                           index_count_[i], GL_UNSIGNED_INT,
                                            reinterpret_cast<void*>(first_index_[i] * sizeof(GLuint)));
         } else {
-            //            GraphicsManager::DrawElementsGouraud(kModel, c, bbox_min_[i], bbox_max_[i],
+            //            GraphicsManager::DrawElementsGouraud(kModel, c, min_[i], max[i],
             //                                                 texture_id_[i], vbo_ids_[i], GL_TRIANGLES,
             //                                                 index_count_[i], GL_UNSIGNED_INT,
             //                                                 reinterpret_cast<void *>(first_index_[i] *

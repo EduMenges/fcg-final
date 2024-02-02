@@ -11,12 +11,5 @@ class Entity: public trait::Updatable, public Model {
 
     Entity(Entity&& other) = default;
 
-    void AddHitBox(HitBox hb);
-
     ~Entity() override;
-
-   protected:
-    void ComputeHitBoxes();
-
-    std::vector<HitBox> hit_boxes_;
 };
