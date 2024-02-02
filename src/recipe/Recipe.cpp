@@ -1,5 +1,5 @@
 #pragma once
-#include "Ingredient.hpp"
+#include "EIngredient.hpp"
 #include "Recipe.hpp"
 #include <cstdlib>
 
@@ -10,28 +10,28 @@ namespace recipe {
 
         switch(recipe_name) {
             case RecipeName::BLT:
-                this->recipe = {Ingredient::BOTTOMBUN, Ingredient::LETTUCE, Ingredient::TOMATO,
-                                Ingredient::BEEFPATTY, Ingredient::BACON, Ingredient::MUSTARD, Ingredient::TOPBUN};
+                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::TOMATO,
+                                EIngredient::BEEFPATTY, EIngredient::BACON, EIngredient::MUSTARD, EIngredient::TOPBUN};
                 break;
 
             case RecipeName::CHEESEBURGER:
-                this->recipe = {Ingredient::BOTTOMBUN, Ingredient::LETTUCE, Ingredient::BEEFPATTY,
-                                Ingredient::CHEESE, Ingredient::KETCHUP, Ingredient::EGG, Ingredient::TOPBUN};
+                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::BEEFPATTY,
+                                EIngredient::CHEESE, EIngredient::KETCHUP, EIngredient::EGG, EIngredient::TOPBUN};
                 break;
 
             case RecipeName::MEATLOVER:
-                this->recipe = {Ingredient::BOTTOMBUN, Ingredient::BEEFPATTY, Ingredient::BACON,
-                                Ingredient::EGG, Ingredient::BEEFPATTY, Ingredient::BACON, Ingredient::TOPBUN};
+                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::BEEFPATTY, EIngredient::BACON,
+                                EIngredient::EGG, EIngredient::BEEFPATTY, EIngredient::BACON, EIngredient::TOPBUN};
                 break;
 
             case RecipeName::VEGAN:
-                this->recipe = {Ingredient::BOTTOMBUN, Ingredient::LETTUCE, Ingredient::BEEFPATTY,
-                                Ingredient::CHEESE, Ingredient::KETCHUP, Ingredient::BACON, Ingredient::TOPBUN};
+                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::BEEFPATTY,
+                                EIngredient::CHEESE, EIngredient::KETCHUP, EIngredient::BACON, EIngredient::TOPBUN};
                 break;
 
             case RecipeName::SPECIAL:
-                this->recipe = {Ingredient::BOTTOMBUN, Ingredient::LETTUCE, Ingredient::BEEFPATTY,
-                                Ingredient::CHEESE, Ingredient::KETCHUP, Ingredient::BACON, Ingredient::TOPBUN};
+                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::BEEFPATTY,
+                                EIngredient::CHEESE, EIngredient::KETCHUP, EIngredient::BACON, EIngredient::TOPBUN};
                 break;
         }
     }
