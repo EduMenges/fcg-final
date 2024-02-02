@@ -1,7 +1,7 @@
 #include "matrices.hpp"
 
 glm::mat4 MatrixPerspective(float field_of_view, float aspect, float n, float f) {
-    float const t = std::fabs(n) * std::tan(field_of_view / 2.0F);
+    float const t = std::abs(n) * std::tan(field_of_view / 2.0F);
     float const b = -t;
     float const r = t * aspect;
     float const l = -r;

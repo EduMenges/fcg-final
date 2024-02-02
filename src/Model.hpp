@@ -18,7 +18,13 @@ class Model {
 
     virtual Obj& GetObj() = 0;
 
+    void ComputeHitBoxes();
+
+    void AddHitBox(HitBox hb);
+
     glm::vec3 position_{0};
     glm::vec3 scale_{1};
     glm::vec3 rotation_{0};
+
+    std::vector<HitBox> hit_boxes_;
 };

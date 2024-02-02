@@ -6,6 +6,7 @@
 #include "tiny_obj_loader.h"
 #include "OpenGL.h"
 #include "Camera.hpp"
+#include "singleton/Collision.hpp"
 
 class Obj {
    public:
@@ -26,8 +27,7 @@ class Obj {
 
     void Draw(Camera& c, glm::mat4 model_matrix);
 
-    std::vector<glm::vec3> bbox_min_;
-    std::vector<glm::vec3> bbox_max_;
+    std::vector<HitBox> boxes_;
 
     bool phong_ = true;  // Should I render using phong_ shading?
 
