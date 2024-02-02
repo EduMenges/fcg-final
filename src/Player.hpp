@@ -22,8 +22,8 @@ class Player : public trait::Updatable {
 
    private:
     static constexpr HitBox kBaseHitBox{glm::vec3(-0.5, 0, -0.5F), glm::vec3(0.5, 1.8, 0.5F)};
-    static constexpr double kMouseAcceleration{0.01};
-    static constexpr double kMoveSpeed{5.0};
+    static constexpr double kMouseAcceleration{0.008};
+    static constexpr double kMoveSpeed{3.0};
 
     [[nodiscard]] constexpr glm::vec4 GetPosition() const { return camera_.GetPosition();}
 

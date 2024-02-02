@@ -27,5 +27,6 @@ class Recipe {
 
 std::ostream& operator<<(std::ostream& os, const Recipe& recipe) {
     os << recipe.text;
+    return os;
 };
 }
