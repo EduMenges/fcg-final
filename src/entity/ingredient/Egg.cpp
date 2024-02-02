@@ -1,7 +1,7 @@
 #include "Egg.hpp"
 #include "singleton/Collision.hpp"
 
-entity::Egg::Egg(glm::vec3 position) : Entity(position, glm::vec3(0.3)) {
+ingredient::Egg::Egg(glm::vec3 position) : Ingredient(position, glm::vec3(0.3)) {
     for (size_t i = 0; i < GetObj().bbox_min_.size(); ++i) {
         glm::vec3 bbox_min = GetObj().bbox_min_[i] * scale_;
         glm::vec3 bbox_max = GetObj().bbox_max_[i] * scale_;
@@ -11,9 +11,9 @@ entity::Egg::Egg(glm::vec3 position) : Entity(position, glm::vec3(0.3)) {
     }
 }
 
-void entity::Egg::Update(double delta) {}
+void ingredient::Egg::Update(double delta) {}
 
-Obj& entity::Egg::GetObj() {
+Obj& ingredient::Egg::GetObj() {
     static Obj obj("../../../data/ingredients/egg_fried.obj");
     return obj;
 }

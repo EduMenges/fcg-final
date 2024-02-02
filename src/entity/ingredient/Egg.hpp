@@ -1,10 +1,9 @@
 #pragma once
+#include "Ingredient.hpp"
 
-#include "Entity.hpp"
+namespace ingredient {
 
-namespace entity {
-
-class Egg : public Entity {
+class Egg : public Ingredient {
    public:
     explicit Egg(glm::vec3 position);
 
