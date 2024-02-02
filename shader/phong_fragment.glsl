@@ -3,42 +3,38 @@
 // Atributos de fragmentos recebidos como entrada ("in") pelo Fragment Shader.
 // Neste exemplo, este atributo foi gerado pelo rasterizador como a
 // interpolação da posição global e a normal de cada vértice, definidas em
-// "phong_vertex.glsl" e "main.cpp".
+// "shader_vertex.glsl" e "main.cpp".
+in vec4 vertex_color;
 in vec4 position_world;
 in vec4 normal;
-
-// Posição do vértice atual no sistema de coordenadas local do modelo.
-in vec4 position_model;
-
-// Coordenadas de textura obtidas do arquivo OBJ (se existirem!)
-in vec2 texcoords;
+in vec2 tex_coord;
 
 // Matrizes computadas no código C++ e enviadas para a GPU
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform vec4 view_vec;
 
-// Identificador que define qual objeto está sendo desenhado no momento
-#define SPHERE 0
-#define BUNNY  1
-#define PLANE  2
-uniform int object_id;
+uniform vec3 bbox_min;
+uniform vec3 bbox_Max;
 
-// Parâmetros da axis-aligned bounding box (AABB) do modelo
-uniform vec4 bbox_min;
-uniform vec4 bbox_max;
+uniform float time;
 
-// Variáveis para acesso das imagens de textura
-uniform sampler2D TextureImage0;
-uniform sampler2D TextureImage1;
-uniform sampler2D TextureImage2;
+uniform sampler2D color_texture;
 
 // O valor de saída ("out") de um Fragment Shader é a cor final do fragmento.
 out vec4 color;
 
-// Constantes
-#define M_PI   3.14159265358979323846
-#define M_PI_2 1.57079632679489661923
+// FONTE: https://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
+float random (vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43757.441);
+}
+
+// FONTE: https://easings.net/#easeInOutSine
+float easeInOutSine(float x) {
+    return -(cos(3.1415 * x) - 1) / 2;
+
+}
 
 void main()
 {
@@ -64,75 +60,41 @@ void main()
     // Vetor que define o sentido da câmera em relação ao ponto atual.
     vec4 v = normalize(camera_position - p);
 
-    // Coordenadas de textura U e V
-    float U = 0.0;
-    float V = 0.0;
+    // Vetor que define o sentido da reflexão especular ideal.
+    vec4 r = -l + 2*n*(dot(n, l));
 
-    if (object_id == SPHERE)
-    {
-        vec4 bbox_center = (bbox_min + bbox_max) / 2.0;
-        float rho = 1.0;
-        vec4 P = position_model;
-        vec4 C = bbox_center;
+    // Parâmetros que definem as propriedades espectrais da superfície
 
-        vec4 pLine = C + (rho * ((P-C)/length(P-C)));
-        vec4 pVec = pLine - C;
+    // Refletância difusa
+    vec3 Kd = texture(color_texture, tex_coord).rgb;
+    // Refletância especular
+    vec3 Ks = vec3(0.8, 0.8, 0.8);
+    // Refletância ambiente
+    vec3 Ka = Kd * 0.05;
+    // Expoente especular para o modelo de iluminação de Phong
+    float q = 32;
 
-        float phi = asin(pVec.y / rho);
-        float theta = atan(pVec.x, pVec.z);
+    // Espectro da fonte de iluminação
+    vec3 I = vec3(1, 1, 1);
+    // Espectro da luz ambiente
+    vec3 Ia = vec3(0.2);
 
-        U = (theta + M_PI) / (2 * M_PI);
-        V = (phi + M_PI_2) / M_PI;
-    }
-    else if (object_id == BUNNY)
-    {
-        float minx = bbox_min.x;
-        float maxx = bbox_max.x;
+    vec3 lambert_diffuse_term = Kd*I*max(0, dot(n, l));
+    vec3 ambient_term = Ka*Ia;
+    vec3 phong_specular_term  = Ks*I*pow(max(0, dot(r, v)), q);
 
-        float miny = bbox_min.y;
-        float maxy = bbox_max.y;
+    float beta = dot(-l, view_vec);
 
-        float minz = bbox_min.z;
-        float maxz = bbox_max.z;
+    // Illumination
+    color.rgb = (1-beta) * (lambert_diffuse_term + ambient_term + phong_specular_term) +
+    ambient_term;
 
-        vec4 P = position_model;
-
-        U = (P.x - minx) / (maxx - minx);
-        V = (P.y - miny) / (maxy - miny);
-    }
-    else if (object_id == PLANE)
-    {
-        // Coordenadas de textura do plano, obtidas do arquivo OBJ.
-        U = texcoords.x;
-        V = texcoords.y;
-    }
-
-    // Obtemos a refletância difusa a partir da leitura da imagem TextureImage0
-    vec3 Kd0 = texture(TextureImage0, vec2(U, V)).rgb;
-    vec3 Kd1 = texture(TextureImage1, vec2(U, V)).rgb;
-    vec3 zero = vec3(0,0,0);
-
-    // Equação de Iluminação
-    float lambert = max(0, dot(n, l));
-
-    color.rgb = Kd0 * (lambert + 0.01) + max(vec3(0,0,0), Kd1*(-10 * lambert + 0.80));
-
-    // NOTE: Se você quiser fazer o rendering de objetos transparentes, é
-    // necessário:
-    // 1) Habilitar a operação de "blending" de OpenGL logo antes de realizar o
-    //    desenho dos objetos transparentes, com os comandos abaixo no código C++:
-    //      glEnable(GL_BLEND);
-    //      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    // 2) Realizar o desenho de todos objetos transparentes *após* ter desenhado
-    //    todos os objetos opacos; e
-    // 3) Realizar o desenho de objetos transparentes ordenados de acordo com
-    //    suas distâncias para a câmera (desenhando primeiro objetos
-    //    transparentes que estão mais longe da câmera).
-    // Alpha default = 1 = 100% opaco = 0% transparente
-    color.a = 1;
+    // "Fog", maximum distance to illuminate things
+    float d = distance(p, camera_position);
+    float distanceNormalized = min(1, d / 60);
+    color.rgb *= 1 - easeInOutSine(distanceNormalized);
 
     // Cor final com correção gamma, considerando monitor sRGB.
     // Veja https://en.wikipedia.org/w/index.php?title=Gamma_correction&oldid=751281772#Windows.2C_Mac.2C_sRGB_and_TV.2Fvideo_standard_gammas
     color.rgb = pow(color.rgb, vec3(1.0, 1.0, 1.0)/2.2);
 }
-

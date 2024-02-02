@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "vector": "cpp",
+        "regex": "cpp",
+        "__node_handle": "cpp"
+    }
+}
