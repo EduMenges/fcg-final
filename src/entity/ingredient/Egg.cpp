@@ -1,7 +1,7 @@
 #include "Egg.hpp"
 #include "singleton/Collision.hpp"
 
-ingredient::Egg::Egg(glm::vec3 position) : Ingredient(position, glm::vec3(0.3)) {
+ingredient::Egg::Egg(glm::vec3 position) : Ingredient(position, glm::vec3(0.1)) {
     ComputeHitBoxes();
 }
 
