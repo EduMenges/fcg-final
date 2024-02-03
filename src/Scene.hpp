@@ -7,6 +7,7 @@
 #include "Model.hpp"
 #include "Entity.hpp"
 #include "Player.hpp"
+#include "HeldObject.hpp"
 
 class Scene {
    public:
@@ -29,4 +30,5 @@ class Scene {
     EntityContainer entities_;
 
     Camera* camera_{nullptr};
+    HeldObject held_object_{camera_};
 };

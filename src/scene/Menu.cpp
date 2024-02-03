@@ -21,6 +21,11 @@ scene::Menu::Menu() : Scene({}, {}) {
     entities_.emplace_back(std::make_unique<entity::Burger>(burger_pos));
     //entities_.emplace_back(std::make_unique<ingredient::Cheese>(glm::vec3{4, 1.7, 2}));
 
+    std::unique_ptr<ingredient::Ingredient> ing = std::make_unique<ingredient::Bacon>(glm::vec3{4, 1.7, 2});
+    held_object_.Set(*ing);
+    entities_.emplace_back(std::move(ing));
+
     player_.SetPosition({3.0F, 2.0F, 3.5F, 1.0F});
     camera_->SetRotation({-2.45, 0.45});
+    
 }
