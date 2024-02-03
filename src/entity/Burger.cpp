@@ -1,9 +1,7 @@
 #include "Burger.hpp"
 #include "ingredient/Ingredient.hpp"
 #include "singleton/Collision.hpp"
-#include "ingredient/Egg.hpp"
-#include "ingredient/Cheese.hpp"
-#include "ingredient/Mustard.hpp"
+#include "ingredient/IngredientImports.hpp"
 
 entity::Burger::Burger(glm::vec3 position) : Entity(position, glm::vec3(0.1)), isComplete(false) {
     ComputeHitBoxes();
