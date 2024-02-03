@@ -1,4 +1,6 @@
 #include "Model.hpp"
+#include "singleton/Collision.hpp"
+#include <algorithm>
 
 void Model::Draw(Camera& c) {
     glm::mat4 model_matrix = MatrixTranslate(position_) *  //
@@ -28,4 +30,11 @@ void Model::ComputeHitBoxes() {
 void Model::AddHitBox(HitBox hb) {
     auto& location = hit_boxes_.emplace_back(hb);
     Collision::Instance().AddBox(&location);
+}
+
+float Model::GetHitboxHeight() {
+    float maxDy = 0;
+    for (const HitBox& hb: this->hit_boxes_)
+        maxDy = std::max(maxDy, hb.max_.y - hb.min_.y);
+    return maxDy;
 }
