@@ -1,12 +1,4 @@
 #include "Burger.hpp"
-#include "ingredient/Bacon.hpp"
-#include "ingredient/BottomBun.hpp"
-#include "ingredient/Cheese.hpp"
-#include "ingredient/Egg.hpp"
-#include "ingredient/Ingredient.hpp"
-#include "ingredient/Ketchup.hpp"
-#include "ingredient/Lettuce.hpp"
-#include "ingredient/Mustard.hpp"
 #include "singleton/Collision.hpp"
 #include "ingredient/IngredientImports.hpp"
 
