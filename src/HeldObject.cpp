@@ -1,6 +1,7 @@
 #pragma once
 #include "HeldObject.hpp"
 #include "Camera.hpp"
+#include "Entity.hpp"
 #include "matrices.hpp"
 
 
@@ -8,12 +9,16 @@
 HeldObject::HeldObject(Camera* c): camera(c), object(nullptr) {}
 
 void HeldObject::Set(Entity& new_object) {
-    if(object != nullptr)
-        object->position_ = old_position;
 
     object = &new_object;
     old_position = object->position_;
     old_rotation = object->rotation_;
+}
+
+void HeldObject::Unset() {
+    object->position_ = old_position;
+    object->rotation_ = old_rotation;
+    object = nullptr;
 }
     
 void HeldObject::Update(double delta) {
@@ -44,4 +49,12 @@ void HeldObject::Update(double delta) {
 
     //float dy = static_cast<float>(delta);
     //object->rotation_.y += dy;
+
+    if(mouse.M1){
+        SwitchHeld();
+    }
+}
+
+void HeldObject::SwitchHeld() {
+    Unset();
 }
