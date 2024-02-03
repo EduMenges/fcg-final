@@ -5,13 +5,14 @@
 
 class HeldObject {
    public:
-    explicit HeldObject();
+    explicit HeldObject(Camera* c);
 
     Entity* object;
+    glm::vec3 old_position, old_rotation;
 
     void Set(Entity& new_object);
     void Update(double delta);
-
+    Camera* camera;
 
 };
 

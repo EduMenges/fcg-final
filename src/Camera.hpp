@@ -11,6 +11,10 @@ class Camera {
     Camera()          = default;
     virtual ~Camera() = default;
 
+    [[nodiscard]] glm::vec4 GetCameraPosition() const {
+        return GetCenter();
+    }
+
     [[nodiscard]] virtual glm::mat4 GetViewMatrix() const;
 
     [[nodiscard]] virtual glm::vec4 GetViewVec() const = 0;
