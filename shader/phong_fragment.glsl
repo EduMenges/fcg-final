@@ -43,14 +43,16 @@ void main()
     // normais de cada vértice.
     vec4 n = normalize(normal);
 
-    // Vetor que define o sentido da fonte de luz em relação ao ponto atual.
-    vec4 l = normalize(vec4(1.0, 1.0, 0.0, 0.0));
-
     // Vetor que define o sentido da câmera em relação ao ponto atual.
     vec4 v = normalize(camera_position - p);
 
+    // Vetor que define o sentido da fonte de luz em relação ao ponto atual.
+    //    vec4 l = normalize(vec4(1.0, 1.0, 0.0, 0.0));
+
+    vec4 l = v;
+
     // Vetor que define o sentido da reflexão especular ideal.
-    vec4 r = -l + 2*n*(dot(n, l));
+    vec4 r = -l + 2 * n * (dot(n, l));
 
     // Parâmetros que definem as propriedades espectrais da superfície
 
@@ -68,17 +70,14 @@ void main()
     // Espectro da luz ambiente
     vec3 Ia = vec3(0.2);
 
-    vec3 lambert_diffuse_term = Kd*I*max(0, dot(n, l));
-    vec3 ambient_term = Ka*Ia;
-    vec3 phong_specular_term  = Ks*I*pow(max(0, dot(r, v)), q);
-
-    float beta = dot(-l, view_vec);
+    vec3 lambert_diffuse_term = Kd * I * max(0, dot(n, l));
+    vec3 ambient_term = Ka * Ia;
+    vec3 phong_specular_term = Ks * I * pow(max(0, dot(r, v)), q);
 
     // Iluminação
-    color.rgb = (1-beta) * (lambert_diffuse_term + ambient_term + phong_specular_term) +
-    ambient_term;
+    color.rgb = lambert_diffuse_term + ambient_term + phong_specular_term;
 
     // Cor final com correção gamma, considerando monitor sRGB.
     // Veja https://en.wikipedia.org/w/index.php?title=Gamma_correction&oldid=751281772#Windows.2C_Mac.2C_sRGB_and_TV.2Fvideo_standard_gammas
-    color.rgb = pow(color.rgb, vec3(1.0, 1.0, 1.0)/2.2);
+    color.rgb = pow(color.rgb, vec3(1.0, 1.0, 1.0) / 2.2);
 }
