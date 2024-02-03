@@ -15,19 +15,14 @@ entity::Burger::Burger(glm::vec3 position) : Entity(position, glm::vec3(0.09)), 
     yOffset = this->GetHitboxHeight();
 
     AddIngredient(recipe::EIngredient::BOTTOMBUN);
-    AddIngredient(recipe::EIngredient::LETTUCE);
-    AddIngredient(recipe::EIngredient::BACON);
-    AddIngredient(recipe::EIngredient::EGG);
-    AddIngredient(recipe::EIngredient::TOPBUN);
-    
-    //this->ingredients.push_back(std::make_unique<ingredient::Egg>(position+glm::vec3{0, .25, 0}));
-    //this->ingredients.push_back(std::make_unique<ingredient::Mustard>(position+glm::vec3{0, .5, 0}));
+
 }
 
 void entity::Burger::Update(double delta) {
-    rotation_.y += static_cast<float>(delta); 
+    float dy = static_cast<float>(delta);
+    rotation_.y += dy; 
     for(const std::unique_ptr<ingredient::Ingredient>& ing : this->ingredients)
-        ing->rotation_.y = rotation_.y;
+        ing->rotation_.y += dy;
     }
 
 Obj& entity::Burger::GetObj() {
@@ -44,8 +39,9 @@ void entity::Burger::Draw(Camera& c) {
 void entity::Burger::AddIngredient(recipe::EIngredient index) {
     std::unique_ptr<ingredient::Ingredient> ingredientPtr = GetIngredientByIndex(index);
     ingredient::Ingredient& ingredient = *ingredientPtr;
-    ingredient.position_ += glm::vec3(0,yOffset,0);
+    ingredient.position_.y += yOffset;
     this->yOffset += ingredient.GetHitboxHeight();
+    ingredient.rotation_.y += 255*yOffset; // Aleatoriza a rotação do ingrediente no hamburger
     this->ingredients.push_back(std::move(ingredientPtr));
 }
 
