@@ -1,7 +1,7 @@
 #include "Bacon.hpp"
 #include "singleton/Collision.hpp"
 
-ingredient::Bacon::Bacon(glm::vec3 position) : Ingredient(position, glm::vec3(0.3)) {
+ingredient::Bacon::Bacon(glm::vec3 position) : Ingredient(position, glm::vec3(0.13)) {
     ComputeHitBoxes();
 }
 

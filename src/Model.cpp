@@ -33,8 +33,8 @@ void Model::AddHitBox(HitBox hb) {
 }
 
 float Model::GetHitboxHeight() {
-    float maxDy = 0;
+    float max_dy = 0;
     for (const HitBox& hb: this->hit_boxes_)
-        maxDy = std::max(maxDy, hb.max_.y - hb.min_.y);
-    return maxDy;
+        max_dy = std::max(max_dy, hb.max_.y - hb.min_.y);
+    return max_dy;
 }
