@@ -10,8 +10,8 @@ namespace recipe{
 
         std::vector<recipe::EIngredient> recipe = recipe_ref.recipe;
         std::vector<recipe::EIngredient> ingredients;
-        for (const auto& ing : burger.ingredients) {
-            ingredients.push_back(ing->index);
+        for (const auto& ing : burger.ingredients_) {
+            ingredients.push_back(ing->index_);
         }
 
         // Lógica principal:
