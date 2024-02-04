@@ -1,5 +1,7 @@
 #include "IngredientManager.hpp"
 #include "entity/ingredient/BeefPatty.hpp"
+#include "input/Mouse.hpp"
+#include "singleton/Input.hpp"
 
 IngredientManager::IngredientManager(EntityContainer* ec, HeldObject* ho) : entities_(ec), held_object_(ho) {}
 
@@ -26,6 +28,7 @@ void IngredientManager::Init() {
 
 void IngredientManager::Update(double delta) {
     input::Keys keys = Input::Instance().keys_;
+    input::Mouse mouse = Input::Instance().mouse_;
 
     if (keys.IsOn(GLFW_KEY_1)) {
         held_object_->Set(*beef_ref);

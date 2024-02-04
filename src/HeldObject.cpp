@@ -72,16 +72,14 @@ void HeldObject::Update(double delta) {
 }
 
 void HeldObject::ToBurger() {
-    if (object_ == nullptr) {
+    if (object_ == nullptr || burger == nullptr || !(burger->IsBeingLooked(*camera))) {
         return;
     }
 
-    if (burger != nullptr) {
-        recipe::EIngredient x = object_->index_;
-        if (x != recipe::EIngredient::COUNT) {
-            burger->AddIngredient(x);
-        }
+    if (object_->index_ != recipe::EIngredient::COUNT) {
+        burger->AddIngredient(object_->index_);
     }
+    
 
     Unset();
 }
