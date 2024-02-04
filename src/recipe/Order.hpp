@@ -8,7 +8,7 @@ class Order {
    public:
     explicit Order(Recipe recipe);
 
-    Recipe recipe;
+    Recipe recipe_ref;
     
     int Score(entity::Burger burger);
 };
