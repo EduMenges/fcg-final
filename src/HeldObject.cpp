@@ -23,7 +23,7 @@ void HeldObject::Unset() {
         if(x != recipe::EIngredient::COUNT)
             burger->AddIngredient(x);
 
-        
+        entities->remove_if([this](const auto& obj) { return obj.get() == object; }); // Ajuda do ChatGPT
 
         object = nullptr;
     }
