@@ -1,4 +1,5 @@
 #include "Burger.hpp"
+#include "ingredient/BeefPatty.hpp"
 #include "singleton/Collision.hpp"
 #include "ingredient/IngredientImports.hpp"
 
@@ -75,6 +76,10 @@ std::unique_ptr<ingredient::Ingredient> entity::Burger::GetIngredientByIndex(rec
 
         case EIngredient::TOMATO:
             return std::make_unique<ingredient::Tomato>(position_); 
+            break;
+
+        case EIngredient::BEEFPATTY:
+            return std::make_unique<ingredient::BeefPatty>(position_); 
             break;
 
     

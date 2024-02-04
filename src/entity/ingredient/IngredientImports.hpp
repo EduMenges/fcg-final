@@ -7,3 +7,4 @@
 #include "entity/ingredient/Lettuce.hpp"
 #include "entity/ingredient/Tomato.hpp"
 #include "entity/ingredient/TopBun.hpp"
+#include "entity/ingredient/BeefPatty.hpp"
