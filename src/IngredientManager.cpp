@@ -1,5 +1,8 @@
 #include "IngredientManager.hpp"
+#include "Camera.hpp"
 #include "entity/ingredient/BeefPatty.hpp"
+#include "input/Mouse.hpp"
+#include "singleton/Input.hpp"
 
 IngredientManager::IngredientManager(EntityContainer* ec, HeldObject* ho) : entities_(ec), held_object_(ho) {}
 
@@ -22,16 +25,46 @@ void IngredientManager::Init() {
     entities_->emplace_back(std::make_unique<ingredient::BeefPatty>(glm::vec3{2, 1.5, 5}));
     beef_ref = dynamic_cast<ingredient::BeefPatty*>(entities_->back().get());
 
+    entities_->emplace_back(std::make_unique<ingredient::TopBun>(glm::vec3{2, 1.5, 5.4}));
+    bun_ref = dynamic_cast<ingredient::TopBun*>(entities_->back().get());
+
 }
 
 void IngredientManager::Update(double delta) {
     input::Keys keys = Input::Instance().keys_;
+    input::Mouse mouse = Input::Instance().mouse_;
 
-    if (keys.IsOn(GLFW_KEY_1)) {
-        held_object_->Set(*beef_ref);
+    // No caso de clicar com M1 para pegar um ingrediente e não estar segurando nenhum
+    if(held_object_->object_== nullptr && mouse.M1){
+        Camera& camera = *(held_object_->camera);
+
+        if(lettuce_ref->IsBeingLooked(camera)){
+            held_object_->Set(*lettuce_ref);
+        }
+
+        else if(egg_ref->IsBeingLooked(camera)){
+            held_object_->Set(*egg_ref);
+        }
+
+        else if(tomato_ref->IsBeingLooked(camera)){
+            held_object_->Set(*tomato_ref);
+        }
+
+        else if(bacon_ref->IsBeingLooked(camera)){
+            held_object_->Set(*bacon_ref);
+        }
+        
+        else if(cheese_ref->IsBeingLooked(camera)){
+            held_object_->Set(*cheese_ref);
+        }
+
+        else if(beef_ref->IsBeingLooked(camera)){
+            held_object_->Set(*beef_ref);
+        }
+
+        else if(bun_ref->IsBeingLooked(camera)){
+            held_object_->Set(*bun_ref);
+        }
     }
 
-    if (keys.IsOn(GLFW_KEY_2)) {
-        held_object_->Set(*tomato_ref);
-    }
 }

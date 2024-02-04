@@ -4,6 +4,7 @@
 #include "entity/ingredient/IngredientImports.hpp"
 #include "HeldObject.hpp"
 #include "input/Keys.hpp"
+#include "input/Mouse.hpp"
 #include "singleton/Input.hpp"
 
 class IngredientManager {
