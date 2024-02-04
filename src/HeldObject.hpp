@@ -15,7 +15,6 @@ class HeldObject {
 
     ingredient::Ingredient* object;
     glm::vec3 old_position, old_rotation;
-    bool switch_up = false;
 
     void Set(ingredient::Ingredient& new_object);
     void Unset();
