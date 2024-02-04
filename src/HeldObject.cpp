@@ -11,36 +11,38 @@
 HeldObject::HeldObject(Camera* c, EntityContainer* ec): camera(c), entities(ec), object(nullptr), burger(nullptr) {}
 
 void HeldObject::Set(ingredient::Ingredient& new_object) {
-
+    Unset();
     object = &new_object;
     old_position = object->position_;
     old_rotation = object->rotation_;
 }
 
 void HeldObject::Unset() {
-    if(burger != nullptr) {
-        recipe::EIngredient x = object->index;
-        if(x != recipe::EIngredient::COUNT)
-            burger->AddIngredient(x);
-
-        entities->remove_if([this](const auto& obj) { return obj.get() == object; }); // Ajuda do ChatGPT
-
-        object = nullptr;
+    if(object == nullptr) {
+        return;
     }
 
-    else {
+    entities->remove_if([this](const auto& obj) { return obj.get() == object; }); // Ajuda do ChatGPT
     object->position_ = old_position;
     object->rotation_ = old_rotation;
     object = nullptr;
-    }
     
 }
     
 void HeldObject::Update(double delta) {
-    if(object == nullptr)
-        return;
-
     input::Mouse mouse = Input::Instance().mouse_;
+
+    if(mouse.M2) {
+        mouse.M2 = false;
+        std::unique_ptr<ingredient::Bacon> bacon = std::make_unique<ingredient::Bacon>(glm::vec3{4, 1.7, 2});
+        Set(*bacon);
+        entities->emplace_back(std::move(bacon));
+        
+    }
+
+    if(object == nullptr) {
+        return;
+    }
 
     glm::vec4 c_position = camera->GetCameraPosition();
     glm::vec4 view_vec = camera->GetViewVec();
@@ -66,13 +68,20 @@ void HeldObject::Update(double delta) {
     //object->rotation_.y += dy;
 
     if(mouse.M1){
-        SwitchHeld();
+        ToBurger();
     }
 }
 
-void HeldObject::SwitchHeld() {
+void HeldObject::ToBurger() {
     if(object == nullptr)
         return;
+
+    if(burger != nullptr) {
+        recipe::EIngredient x = object->index;
+        if(x != recipe::EIngredient::COUNT)
+            burger->AddIngredient(x);
+    }
+
     Unset();
 }
 

@@ -26,7 +26,7 @@ class HeldObject {
     entity::Burger* burger;
     EntityContainer* entities;
 
-    void SwitchHeld();
+    void ToBurger();
 
 };
 
