@@ -3,6 +3,7 @@
 #include <list>
 #include <memory>
 #include <variant>
+#include <iostream>
 
 #include "Model.hpp"
 #include "Entity.hpp"
@@ -10,6 +11,8 @@
 #include "HeldObject.hpp"
 #include "IngredientManager.hpp"
 #include "recipe/Order.hpp"
+#include "singleton/Input.hpp"
+#include "input/Keys.hpp"
 
 class Scene {
    public:
@@ -35,4 +38,9 @@ class Scene {
     HeldObject held_object_{camera_, &entities_};
     IngredientManager manager_{&entities_, &held_object_};
     recipe::Order order_{recipe::Recipe{}};
+
+    Input& input_;
+
+    void CheckDeliverBurger();
+    bool has_been_sent = false;
 };

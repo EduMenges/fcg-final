@@ -22,6 +22,8 @@ class HeldObject {
 
     void ToBurger();
 
+    void ResetBurger();
+
     ingredient::Ingredient* object_{nullptr};
     glm::vec3               old_position_{};
     glm::vec3               old_rotation_{};

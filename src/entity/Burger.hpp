@@ -10,7 +10,7 @@ namespace entity {
 class Burger : public Entity {
    public:
     explicit Burger(glm::vec3 position);
-    bool is_complete = false; // Indica se ainda pode receber ingredientes;
+    bool is_complete_ = false; // Indica se ainda pode receber ingredientes;
 
     void Update(double delta) override;
 
@@ -24,7 +24,10 @@ class Burger : public Entity {
 
     std::vector<std::unique_ptr<ingredient::Ingredient>> ingredients_ = {};
     float                                                y_offset_;
-    bool                                                 is_complete_;
+
+    //void SetComplete(bool value);
+
+    void Pop();
 };
 
 }
