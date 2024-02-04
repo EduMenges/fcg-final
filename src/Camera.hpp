@@ -56,7 +56,7 @@ class FreeCamera : public Camera {
     constexpr void SetPosition(glm::vec4 position) { position_ = position; }
 
    private:
-    [[nodiscard]] glm::vec4 GetCenter() const override { return GetPosition(); }
+    [[nodiscard]] glm::vec4 GetCenter() const override { return GetPosition() + glm::vec4(0.0F, 1.2F, 0.0F, 0.0F); }
 
     glm::vec4 position_{0, 0, 0, 1};
 };

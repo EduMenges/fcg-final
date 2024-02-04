@@ -20,6 +20,7 @@ uniform vec3 bbox_Max;
 
 uniform float time;
 
+uniform int use_texture;
 uniform sampler2D color_texture;
 
 // O valor de saída ("out") de um Fragment Shader é a cor final do fragmento.
@@ -27,6 +28,10 @@ out vec4 color;
 
 void main()
 {
+    if (use_texture == 0) {
+        discard;
+    }
+
     // Obtemos a posição da câmera utilizando a inversa da matriz que define o
     // sistema de coordenadas da câmera.
     vec4 origin = vec4(0.0, 0.0, 0.0, 1.0);
@@ -58,6 +63,7 @@ void main()
 
     // Refletância difusa
     vec3 Kd = texture(color_texture, tex_coord).rgb;
+
     // Refletância especular
     vec3 Ks = vec3(0.8, 0.8, 0.8);
     // Refletância ambiente

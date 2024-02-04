@@ -128,9 +128,14 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
                 first_index_.push_back(first_index);                     // Primeiro índice
                 index_count_.push_back((kLastIndex + 1) - first_index);  // Número de indices
                 boxes_.emplace_back(bbox_min, bbox_max);
-                texture_id_.push_back(Renderer::Instance()
-                                          .LoadTexture((base_path / materials_[material_id].diffuse_texname).string())
-                                          .value());
+
+                if (!materials_[material_id].diffuse_texname.empty()) {
+                    texture_id_.emplace_back(Renderer::Instance()
+                            .LoadTexture((base_path / materials_[material_id].diffuse_texname).string())
+                            .value());
+                } else {
+                    texture_id_.emplace_back(std::nullopt);
+                }
 
                 first_index = indices.size();
                 bbox_min    = glm::vec3(kMaxval, kMaxval, kMaxval);
@@ -148,8 +153,8 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
 
                 model_coefficients.insert(model_coefficients.end(), {vx, vy, vz, 1.0F});
 
-                bbox_min = {std::min(bbox_min.x, vx), std::min(bbox_min.y, vy), std::min(bbox_min.z, vz)};
-                bbox_max = {std::max(bbox_max.x, vx), std::max(bbox_max.y, vy), std::max(bbox_max.z, vz)};
+                bbox_min = glm::min(bbox_min, {vx, vy, vz});
+                bbox_max = glm::max(bbox_max, {vx, vy, vz});
 
                 if (kIdx.normal_index != -1) {
                     const float nx = attrib_.normals[3 * kIdx.normal_index + 0];
@@ -175,8 +180,14 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
         index_count_.push_back((kLastIndex + 1) - first_index);  // Número de indices
         vbo_ids_.push_back(vertex_array_object_id);
         boxes_.emplace_back(bbox_min, bbox_max);
-        texture_id_.push_back(
-            Renderer::Instance().LoadTexture((base_path / materials_[material_id].diffuse_texname).string()).value());
+
+        if (!materials_[material_id].diffuse_texname.empty()) {
+            texture_id_.emplace_back(Renderer::Instance()
+                                         .LoadTexture((base_path / materials_[material_id].diffuse_texname).string())
+                                         .value());
+        } else {
+            texture_id_.emplace_back(std::nullopt);
+        }
     }
 
     GLuint VBO_model_coefficients_id;

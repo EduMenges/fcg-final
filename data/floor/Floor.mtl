@@ -1,0 +1,7 @@
+# Checkerboard Floor Material
+newmtl floor_texture
+Ka 1.0 1.0 1.0
+Kd 1.0 1.0 1.0
+Ks 0.0 0.0 0.0
+Ns 1000
+map_Kd floor.png

@@ -4,7 +4,6 @@
 
 void Model::Draw(Camera& c) {
     glm::mat4 model_matrix = GetTransform();
-
     GetObj().Draw(c, model_matrix);
 }
 
@@ -45,12 +44,22 @@ glm::mat4 Model::GetTransform() const {
 }
 
 void Model::RemoveHitBoxes() {
-    for (auto& hb: hit_boxes_) {
+    for (auto& hb : hit_boxes_) {
         Collision::Instance().RemoveBox(&hb);
     }
     hit_boxes_.clear();
 }
 
-Model::~Model() {
-    RemoveHitBoxes();
+Model::~Model() { RemoveHitBoxes(); }
+
+HitBox Model::GetBoundingBox() {
+    auto   it = hit_boxes_.begin();
+    HitBox bb = *it;
+    it++;
+
+    for (; it != hit_boxes_.end(); ++it) {
+        bb = {glm::min(bb.min_, it->min_), glm::max(bb.max_, it->max_)};
+    }
+
+    return bb;
 }
