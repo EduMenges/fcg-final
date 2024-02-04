@@ -25,6 +25,9 @@ void IngredientManager::Init() {
     entities_->emplace_back(std::make_unique<ingredient::BeefPatty>(glm::vec3{2, 1.5, 5}));
     beef_ref = dynamic_cast<ingredient::BeefPatty*>(entities_->back().get());
 
+    entities_->emplace_back(std::make_unique<ingredient::TopBun>(glm::vec3{2, 1.5, 5.4}));
+    bun_ref = dynamic_cast<ingredient::TopBun*>(entities_->back().get());
+
 }
 
 void IngredientManager::Update(double delta) {
@@ -57,6 +60,10 @@ void IngredientManager::Update(double delta) {
 
         else if(beef_ref->IsBeingLooked(camera)){
             held_object_->Set(*beef_ref);
+        }
+
+        else if(bun_ref->IsBeingLooked(camera)){
+            held_object_->Set(*bun_ref);
         }
     }
 
