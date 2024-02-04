@@ -8,7 +8,7 @@
 
 
 
-HeldObject::HeldObject(Camera* c): camera(c), object(nullptr), burger(nullptr) {}
+HeldObject::HeldObject(Camera* c, EntityContainer* ec): camera(c), entities(ec), object(nullptr), burger(nullptr) {}
 
 void HeldObject::Set(ingredient::Ingredient& new_object) {
 
@@ -22,6 +22,8 @@ void HeldObject::Unset() {
         recipe::EIngredient x = object->index;
         if(x != recipe::EIngredient::COUNT)
             burger->AddIngredient(x);
+
+        
 
         object = nullptr;
     }

@@ -30,5 +30,5 @@ class Scene {
     EntityContainer entities_;
 
     Camera* camera_{nullptr};
-    HeldObject held_object_{camera_};
+    HeldObject held_object_{camera_, &entities_};
 };
