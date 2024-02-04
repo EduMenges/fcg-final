@@ -25,13 +25,15 @@ void Model::AddHitBox(HitBox hb) {
 }
 
 float Model::GetHitBoxHeight() {
-    float max_dy = 0;
+    float min_y = std::numeric_limits<float>::max();
+    float max_y = std::numeric_limits<float>::min();
 
-    for (const HitBox& hb : this->hit_boxes_) {
-        max_dy = std::max(max_dy, hb.max_.y - hb.min_.y);
+    for (HitBox hb : hit_boxes_) {
+        min_y = std::min(min_y, hb.min_.y);
+        max_y = std::max(max_y, hb.max_.y);
     }
 
-    return max_dy;
+    return max_y - min_y;
 }
 
 glm::mat4 Model::GetTransform() const {
