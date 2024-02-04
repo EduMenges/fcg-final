@@ -3,6 +3,8 @@
 #include "entity/ingredient/Ingredient.hpp"
 #include "entity/ingredient/IngredientImports.hpp"
 #include "HeldObject.hpp"
+#include "input/Keys.hpp"
+#include "singleton/Input.hpp"
 
 class IngredientManager {
     public:
@@ -11,5 +13,10 @@ class IngredientManager {
       EntityContainer* entities;
       HeldObject* held_object;
 
+      ingredient::Lettuce* lettuce_ref;
+      ingredient::Egg* egg_ref;
+
       void Init();
+
+      void Update(double delta);
 };

@@ -16,7 +16,6 @@ void HeldObject::Set(ingredient::Ingredient& new_object) {
     }
     Unset();
     object = &new_object;
-    std::cout<<"Gay"<<std::endl;
     old_position = object->position_;
     old_rotation = object->rotation_;
 }
@@ -26,9 +25,9 @@ void HeldObject::Unset() {
         return;
     }
 
-    std::cout<<entities->size()<<std::endl;
-    //entities->remove_if([this](const auto& obj) { return obj.get() == object; }); // Ajuda do ChatGPT
-    std::cout<<"->"<<entities->size()<<std::endl;
+    //std::cout<<entities->size()<<std::endl;
+    //entities->remove_if([this](const auto& obj) { return obj.get() == object; }); 
+    //std::cout<<"->"<<entities->size()<<std::endl;
     object->position_ = old_position;
     object->rotation_ = old_rotation;
     object = nullptr;
