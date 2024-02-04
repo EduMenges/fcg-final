@@ -148,8 +148,8 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
 
                 model_coefficients.insert(model_coefficients.end(), {vx, vy, vz, 1.0F});
 
-                bbox_min = {std::min(bbox_min.x, vx), std::min(bbox_min.y, vy), std::min(bbox_min.z, vz)};
-                bbox_max = {std::max(bbox_max.x, vx), std::max(bbox_max.y, vy), std::max(bbox_max.z, vz)};
+                bbox_min = glm::min(bbox_min, {vx, vy, vz});
+                bbox_max = glm::max(bbox_max, {vx, vy, vz});
 
                 if (kIdx.normal_index != -1) {
                     const float nx = attrib_.normals[3 * kIdx.normal_index + 0];

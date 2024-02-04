@@ -29,6 +29,8 @@ class Model {
 
     float GetHitBoxHeight();
 
+    HitBox GetBoundingBox();
+
     [[nodiscard]] bool IsBeingLooked(const Camera& camera, float radius = 1.0F) const {
         // How distant we are from this model. Might be used later.
         float distance;
