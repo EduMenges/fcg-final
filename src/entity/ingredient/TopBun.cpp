@@ -1,7 +1,7 @@
 #include "TopBun.hpp"
 #include "singleton/Collision.hpp"
 
-ingredient::TopBun::TopBun(glm::vec3 position) : Ingredient(position, glm::vec3(0.11)) {
+ingredient::TopBun::TopBun(glm::vec3 position) : Ingredient(position, glm::vec3(0.11), recipe::EIngredient::TOPBUN) {
     ComputeHitBoxes();
 }
 

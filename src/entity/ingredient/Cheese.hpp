@@ -6,7 +6,6 @@ namespace ingredient {
 class Cheese : public Ingredient {
    public:
     explicit Cheese(glm::vec3 position);
-    recipe::EIngredient index = recipe::EIngredient::CHEESE;
 
     void Update(double delta) override;
 
