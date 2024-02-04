@@ -8,6 +8,7 @@
 #include "Entity.hpp"
 #include "Player.hpp"
 #include "HeldObject.hpp"
+#include "IngredientManager.hpp"
 
 class Scene {
    public:
@@ -31,4 +32,5 @@ class Scene {
 
     Camera* camera_{nullptr};
     HeldObject held_object_{camera_, &entities_};
+    IngredientManager manager_{&entities_, &held_object_};
 };

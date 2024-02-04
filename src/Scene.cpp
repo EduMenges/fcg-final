@@ -20,6 +20,7 @@ Scene* Scene::Update(double delta) {
 
     player_.Update(delta);
     held_object_.Update(delta);
+    manager_.Update(delta);
 
     return this;
 }

@@ -1,7 +1,7 @@
 #include "Ketchup.hpp"
 #include "singleton/Collision.hpp"
 
-ingredient::Ketchup::Ketchup(glm::vec3 position) : Ingredient(position, glm::vec3(0.04)) {
+ingredient::Ketchup::Ketchup(glm::vec3 position) : Ingredient(position, glm::vec3(0.04), recipe::EIngredient::KETCHUP) {
     ComputeHitBoxes();
 }
 

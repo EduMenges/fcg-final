@@ -44,8 +44,9 @@ struct Keys {
         return result->pressed_;
     }
 
-    static constexpr size_t        kAmountOfKeys = 5;
+    static constexpr size_t        kAmountOfKeys = 7;
     std::array<Key, kAmountOfKeys> keys_         = {
-        {{GLFW_KEY_W}, {GLFW_KEY_A}, {GLFW_KEY_S}, {GLFW_KEY_D}, {GLFW_KEY_ESCAPE}}};
+        {{GLFW_KEY_W}, {GLFW_KEY_A}, {GLFW_KEY_S}, {GLFW_KEY_D}, {GLFW_KEY_ESCAPE},
+        {GLFW_KEY_1}, {GLFW_KEY_2}}};
 };
 }

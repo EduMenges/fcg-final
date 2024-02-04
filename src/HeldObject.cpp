@@ -1,16 +1,19 @@
-#pragma once
 #include "HeldObject.hpp"
 #include "Camera.hpp"
 #include "Entity.hpp"
 #include "entity/ingredient/Ingredient.hpp"
 #include "matrices.hpp"
 #include "recipe/EIngredient.hpp"
+#include <iostream>
 
 
 
 HeldObject::HeldObject(Camera* c, EntityContainer* ec): camera(c), entities(ec), object(nullptr), burger(nullptr) {}
 
 void HeldObject::Set(ingredient::Ingredient& new_object) {
+    if(object != nullptr){
+        return;
+    }
     Unset();
     object = &new_object;
     old_position = object->position_;
@@ -22,7 +25,9 @@ void HeldObject::Unset() {
         return;
     }
 
-    entities->remove_if([this](const auto& obj) { return obj.get() == object; }); // Ajuda do ChatGPT
+    //std::cout<<entities->size()<<std::endl;
+    //entities->remove_if([this](const auto& obj) { return obj.get() == object; }); 
+    //std::cout<<"->"<<entities->size()<<std::endl;
     object->position_ = old_position;
     object->rotation_ = old_rotation;
     object = nullptr;
@@ -31,14 +36,6 @@ void HeldObject::Unset() {
     
 void HeldObject::Update(double delta) {
     input::Mouse mouse = Input::Instance().mouse_;
-
-    if(mouse.M2) {
-        mouse.M2 = false;
-        std::unique_ptr<ingredient::Bacon> bacon = std::make_unique<ingredient::Bacon>(glm::vec3{4, 1.7, 2});
-        Set(*bacon);
-        entities->emplace_back(std::move(bacon));
-        
-    }
 
     if(object == nullptr) {
         return;
