@@ -87,13 +87,8 @@ void HeldObject::ToBurger() {
 void HeldObject::LinkBurger(entity::Burger& b) { burger = &b; }
 
 void HeldObject::ResetBurger() {
-
-    /* auto it = burger->ingredients_.begin();
-    while(it != burger->ingredients_.end()) {
-        it = burger->ingredients_.erase(it);
-    } */
-
-    //burger->is_complete_ = false;
-    //burger->y_offset_ = burger->GetHitBoxHeight();
-    //burger->AddIngredient(recipe::EIngredient::BOTTOMBUN);
+    burger->ingredients_.clear();
+    burger->is_complete_ = false;
+    burger->y_offset_ = burger->GetHitBoxHeight();
+    burger->AddIngredient(recipe::EIngredient::BOTTOMBUN);
 }
