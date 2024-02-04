@@ -9,6 +9,7 @@
 #include "Player.hpp"
 #include "HeldObject.hpp"
 #include "IngredientManager.hpp"
+#include "recipe/Order.hpp"
 
 class Scene {
    public:
@@ -33,4 +34,5 @@ class Scene {
     Camera* camera_{nullptr};
     HeldObject held_object_{camera_, &entities_};
     IngredientManager manager_{&entities_, &held_object_};
+    recipe::Order order_{recipe::Recipe{}};
 };
