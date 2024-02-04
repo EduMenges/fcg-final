@@ -31,7 +31,7 @@ void Scene::CheckDeliverBurger() {
     if(input_.IsOn(GLFW_KEY_ENTER) && !has_been_sent) {
         std::cout<<"gay"<<std::endl;
         has_been_sent = true;
-        //held_object_.ResetBurger();
+        held_object_.ResetBurger();
     }
 
     else {

@@ -2,7 +2,7 @@
 
 // #include "Entity.hpp"
 #include "ingredient/Ingredient.hpp"
-#include <vector>
+#include <list>
 #include <memory>
 
 namespace entity {
@@ -22,7 +22,7 @@ class Burger : public Entity {
 
     Obj& GetObj() override;
 
-    std::vector<std::unique_ptr<ingredient::Ingredient>> ingredients_ = {};
+    std::list<std::unique_ptr<ingredient::Ingredient>> ingredients_ = {};
     float                                                y_offset_;
 
     //void SetComplete(bool value);

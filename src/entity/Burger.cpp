@@ -100,9 +100,9 @@ std::unique_ptr<ingredient::Ingredient> entity::Burger::GetIngredientByIndex(rec
 }
 
 void entity::Burger::Pop() {
-    std::cout<<"Cheguei a pop"<<std::endl;
+    /* std::cout<<"Cheguei a pop"<<std::endl;
     if(!ingredients_.empty()){
         ingredients_.pop_back();
         ingredients_.shrink_to_fit();
-        }
+        } */
 }
