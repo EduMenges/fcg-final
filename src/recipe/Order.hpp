@@ -10,6 +10,6 @@ class Order {
 
     Recipe recipe_ref;
     
-    int Score(entity::Burger burger);
+    int Score(entity::Burger* burger);
 };
 }

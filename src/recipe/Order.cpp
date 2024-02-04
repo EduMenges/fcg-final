@@ -5,12 +5,12 @@ namespace recipe{
 
     Order::Order(Recipe recipe) : recipe_ref(recipe) {};
 
-    int Order::Score(entity::Burger burger) {
+    int Order::Score(entity::Burger* burger) {
         int score = 0;
 
         std::vector<recipe::EIngredient> recipe = recipe_ref.recipe;
         std::vector<recipe::EIngredient> ingredients;
-        for (const auto& ing : burger.ingredients_) {
+        for (const auto& ing : burger->ingredients_) {
             ingredients.push_back(ing->index_);
         }
 

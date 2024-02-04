@@ -1,4 +1,5 @@
 #include "Scene.hpp"
+#include "entity/Burger.hpp"
 
 void Scene::Draw() {
     for (auto& model : models_) {
@@ -30,7 +31,9 @@ Scene* Scene::Update(double delta) {
 void Scene::CheckDeliverBurger() {
     if(input_.IsOn(GLFW_KEY_ENTER) && !has_been_sent) {
         has_been_sent = true;
-        held_object_.ResetBurger();
+        int score = order_.Score(held_object_.burger);
+        std::cout<<score<<std::endl;
+        held_object_.ResetBurger(); 
     }
 
     else {
