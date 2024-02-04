@@ -67,6 +67,10 @@ void HeldObject::Update(double delta) {
     if(mouse.M1){
         ToBurger();
     }
+
+    if(mouse.M2){
+        Unset();
+    }
 }
 
 void HeldObject::ToBurger() {
