@@ -9,7 +9,7 @@ class Order {
     explicit Order(Recipe recipe);
 
     Recipe recipe;
-    int score;
-    entity::Burger delivery;
+    
+    int Score(entity::Burger burger);
 };
 }
