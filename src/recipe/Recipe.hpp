@@ -19,7 +19,7 @@ class Recipe {
       explicit Recipe(RecipeName recipe_name);
       explicit Recipe();
 
-    private: std::vector<EIngredient> recipe;
+      std::vector<EIngredient> recipe;
       
 };
 
