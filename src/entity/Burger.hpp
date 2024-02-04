@@ -25,9 +25,6 @@ class Burger : public Entity {
     std::list<std::unique_ptr<ingredient::Ingredient>> ingredients_ = {};
     float                                                y_offset_;
 
-    //void SetComplete(bool value);
-
-    void Pop();
 };
 
 }

@@ -88,13 +88,6 @@ void HeldObject::LinkBurger(entity::Burger& b) { burger = &b; }
 
 void HeldObject::ResetBurger() {
 
-    //burger->y_offset_ = burger->GetHitBoxHeight();
-    //burger->ingredients_ = burger->ingredients_.resize(1);
-    
-    /* while(burger->ingredients_.size() > 0) {
-        std::cout << burger->ingredients_.size() << std::endl;
-        burger->Pop();
-        } */
     /* auto it = burger->ingredients_.begin();
     while(it != burger->ingredients_.end()) {
         it = burger->ingredients_.erase(it);

@@ -48,8 +48,6 @@ void entity::Burger::AddIngredient(recipe::EIngredient index) {
     is_complete_ = (index == recipe::EIngredient::TOPBUN);
 }
 
-//void entity::Burger::SetComplete(bool value){is_complete_ = value;}
-
 std::unique_ptr<ingredient::Ingredient> entity::Burger::GetIngredientByIndex(recipe::EIngredient index) {
     using namespace recipe;
 
@@ -97,12 +95,4 @@ std::unique_ptr<ingredient::Ingredient> entity::Burger::GetIngredientByIndex(rec
         default:
             return std::make_unique<ingredient::Egg>(position_);
     }
-}
-
-void entity::Burger::Pop() {
-    /* std::cout<<"Cheguei a pop"<<std::endl;
-    if(!ingredients_.empty()){
-        ingredients_.pop_back();
-        ingredients_.shrink_to_fit();
-        } */
 }
