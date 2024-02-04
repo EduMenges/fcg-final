@@ -10,6 +10,7 @@ namespace entity {
 class Burger : public Entity {
    public:
     explicit Burger(glm::vec3 position);
+    bool is_complete = false; // Indica se ainda pode receber ingredientes;
 
     void Update(double delta) override;
 
