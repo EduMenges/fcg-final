@@ -41,3 +41,14 @@ glm::mat4 Model::GetTransform() const {
            MatrixRotateY(rotation_.y) *  //
            MatrixRotateZ(rotation_.z);
 }
+
+void Model::RemoveHitBoxes() {
+    for (auto& hb: hit_boxes_) {
+        Collision::Instance().RemoveBox(&hb);
+    }
+    hit_boxes_.clear();
+}
+
+Model::~Model() {
+    RemoveHitBoxes();
+}

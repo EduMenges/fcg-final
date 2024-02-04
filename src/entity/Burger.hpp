@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "Entity.hpp"
+// #include "Entity.hpp"
 #include "ingredient/Ingredient.hpp"
 #include <vector>
 #include <memory>
@@ -11,19 +11,19 @@ class Burger : public Entity {
    public:
     explicit Burger(glm::vec3 position);
 
-    std::vector<std::unique_ptr<ingredient::Ingredient>> ingredients = {};
-    float yOffset;
-    bool isComplete;
-
     void Update(double delta) override;
 
-    void Draw(Camera& c) override; 
+    void Draw(Camera& c) override;
 
     void AddIngredient(recipe::EIngredient index);
 
     std::unique_ptr<ingredient::Ingredient> GetIngredientByIndex(recipe::EIngredient index);
 
     Obj& GetObj() override;
+
+    std::vector<std::unique_ptr<ingredient::Ingredient>> ingredients_ = {};
+    float                                                y_offset_;
+    bool                                                 is_complete_;
 };
 
 }

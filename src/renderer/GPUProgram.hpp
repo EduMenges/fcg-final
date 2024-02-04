@@ -5,9 +5,13 @@
 #include <unordered_map>
 #include <glm/fwd.hpp>
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCInconsistentNamingInspection"
 class GPUProgram {
 public:
     GPUProgram(Shader &&vertex, Shader &&fragment);
+
+    GPUProgram(GPUProgram&& other) = default;
 
     GPUProgram(const GPUProgram &other) = delete;
 
@@ -35,3 +39,4 @@ private:
 
     std::unordered_map<std::string, GLint> locations_;
 };
+#pragma clang diagnostic pop

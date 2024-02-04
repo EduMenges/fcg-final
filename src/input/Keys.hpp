@@ -10,8 +10,8 @@
 
 namespace input {
 struct Key {
-    int  code_;
-    bool pressed_ = false;
+    int  code;
+    bool pressed = false;
 
     void TakeAction(Action action) {
         switch (action) {
@@ -27,26 +27,26 @@ struct Key {
         }
     }
 
-    constexpr void On() { pressed_ = true; }
+    constexpr void On() { pressed = true; }
 
-    constexpr void Off() { pressed_ = false; }
+    constexpr void Off() { pressed = false; }
 };
 
 struct Keys {
     void TakeAction(int key, Action action) {
-        if (auto result = std::ranges::find_if(keys_, [&](Key i) { return i.code_ == key; }); result != keys_.end()) {
+        if (auto *result = std::ranges::find_if(keys_, [&](Key i) { return i.code == key; }); result != keys_.end()) {
             result->TakeAction(action);
         }
     }
 
+    /// This function will panic if @p code is not on the @keys list.
     [[nodiscard]] bool IsOn(int code) const {
-        const auto result = std::ranges::find_if(keys_, [&](Key i) { return i.code_ == code; });
-        return result->pressed_;
+        const auto* result = std::ranges::find_if(keys_, [&](Key i) { return i.code == code; });
+        return result->pressed;
     }
 
     static constexpr size_t        kAmountOfKeys = 7;
     std::array<Key, kAmountOfKeys> keys_         = {
-        {{GLFW_KEY_W}, {GLFW_KEY_A}, {GLFW_KEY_S}, {GLFW_KEY_D}, {GLFW_KEY_ESCAPE},
-        {GLFW_KEY_1}, {GLFW_KEY_2}}};
+        {{GLFW_KEY_W}, {GLFW_KEY_A}, {GLFW_KEY_S}, {GLFW_KEY_D}, {GLFW_KEY_ESCAPE}, {GLFW_KEY_1}, {GLFW_KEY_2}}};
 };
 }

@@ -5,8 +5,6 @@ entity::Table::Table(glm::vec3 position) : Entity(position, glm::vec3(0.3), glm:
     ComputeHitBoxes();
 }
 
-void entity::Table::Update(double delta) { /* rotation_.y += static_cast<float>(delta); */ }
-
 Obj& entity::Table::GetObj() {
     static Obj obj("../../../data/table/table.obj");
     return obj;

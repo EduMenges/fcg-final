@@ -7,21 +7,23 @@
 #include "singleton/Input.hpp"
 
 class IngredientManager {
-    public:
-      using EntityContainer = std::list<std::unique_ptr<Entity>>;
-      explicit IngredientManager(EntityContainer* ec, HeldObject* ho);
-      EntityContainer* entities;
-      HeldObject* held_object;
+   public:
+    using EntityContainer = std::list<std::unique_ptr<Entity>>;
 
-      ingredient::Lettuce* lettuce_ref;
-      ingredient::Egg* egg_ref;
-      ingredient::Tomato* tomato_ref;
-      ingredient::Cheese* cheese_ref;
-      ingredient::Bacon* bacon_ref;
-      ingredient::BeefPatty* beef_ref;
-      ingredient::TopBun* bun_ref;
+    explicit IngredientManager(EntityContainer* ec, HeldObject* ho);
 
-      void Init();
+    void Init();
 
-      void Update(double delta);
+    void Update(double delta);
+
+    EntityContainer* entities_;
+    HeldObject*      held_object_;
+
+    ingredient::Lettuce*   lettuce_ref;
+    ingredient::Egg*       egg_ref;
+    ingredient::Tomato*    tomato_ref;
+    ingredient::Cheese*    cheese_ref;
+    ingredient::Bacon*     bacon_ref;
+    ingredient::BeefPatty* beef_ref;
+    ingredient::TopBun*    bun_ref;
 };

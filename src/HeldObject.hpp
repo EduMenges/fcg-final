@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Entity.hpp"
 #include "entity/ingredient/BottomBun.hpp"
 #include "singleton/Input.hpp"
@@ -13,19 +14,19 @@ class HeldObject {
 
     explicit HeldObject(Camera* c, EntityContainer* ec);
 
-    ingredient::Ingredient* object;
-    glm::vec3 old_position, old_rotation;
-
     void Set(ingredient::Ingredient& new_object);
     void Unset();
     void LinkBurger(entity::Burger& b);
 
     void Update(double delta);
-    Camera* camera;
-    entity::Burger* burger;
-    EntityContainer* entities;
 
     void ToBurger();
 
-};
+    ingredient::Ingredient* object_{nullptr};
+    glm::vec3               old_position_{};
+    glm::vec3               old_rotation_{};
 
+    Camera*          camera;
+    entity::Burger*  burger{nullptr};
+    EntityContainer* entities;
+};

@@ -13,7 +13,7 @@ class Model {
 
     Model(const Model& other) = delete;
 
-    virtual ~Model() = default;
+    virtual ~Model();
 
     virtual void Draw(Camera& c);
 
@@ -24,6 +24,8 @@ class Model {
     void ComputeHitBoxes();
 
     void AddHitBox(HitBox hb);
+
+    void RemoveHitBoxes();
 
     float GetHitBoxHeight();
 
