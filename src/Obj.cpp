@@ -128,9 +128,14 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
                 first_index_.push_back(first_index);                     // Primeiro índice
                 index_count_.push_back((kLastIndex + 1) - first_index);  // Número de indices
                 boxes_.emplace_back(bbox_min, bbox_max);
-                texture_id_.push_back(Renderer::Instance()
-                                          .LoadTexture((base_path / materials_[material_id].diffuse_texname).string())
-                                          .value());
+
+                if (!materials_[material_id].diffuse_texname.empty()) {
+                    texture_id_.emplace_back(Renderer::Instance()
+                            .LoadTexture((base_path / materials_[material_id].diffuse_texname).string())
+                            .value());
+                } else {
+                    texture_id_.emplace_back(std::nullopt);
+                }
 
                 first_index = indices.size();
                 bbox_min    = glm::vec3(kMaxval, kMaxval, kMaxval);
@@ -175,8 +180,14 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
         index_count_.push_back((kLastIndex + 1) - first_index);  // Número de indices
         vbo_ids_.push_back(vertex_array_object_id);
         boxes_.emplace_back(bbox_min, bbox_max);
-        texture_id_.push_back(
-            Renderer::Instance().LoadTexture((base_path / materials_[material_id].diffuse_texname).string()).value());
+
+        if (!materials_[material_id].diffuse_texname.empty()) {
+            texture_id_.emplace_back(Renderer::Instance()
+                                         .LoadTexture((base_path / materials_[material_id].diffuse_texname).string())
+                                         .value());
+        } else {
+            texture_id_.emplace_back(std::nullopt);
+        }
     }
 
     GLuint VBO_model_coefficients_id;

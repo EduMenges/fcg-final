@@ -9,7 +9,7 @@ Renderer::Renderer()
              shader::Fragment("../../../shader/phong_fragment.glsl")),
       gouraud_(shader::Vertex("../../../shader/gouraud_vertex.glsl"),
                shader::Fragment("../../../shader/gouraud_fragment.glsl")) {
-    phong_.InsertLocation("model", "view", "projection", "view_vec", "bbox_min", "bbox_max", "color_texture");
+    phong_.InsertLocation("model", "view", "projection", "view_vec", "bbox_min", "bbox_max", "use_texture", "color_texture");
     gouraud_.InsertLocation("model", "view", "projection", "view_vec", "color_texture");
 
     glEnable(GL_DEPTH_TEST);
@@ -64,7 +64,7 @@ tl::expected<GLuint, std::error_code> Renderer::LoadTexture(std::string filename
     return textureunit;
 }
 
-void Renderer::DrawPhong(glm::mat4 model, Camera& cam, HitBox box, GLuint texture, GLuint vertex_array_id,
+void Renderer::DrawPhong(glm::mat4 model, Camera& cam, HitBox box, std::optional<GLint> texture, GLuint vertex_array_id,
                          GLenum draw_mode, GLsizei el_count, GLenum type, void* first_index) {
     glUseProgram(phong_.GetId());
 
@@ -76,8 +76,13 @@ void Renderer::DrawPhong(glm::mat4 model, Camera& cam, HitBox box, GLuint textur
     glUniform4fv(phong_.GetUniform("view_vec"), 1, glm::value_ptr(cam.GetViewVec()));
     glUniform4fv(phong_.GetUniform("bbox_min"), 1, glm::value_ptr(box.min_));
     glUniform4fv(phong_.GetUniform("bbox_max"), 1, glm::value_ptr(box.max_));
-    glUniform1i(phong_.GetUniform("color_texture"), texture);
 
+    if (texture.has_value()) {
+        glUniform1i(phong_.GetUniform("use_texture"), GLFW_TRUE);
+        glUniform1i(phong_.GetUniform("color_texture"), *texture);
+    } else {
+        glUniform1i(phong_.GetUniform("use_texture"), GLFW_FALSE);
+    }
     glDrawElements(draw_mode, el_count, type, first_index);
 
     glBindVertexArray(0);

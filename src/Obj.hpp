@@ -3,6 +3,7 @@
 #include "fmt/core.h"
 #include <filesystem>
 #include <glm/vec3.hpp>
+#include <optional>
 #include "tiny_obj_loader.h"
 #include "OpenGL.h"
 #include "Camera.hpp"
@@ -43,7 +44,7 @@ class Obj {
     std::vector<GLuint> vbo_ids_;
     std::vector<int>    first_index_;
     std::vector<int>    index_count_;
-    std::vector<GLuint> texture_id_;
+    std::vector<std::optional<GLint>> texture_id_;
 
     std::vector<VertexPackage> vertexes_;
 };
