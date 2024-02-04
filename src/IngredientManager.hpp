@@ -9,6 +9,7 @@
 
 class IngredientManager {
    public:
+    static constexpr float kY = 0.0f;
     using EntityContainer = std::list<std::unique_ptr<Entity>>;
 
     explicit IngredientManager(EntityContainer* ec, HeldObject* ho);

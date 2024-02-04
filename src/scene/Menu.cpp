@@ -8,6 +8,7 @@
 #include "Player.hpp"
 #include "singleton/Input.hpp"
 #include "model/Floor.hpp"
+#include "model/Wall.hpp"
 #include <iostream>
 
 scene::Menu::Menu() : Scene({}, {}) {
@@ -26,6 +27,7 @@ scene::Menu::Menu() : Scene({}, {}) {
     entities_.emplace_back(std::move(ing)); */
 
     models_.emplace_back(std::make_unique<model::Floor>());
+    models_.emplace_back(std::make_unique<model::Wall>(glm::vec3(0, 0.0, 0), glm::vec3(1.0)));
 
     player_.SetPosition({3.0F, 0.0, 3.5F, 1.0F});
     camera_->SetRotation({-2.45, 0.45});
