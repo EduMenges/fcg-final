@@ -4,7 +4,7 @@
 
 entity::Burger::Burger(glm::vec3 position) : Entity(position, glm::vec3(0.09)), isComplete(false) {
     ComputeHitBoxes();
-    yOffset = this->GetHitboxHeight();
+    yOffset = this->GetHitBoxHeight();
 
     AddIngredient(recipe::EIngredient::BOTTOMBUN);
 
@@ -32,7 +32,7 @@ void entity::Burger::AddIngredient(recipe::EIngredient index) {
     std::unique_ptr<ingredient::Ingredient> ingredientPtr = GetIngredientByIndex(index);
     ingredient::Ingredient& ingredient = *ingredientPtr;
     ingredient.position_.y += yOffset;
-    this->yOffset += ingredient.GetHitboxHeight();
+    this->yOffset += ingredient.GetHitBoxHeight();
     ingredient.rotation_.y += 255*yOffset; // Aleatoriza a rotação do ingrediente no hamburger
     this->ingredients.push_back(std::move(ingredientPtr));
 }

@@ -13,9 +13,9 @@
 
 scene::Menu::Menu() : Scene({}, {}) {
     std::unique_ptr<entity::Table> table = std::make_unique<entity::Table>(glm::vec3{3, .8, 2});
-    float table_height = table->GetHitboxHeight();
+    float table_height = table->GetHitBoxHeight();
     std::cout << table_height <<std::endl;
-    glm::vec3 burger_pos = table->position_;// + glm::vec3{0,table->GetHitboxHeight(),0};
+    glm::vec3 burger_pos = table->position_;// + glm::vec3{0,table->GetHitBoxHeight(),0};
     burger_pos.y += 1.23*table_height;
     entities_.emplace_back(std::move(table));
     entities_.emplace_back(std::make_unique<entity::Burger>(burger_pos));

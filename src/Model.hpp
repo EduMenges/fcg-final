@@ -2,6 +2,7 @@
 
 #include "Camera.hpp"
 #include "Obj.hpp"
+#include "glm/gtx/intersect.hpp"
 
 class Model {
    public:
@@ -18,13 +19,22 @@ class Model {
 
     virtual Obj& GetObj() = 0;
 
+    [[nodiscard]] glm::mat4 GetTransform() const;
+
     void ComputeHitBoxes();
 
     void AddHitBox(HitBox hb);
 
-    float GetHitboxHeight();
+    float GetHitBoxHeight();
 
-    glm::vec3 position_{0};
+    [[nodiscard]] bool IsBeingLooked(const Camera& camera, float radius = 1.0F) const {
+        // How distant we are from this model. Might be used later.
+        float distance;
+        return glm::intersectRaySphere(camera.GetCameraPosition(), camera.GetViewVec(), glm::vec4(position_, 1.0F),
+                                       std::pow(radius, 2.0F), distance);
+    }
+
+    glm::vec3 position_;
     glm::vec3 scale_{1};
     glm::vec3 rotation_{0};
 
