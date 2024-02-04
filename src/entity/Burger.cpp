@@ -2,6 +2,7 @@
 #include "ingredient/BeefPatty.hpp"
 #include "singleton/Collision.hpp"
 #include "ingredient/IngredientImports.hpp"
+#include <iostream>
 
 entity::Burger::Burger(glm::vec3 position) : Entity(position, glm::vec3(0.09)), is_complete_(false) {
     ComputeHitBoxes();
@@ -31,6 +32,11 @@ void entity::Burger::Draw(Camera& c) {
 }
 
 void entity::Burger::AddIngredient(recipe::EIngredient index) {
+    if(is_complete_){
+        std::cout << "Still complete "<<static_cast<int>(index) << std::endl;
+        return;
+    }
+
     std::unique_ptr<ingredient::Ingredient> ingredientPtr = GetIngredientByIndex(index);
     ingredient::Ingredient&                 ingredient    = *ingredientPtr;
 
@@ -38,6 +44,8 @@ void entity::Burger::AddIngredient(recipe::EIngredient index) {
     this->y_offset_ += ingredient.GetHitBoxHeight();
     ingredient.rotation_.y += 255 * y_offset_;  // Aleatoriza a rotação do ingrediente no hamburger
     this->ingredients_.push_back(std::move(ingredientPtr));
+
+    is_complete_ = (index == recipe::EIngredient::TOPBUN);
 }
 
 std::unique_ptr<ingredient::Ingredient> entity::Burger::GetIngredientByIndex(recipe::EIngredient index) {
@@ -83,5 +91,8 @@ std::unique_ptr<ingredient::Ingredient> entity::Burger::GetIngredientByIndex(rec
         case EIngredient::BEEFPATTY:
             return std::make_unique<ingredient::BeefPatty>(position_);
             break;
+
+        default:
+            return std::make_unique<ingredient::Egg>(position_);
     }
 }

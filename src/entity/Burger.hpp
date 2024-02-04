@@ -2,7 +2,7 @@
 
 // #include "Entity.hpp"
 #include "ingredient/Ingredient.hpp"
-#include <vector>
+#include <list>
 #include <memory>
 
 namespace entity {
@@ -10,6 +10,7 @@ namespace entity {
 class Burger : public Entity {
    public:
     explicit Burger(glm::vec3 position);
+    bool is_complete_ = false; // Indica se ainda pode receber ingredientes;
 
     void Update(double delta) override;
 
@@ -21,9 +22,9 @@ class Burger : public Entity {
 
     Obj& GetObj() override;
 
-    std::vector<std::unique_ptr<ingredient::Ingredient>> ingredients_ = {};
+    std::list<std::unique_ptr<ingredient::Ingredient>> ingredients_ = {};
     float                                                y_offset_;
-    bool                                                 is_complete_;
+
 };
 
 }
