@@ -6,7 +6,7 @@ namespace ingredient {
 class Bacon : public Ingredient {
    public:
     explicit Bacon(glm::vec3 position);
-    const recipe::EIngredient index = recipe::EIngredient::BACON;
+    recipe::EIngredient index = recipe::EIngredient::BACON;
 
     void Update(double delta) override;
 

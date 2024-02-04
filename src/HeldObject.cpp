@@ -2,13 +2,15 @@
 #include "HeldObject.hpp"
 #include "Camera.hpp"
 #include "Entity.hpp"
+#include "entity/ingredient/Ingredient.hpp"
 #include "matrices.hpp"
+#include "recipe/EIngredient.hpp"
 
 
 
-HeldObject::HeldObject(Camera* c): camera(c), object(nullptr) {}
+HeldObject::HeldObject(Camera* c): camera(c), object(nullptr), burger(nullptr) {}
 
-void HeldObject::Set(Entity& new_object) {
+void HeldObject::Set(ingredient::Ingredient& new_object) {
 
     object = &new_object;
     old_position = object->position_;
@@ -16,9 +18,20 @@ void HeldObject::Set(Entity& new_object) {
 }
 
 void HeldObject::Unset() {
+    if(burger != nullptr) {
+        recipe::EIngredient x = object->index;
+        if(x != recipe::EIngredient::COUNT)
+            burger->AddIngredient(x);
+
+        object = nullptr;
+    }
+
+    else {
     object->position_ = old_position;
     object->rotation_ = old_rotation;
     object = nullptr;
+    }
+    
 }
     
 void HeldObject::Update(double delta) {
@@ -56,5 +69,11 @@ void HeldObject::Update(double delta) {
 }
 
 void HeldObject::SwitchHeld() {
+    if(object == nullptr)
+        return;
     Unset();
+}
+
+void HeldObject::LinkBurger(entity::Burger& b) {
+    burger = &b;
 }
