@@ -3,6 +3,7 @@
 #include "Camera.hpp"
 #include "Obj.hpp"
 #include "glm/gtx/intersect.hpp"
+#include "matrices.hpp"
 
 class Model {
    public:
@@ -31,11 +32,15 @@ class Model {
 
     HitBox GetBoundingBox();
 
-    [[nodiscard]] bool IsBeingLooked(const Camera& camera, float radius = 1.0F) const {
+    [[nodiscard]] bool IsBeingLooked(const Camera& camera, float radius = 0.4F) const {
         // How distant we are from this model. Might be used later.
         float distance;
-        return glm::intersectRaySphere(camera.GetCameraPosition(), camera.GetViewVec(), glm::vec4(position_, 1.0F),
+        bool intersects = glm::intersectRaySphere(camera.GetCameraPosition(), camera.GetViewVec(), glm::vec4(position_, 1.0F),
                                        std::pow(radius, 2.0F), distance);
+
+        float distance_from_center = Norm(glm::vec4{position_, 1} - camera.GetCameraPosition());
+
+        return intersects && (distance_from_center <= 2);
     }
 
     glm::vec3 position_;

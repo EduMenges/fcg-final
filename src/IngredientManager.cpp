@@ -1,44 +1,70 @@
 #include "IngredientManager.hpp"
+#include "Camera.hpp"
 #include "entity/ingredient/BeefPatty.hpp"
+#include "input/Mouse.hpp"
+#include "singleton/Input.hpp"
 
 IngredientManager::IngredientManager(EntityContainer* ec, HeldObject* ho) : entities_(ec), held_object_(ho) {}
 
 void IngredientManager::Init() {
-    std::unique_ptr<ingredient::Lettuce> lettuce = std::make_unique<ingredient::Lettuce>(glm::vec3{2, 1.5, 3});
-    entities_->emplace_back(std::move(lettuce));
+    entities_->emplace_back(std::make_unique<ingredient::Lettuce>(glm::vec3{2, 1.5, 3}));
     lettuce_ref = dynamic_cast<ingredient::Lettuce*>(entities_->back().get());
 
-    std::unique_ptr<ingredient::Egg> egg = std::make_unique<ingredient::Egg>(glm::vec3{2, 1.5, 3.4});
-    entities_->emplace_back(std::move(egg));
+    entities_->emplace_back(std::make_unique<ingredient::Egg>(glm::vec3{2, 1.5, 3.4}));
     egg_ref = dynamic_cast<ingredient::Egg*>(entities_->back().get());
 
-    std::unique_ptr<ingredient::Tomato> tomato = std::make_unique<ingredient::Tomato>(glm::vec3{2, 1.5, 3.8});
-    entities_->emplace_back(std::move(tomato));
+    entities_->emplace_back(std::make_unique<ingredient::Tomato>(glm::vec3{2, 1.5, 3.8}));
     tomato_ref = dynamic_cast<ingredient::Tomato*>(entities_->back().get());
 
-    std::unique_ptr<ingredient::Bacon> bacon = std::make_unique<ingredient::Bacon>(glm::vec3{2, 1.5, 4.2});
-    entities_->emplace_back(std::move(bacon));
+    entities_->emplace_back(std::make_unique<ingredient::Bacon>(glm::vec3{2, 1.5, 4.2}));
     bacon_ref = dynamic_cast<ingredient::Bacon*>(entities_->back().get());
 
-    std::unique_ptr<ingredient::Cheese> cheese = std::make_unique<ingredient::Cheese>(glm::vec3{2, 1.5, 4.6});
-    entities_->emplace_back(std::move(cheese));
+    entities_->emplace_back(std::make_unique<ingredient::Cheese>(glm::vec3{2, 1.5, 4.6}));
     cheese_ref = dynamic_cast<ingredient::Cheese*>(entities_->back().get());
 
-    std::unique_ptr<ingredient::BeefPatty> beef = std::make_unique<ingredient::BeefPatty>(glm::vec3{2, 1.5, 5});
-    entities_->emplace_back(std::move(beef));
+    entities_->emplace_back(std::make_unique<ingredient::BeefPatty>(glm::vec3{2, 1.5, 5}));
     beef_ref = dynamic_cast<ingredient::BeefPatty*>(entities_->back().get());
 
-    // held_object->Set(*egg_ref);
+    entities_->emplace_back(std::make_unique<ingredient::TopBun>(glm::vec3{2, 1.5, 5.4}));
+    bun_ref = dynamic_cast<ingredient::TopBun*>(entities_->back().get());
+
 }
 
 void IngredientManager::Update(double delta) {
     input::Keys keys = Input::Instance().keys_;
+    input::Mouse mouse = Input::Instance().mouse_;
 
-    if (keys.IsOn(GLFW_KEY_1)) {
-        held_object_->Set(*beef_ref);
+    // No caso de clicar com M1 para pegar um ingrediente e não estar segurando nenhum
+    if(held_object_->object_== nullptr && mouse.M1){
+        Camera& camera = *(held_object_->camera);
+
+        if(lettuce_ref->IsBeingLooked(camera)){
+            held_object_->Set(*lettuce_ref);
+        }
+
+        else if(egg_ref->IsBeingLooked(camera)){
+            held_object_->Set(*egg_ref);
+        }
+
+        else if(tomato_ref->IsBeingLooked(camera)){
+            held_object_->Set(*tomato_ref);
+        }
+
+        else if(bacon_ref->IsBeingLooked(camera)){
+            held_object_->Set(*bacon_ref);
+        }
+        
+        else if(cheese_ref->IsBeingLooked(camera)){
+            held_object_->Set(*cheese_ref);
+        }
+
+        else if(beef_ref->IsBeingLooked(camera)){
+            held_object_->Set(*beef_ref);
+        }
+
+        else if(bun_ref->IsBeingLooked(camera)){
+            held_object_->Set(*bun_ref);
+        }
     }
 
-    if (keys.IsOn(GLFW_KEY_2)) {
-        held_object_->Set(*tomato_ref);
-    }
 }

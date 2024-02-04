@@ -8,8 +8,8 @@ class Order {
    public:
     explicit Order(Recipe recipe);
 
-    Recipe recipe;
-    int score;
-    entity::Burger delivery;
+    Recipe recipe_ref;
+    
+    int Score(entity::Burger burger);
 };
 }
