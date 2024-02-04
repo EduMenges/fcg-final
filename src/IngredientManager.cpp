@@ -12,6 +12,10 @@ void IngredientManager::Init() {
     entities->emplace_back(std::move(egg));
     egg_ref = dynamic_cast<ingredient::Egg*>(entities->back().get());
 
+    std::unique_ptr<ingredient::Tomato> tomato = std::make_unique<ingredient::Tomato>(glm::vec3{2, 1.5, 3.8});
+    entities->emplace_back(std::move(tomato));
+    tomato_ref = dynamic_cast<ingredient::Tomato*>(entities->back().get());
+
     //held_object->Set(*egg_ref);
 }
 
@@ -23,6 +27,6 @@ void IngredientManager::Update(double delta) {
     }
 
     if(keys.IsOn(GLFW_KEY_2)){
-        held_object->Set(*lettuce_ref);
+        held_object->Set(*tomato_ref);
     }
 }

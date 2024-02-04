@@ -46,7 +46,6 @@ std::unique_ptr<ingredient::Ingredient> entity::Burger::GetIngredientByIndex(rec
             break;
 
         case EIngredient::BOTTOMBUN:
-            //yOffset -= 0.025;
             return std::make_unique<ingredient::BottomBun>(position_); 
             break;
 
@@ -72,6 +71,10 @@ std::unique_ptr<ingredient::Ingredient> entity::Burger::GetIngredientByIndex(rec
 
         case EIngredient::LETTUCE:
             return std::make_unique<ingredient::Lettuce>(position_); 
+            break;
+
+        case EIngredient::TOMATO:
+            return std::make_unique<ingredient::Tomato>(position_); 
             break;
 
     

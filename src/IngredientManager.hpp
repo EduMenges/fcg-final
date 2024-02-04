@@ -15,6 +15,7 @@ class IngredientManager {
 
       ingredient::Lettuce* lettuce_ref;
       ingredient::Egg* egg_ref;
+      ingredient::Tomato* tomato_ref;
 
       void Init();
 

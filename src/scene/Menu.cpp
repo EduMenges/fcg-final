@@ -22,7 +22,7 @@ scene::Menu::Menu() : Scene({}, {}) {
     std::unique_ptr<entity::Burger> burger = std::make_unique<entity::Burger>(burger_pos);
     held_object_.LinkBurger(*burger);
     entities_.emplace_back(std::move(burger));
-    //entities_.emplace_back(std::make_unique<ingredient::Cheese>(glm::vec3{4, 1.7, 2}));
+    entities_.emplace_back(std::make_unique<ingredient::Tomato>(glm::vec3{4, 1.7, 2}));
 
     /* std::unique_ptr<ingredient::Ingredient> ing = std::make_unique<ingredient::Lettuce>(glm::vec3{4, 1.7, 2});
     held_object_.Set(*ing);

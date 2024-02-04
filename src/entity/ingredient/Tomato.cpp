@@ -1,7 +1,7 @@
 #include "Tomato.hpp"
 #include "singleton/Collision.hpp"
 
-ingredient::Tomato::Tomato(glm::vec3 position) : Ingredient(position, glm::vec3(0.1), recipe::EIngredient::TOMATO) {
+ingredient::Tomato::Tomato(glm::vec3 position) : Ingredient(position, glm::vec3(0.08), recipe::EIngredient::TOMATO) {
     ComputeHitBoxes();
 }
 
