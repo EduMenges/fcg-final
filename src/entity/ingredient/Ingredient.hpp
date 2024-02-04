@@ -5,9 +5,8 @@
 namespace ingredient{
     class Ingredient: public Entity {
         public:
-          explicit Ingredient(glm::vec3 position, glm::vec3 scale);
-          const recipe::EIngredient index = recipe::EIngredient::COUNT;
-
-          
+          explicit Ingredient(glm::vec3 position, glm::vec3 scale, recipe::EIngredient index = recipe::EIngredient::COUNT);
+          recipe::EIngredient index;
+         
     };
 }
