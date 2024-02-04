@@ -24,16 +24,13 @@ endif ()
 
 link_libraries(${LIBS})
 
-find_package(glm CONFIG)
-if (NOT glm_FOUND)
-    FetchContent_Declare(
-            glm
-            GIT_REPOSITORY https://github.com/g-truc/glm.git
-            GIT_TAG 0.9.9.8
-    )
-    FetchContent_MakeAvailable(glm)
-endif ()
-add_compile_definitions(GLM_FORCE_XYZW_ONLY)
+FetchContent_Declare(
+        glm
+        GIT_REPOSITORY https://github.com/g-truc/glm.git
+        GIT_TAG 1.0.0
+)
+FetchContent_MakeAvailable(glm)
+add_compile_definitions(GLM_FORCE_XYZW_ONLY GLM_ENABLE_EXPERIMENTAL)
 
 find_package(tinyobjloader CONFIG)
 if (NOT tinyobjloader_FOUND)
@@ -63,9 +60,9 @@ add_compile_definitions(_USE_MATH_DEFINES)
 
 if (MSVC)
     add_compile_options(/W4)
-else()
+else ()
     add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+endif ()
 
 add_compile_definitions(_USE_MATH_DEFINES)
 
