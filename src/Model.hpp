@@ -26,6 +26,7 @@ class Model {
 
     void AddHitBox(HitBox hb);
 
+    /// Removes all the hitboxes registered in the singleton. Used in the destructor.
     void RemoveHitBoxes();
 
     float GetHitBoxHeight();

@@ -34,14 +34,14 @@ struct Key {
 
 struct Keys {
     void TakeAction(int key, Action action) {
-        if (auto *result = std::ranges::find_if(keys_, [&](Key i) { return i.code == key; }); result != keys_.end()) {
+        if (auto result = std::ranges::find_if(keys_, [&](Key i) { return i.code == key; }); result != keys_.end()) {
             result->TakeAction(action);
         }
     }
 
     /// This function will panic if @p code is not on the @keys list.
     [[nodiscard]] bool IsOn(int code) const {
-        const auto* result = std::ranges::find_if(keys_, [&](Key i) { return i.code == code; });
+        const auto result = std::ranges::find_if(keys_, [&](Key i) { return i.code == code; });
         return result->pressed;
     }
 
