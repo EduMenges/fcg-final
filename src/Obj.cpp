@@ -11,6 +11,10 @@
 #include <array>
 
 Obj::Obj(const std::filesystem::path& file_name, glm::vec3 position, glm::vec3 scale) {
+    if (!is_regular_file(file_name)) {
+        throw std::runtime_error("Could not find obj file");
+    }
+
     fmt::println("{}: Loading object \"{}\"", CURRENT_FUNCTION, file_name.string().c_str());
 
     const std::string kBasePath = file_name.parent_path().string();
@@ -100,7 +104,7 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
     std::vector<float>  normal_coefficients;
     std::vector<float>  texture_coefficients;
 
-    constexpr float kMinval = std::numeric_limits<float>::min();
+    constexpr float kMinval = -std::numeric_limits<float>::max();
     constexpr float kMaxval = std::numeric_limits<float>::max();
 
     for (auto& shape : shapes_) {
