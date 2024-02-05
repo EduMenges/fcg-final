@@ -8,3 +8,5 @@
 #include "entity/ingredient/Tomato.hpp"
 #include "entity/ingredient/TopBun.hpp"
 #include "entity/ingredient/BeefPatty.hpp"
+#include "entity/ingredient/KetchupBottle.hpp"
+#include "entity/ingredient/MustardBottle.hpp"

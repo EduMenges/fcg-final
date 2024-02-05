@@ -1,9 +1,7 @@
 #include "Game.hpp"
 #include "entity/Burger.hpp"
 #include "entity/Table.hpp"
-#include "entity/KetchupBottle.hpp"
 
-#include "entity/MustardBottle.hpp"
 #include "entity/ingredient/IngredientImports.hpp"
 #include "Player.hpp"
 #include "singleton/Input.hpp"
@@ -15,8 +13,9 @@
 #include <numbers>
 
 scene::Game::Game() : Scene({}, {}) {
-    auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, 0.0F}));
+    auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, -2.0F}));
     float table_y = table.GetBoundingBox().max_.y;
+    manager_.table_y = table_y;
 
     glm::vec3 burger_pos                   = table.position_;
     burger_pos.y                           = table_y;
@@ -24,6 +23,21 @@ scene::Game::Game() : Scene({}, {}) {
 
     held_object_.LinkBurger(*burger);
     entities_.emplace_back(std::move(burger));
+
+    // Demais mesas
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{1.2F, 0.0F, -2.0F}));
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-1.2F, 0.0F, -2.0F}));
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{1.2F, 0.0F, 2.0F}));
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-1.2F, 0.0F, 2.0F}));
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, 2.0F}));
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{2.0F, 0.0F, 0.7F}));
+    entities_.back()->rotation_.y = 3.14/2;
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{2.0F, 0.0F, -0.7F}));
+    entities_.back()->rotation_.y = 3.14/2;
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-2.0F, 0.0F, 0.7F}));
+    entities_.back()->rotation_.y = 3.14/2;
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-2.0F, 0.0F, -0.7F}));
+    entities_.back()->rotation_.y = 3.14/2;
 
     models_.emplace_back(std::make_unique<model::Floor>());
 

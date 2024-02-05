@@ -1,13 +1,11 @@
 #pragma once
+#include "Ingredient.hpp"
 
-#include "Entity.hpp"
+namespace ingredient {
 
-namespace entity {
-
-class KetchupBottle : public Entity {
+class KetchupBottle : public Ingredient {
    public:
     explicit KetchupBottle(glm::vec3 position);
-    glm::vec3 normal_position;
 
     void Update(double delta) override;
 

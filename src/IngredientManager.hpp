@@ -28,4 +28,8 @@ class IngredientManager {
     ingredient::Bacon*     bacon_ref;
     ingredient::BeefPatty* beef_ref;
     ingredient::TopBun*    bun_ref;
+    ingredient::KetchupBottle* ketchup_ref;
+    ingredient::MustardBottle* mustard_ref;
+
+    float table_y;
 };
