@@ -25,7 +25,7 @@ void Model::AddHitBox(HitBox hb) {
 
 float Model::GetHitBoxHeight() {
     float min_y = std::numeric_limits<float>::max();
-    float max_y = std::numeric_limits<float>::min();
+    float max_y = -std::numeric_limits<float>::max();
 
     for (HitBox hb : hit_boxes_) {
         min_y = std::min(min_y, hb.min_.y);

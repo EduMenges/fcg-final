@@ -15,8 +15,8 @@ scene::Menu::Menu() : Scene({}, {}) {
     auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, 0.0F}));
     float table_y = table.GetBoundingBox().max_.y;
 
-    glm::vec3 burger_pos = table.position_;
-    burger_pos.y         = table_y;
+    glm::vec3 burger_pos                   = table.position_;
+    burger_pos.y                           = table_y;
     std::unique_ptr<entity::Burger> burger = std::make_unique<entity::Burger>(burger_pos);
     held_object_.LinkBurger(*burger);
     entities_.emplace_back(std::move(burger));
@@ -27,7 +27,15 @@ scene::Menu::Menu() : Scene({}, {}) {
     entities_.emplace_back(std::move(ing)); */
 
     models_.emplace_back(std::make_unique<model::Floor>());
-    models_.emplace_back(std::make_unique<model::Wall>(glm::vec3(0, 0.0, 0), glm::vec3(1.0)));
+
+    models_.emplace_back(
+        std::make_unique<model::Wall>(glm::vec3(0.0F, 0.0F, 0.0F), glm::vec3(1.0), glm::vec3(0.0, 0.0, 0.0)));
+    models_.emplace_back(
+        std::make_unique<model::Wall>(glm::vec3(1.0F, 0.0F, 0.0F), glm::vec3(1.0), glm::vec3(0.0, M_PI_2f, 0.0)));
+    models_.emplace_back(
+        std::make_unique<model::Wall>(glm::vec3(1.0F, 0.0F, 1.0F), glm::vec3(1.0), glm::vec3(0.0, M_PIf, 0.0)));
+    models_.emplace_back(std::make_unique<model::Wall>(glm::vec3(0.0F, 0.0F, 1.0F), glm::vec3(1.0),
+                                                       glm::vec3(0.0, M_PIf + M_PI_2f, 0.0)));
 
     player_.SetPosition({3.0F, 0.0, 3.5F, 1.0F});
     camera_->SetRotation({-2.45, 0.45});

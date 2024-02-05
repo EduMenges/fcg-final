@@ -104,7 +104,7 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
     std::vector<float>  normal_coefficients;
     std::vector<float>  texture_coefficients;
 
-    constexpr float kMinval = std::numeric_limits<float>::min();
+    constexpr float kMinval = -std::numeric_limits<float>::max();
     constexpr float kMaxval = std::numeric_limits<float>::max();
 
     for (auto& shape : shapes_) {
