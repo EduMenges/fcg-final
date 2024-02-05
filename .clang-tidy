@@ -44,6 +44,7 @@ Checks: <
 
   readability-*
   -readability-identifier-length
+  -readability-magic-numbers
 
 FormatStyle: file
 

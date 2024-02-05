@@ -11,7 +11,7 @@ class GPUProgram {
 public:
     GPUProgram(Shader &&vertex, Shader &&fragment);
 
-    GPUProgram(GPUProgram&& other) = default;
+    GPUProgram(GPUProgram&& other) noexcept = default;
 
     GPUProgram(const GPUProgram &other) = delete;
 

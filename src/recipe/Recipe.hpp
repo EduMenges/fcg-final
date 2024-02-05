@@ -2,25 +2,15 @@
 #include "EIngredient.hpp"
 #include <vector>
 
-
 namespace recipe {
-enum class RecipeName : int {  
-    BLT = 0,
-    CHEESEBURGER = 1,
-    SALAD = 2,
-    MEATLOVER = 3,
-    SPECIAL = 4,
-    COUNT = 5
-};
+enum class RecipeName : int { BLT = 0, CHEESEBURGER = 1, SALAD = 2, MEATLOVER = 3, SPECIAL = 4, COUNT = 5 };
 
 class Recipe {
-    
-    public:
-      explicit Recipe(RecipeName recipe_name);
-      explicit Recipe();
+   public:
+    Recipe();
 
-      std::vector<EIngredient> recipe;
-      
+    explicit Recipe(RecipeName recipe_name);
+
+    std::vector<EIngredient> ingredients_;
 };
-
 }

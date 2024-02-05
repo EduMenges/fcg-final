@@ -9,27 +9,27 @@ namespace recipe {
 
         switch(recipe_name) {
             case RecipeName::BLT:
-                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::TOMATO,
+                this->ingredients_ = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::TOMATO,
                                 EIngredient::BEEFPATTY, EIngredient::BACON, EIngredient::MUSTARD, EIngredient::TOPBUN};
                 break;
 
             case RecipeName::CHEESEBURGER:
-                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::BEEFPATTY,
+                this->ingredients_ = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::BEEFPATTY,
                                 EIngredient::CHEESE, EIngredient::KETCHUP, EIngredient::EGG, EIngredient::TOPBUN};
                 break;
 
             case RecipeName::MEATLOVER:
-                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::BEEFPATTY, EIngredient::BACON,
+                this->ingredients_ = {EIngredient::BOTTOMBUN, EIngredient::BEEFPATTY, EIngredient::BACON,
                                 EIngredient::EGG, EIngredient::BEEFPATTY, EIngredient::BACON, EIngredient::TOPBUN};
                 break;
 
             case RecipeName::SALAD:
-                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::TOMATO,
+                this->ingredients_ = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::TOMATO,
                                 EIngredient::MUSTARD, EIngredient::BEEFPATTY, EIngredient::KETCHUP, EIngredient::TOPBUN};
                 break;
 
             case RecipeName::SPECIAL:
-                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::CHEESE, EIngredient::BEEFPATTY,
+                this->ingredients_ = {EIngredient::BOTTOMBUN, EIngredient::CHEESE, EIngredient::BEEFPATTY,
                                 EIngredient::TOMATO, EIngredient::BACON, EIngredient::EGG, EIngredient::TOPBUN};
                 break;
         }
