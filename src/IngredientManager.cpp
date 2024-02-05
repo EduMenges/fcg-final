@@ -7,25 +7,25 @@
 IngredientManager::IngredientManager(EntityContainer* ec, HeldObject* ho) : entities_(ec), held_object_(ho) {}
 
 void IngredientManager::Init() {
-    entities_->emplace_back(std::make_unique<ingredient::Lettuce>(glm::vec3{2, kY, 3}));
+    entities_->emplace_back(std::make_unique<ingredient::Lettuce>(glm::vec3{2, kY, 3-2}));
     lettuce_ref = dynamic_cast<ingredient::Lettuce*>(entities_->back().get());
 
-    entities_->emplace_back(std::make_unique<ingredient::Egg>(glm::vec3{2, kY, 3.4}));
+    entities_->emplace_back(std::make_unique<ingredient::Egg>(glm::vec3{2, kY, 3.4-2}));
     egg_ref = dynamic_cast<ingredient::Egg*>(entities_->back().get());
 
-    entities_->emplace_back(std::make_unique<ingredient::Tomato>(glm::vec3{2, kY, 3.8}));
+    entities_->emplace_back(std::make_unique<ingredient::Tomato>(glm::vec3{2, kY, 3.8-2}));
     tomato_ref = dynamic_cast<ingredient::Tomato*>(entities_->back().get());
 
-    entities_->emplace_back(std::make_unique<ingredient::Bacon>(glm::vec3{2, kY, 4.2}));
+    entities_->emplace_back(std::make_unique<ingredient::Bacon>(glm::vec3{2, kY, 4.2-2}));
     bacon_ref = dynamic_cast<ingredient::Bacon*>(entities_->back().get());
 
-    entities_->emplace_back(std::make_unique<ingredient::Cheese>(glm::vec3{2, kY, 4.6}));
+    entities_->emplace_back(std::make_unique<ingredient::Cheese>(glm::vec3{2, kY, 4.6-2}));
     cheese_ref = dynamic_cast<ingredient::Cheese*>(entities_->back().get());
 
-    entities_->emplace_back(std::make_unique<ingredient::BeefPatty>(glm::vec3{2, kY, 5}));
+    entities_->emplace_back(std::make_unique<ingredient::BeefPatty>(glm::vec3{2, kY, 5-2}));
     beef_ref = dynamic_cast<ingredient::BeefPatty*>(entities_->back().get());
 
-    entities_->emplace_back(std::make_unique<ingredient::TopBun>(glm::vec3{2, kY, 5.4}));
+    entities_->emplace_back(std::make_unique<ingredient::TopBun>(glm::vec3{2, kY, 5.4-2}));
     bun_ref = dynamic_cast<ingredient::TopBun*>(entities_->back().get());
 
 }

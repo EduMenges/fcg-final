@@ -13,7 +13,7 @@
 #include <numbers>
 
 scene::Menu::Menu() : Scene({}, {}) {
-    auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, 0.0F}));
+    auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, -4.0F}));
     float table_y = table.GetBoundingBox().max_.y;
 
     glm::vec3 burger_pos                   = table.position_;
