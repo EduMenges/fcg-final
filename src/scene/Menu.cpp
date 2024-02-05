@@ -13,8 +13,9 @@
 #include <numbers>
 
 scene::Menu::Menu() : Scene({}, {}) {
-    auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, -4.0F}));
+    auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, -2.0F}));
     float table_y = table.GetBoundingBox().max_.y;
+    manager_.table_y = table_y;
 
     glm::vec3 burger_pos                   = table.position_;
     burger_pos.y                           = table_y;
@@ -26,6 +27,12 @@ scene::Menu::Menu() : Scene({}, {}) {
     /* std::unique_ptr<ingredient::Ingredient> ing = std::make_unique<ingredient::Lettuce>(glm::vec3{4, 1.7, 2});
     held_object_.Set(*ing);
     entities_.emplace_back(std::move(ing)); */
+
+    // Demais mesas
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{1.2F, 0.0F, -2.0F}));
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-1.2F, 0.0F, -2.0F}));
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{1.2F, 0.0F, 2.0F}));
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-1.2F, 0.0F, 2.0F}));
 
     models_.emplace_back(std::make_unique<model::Floor>());
 
