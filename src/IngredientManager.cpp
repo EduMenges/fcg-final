@@ -32,9 +32,10 @@ void IngredientManager::Init() {
 
 void IngredientManager::Update(double /* delta */) {
     input::Mouse mouse = Input::Instance().mouse_;
+    bool grab = Input::Instance().IsOn(GLFW_KEY_E);
 
     // No caso de clicar com M1 para pegar um ingrediente e não estar segurando nenhum
-    if(held_object_->object_== nullptr && mouse.M1){
+    if(held_object_->object_== nullptr && (mouse.M1 || grab)){
         Camera& camera = *(held_object_->camera);
 
         if(lettuce_ref->IsBeingLooked(camera)){

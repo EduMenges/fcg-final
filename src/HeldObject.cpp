@@ -4,6 +4,7 @@
 #include "entity/ingredient/Ingredient.hpp"
 #include "matrices.hpp"
 #include "recipe/EIngredient.hpp"
+#include "singleton/Input.hpp"
 #include <iostream>
 #include <numbers>
 
@@ -35,6 +36,7 @@ void HeldObject::Unset() {
 
 void HeldObject::Update(double  /*delta*/) {
     input::Mouse mouse = Input::Instance().mouse_;
+    bool grab = Input::Instance().IsOn(GLFW_KEY_E);
 
     if (object_ == nullptr) {
         return;
@@ -63,11 +65,11 @@ void HeldObject::Update(double  /*delta*/) {
     // float dy = static_cast<float>(delta);
     // object->rotation_.y += dy;
 
-    if (mouse.M1) {
+    if (mouse.M1 || grab) {
         ToBurger();
     }
 
-    if (mouse.M2) {
+    if (mouse.M2 || Input::Instance().IsOn(GLFW_KEY_Q)) {
         Unset();
     }
 }

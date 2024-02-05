@@ -59,7 +59,7 @@ scene::Menu::Menu() : Scene({}, {}) {
                                           glm::vec3(1.0), glm::vec3(0.0, std::numbers::pi_v<float> * 3 / 2, 0.0)));
     }
 
-    player_.SetPosition({3.0F, 0.0, 3.5F, 1.0F});
+    player_.SetPosition({0.0F, 0.0, 0.0F, 1.0F});
     camera_->SetRotation({-2.45, 0.45});
     manager_.Init();
 }
