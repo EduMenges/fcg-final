@@ -1,4 +1,4 @@
-#include "Menu.hpp"
+#include "Game.hpp"
 #include "entity/Burger.hpp"
 #include "entity/Table.hpp"
 #include "entity/KetchupBottle.hpp"
@@ -9,23 +9,20 @@
 #include "singleton/Input.hpp"
 #include "model/Floor.hpp"
 #include "model/Wall.hpp"
+#include "model/Oven.hpp"
 #include <iostream>
 #include <numbers>
 
-scene::Menu::Menu() : Scene({}, {}) {
+scene::Game::Game() : Scene({}, {}) {
     auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, 0.0F}));
     float table_y = table.GetBoundingBox().max_.y;
 
     glm::vec3 burger_pos                   = table.position_;
     burger_pos.y                           = table_y;
     std::unique_ptr<entity::Burger> burger = std::make_unique<entity::Burger>(burger_pos);
+
     held_object_.LinkBurger(*burger);
     entities_.emplace_back(std::move(burger));
-    // entities_.emplace_back(std::make_unique<ingredient::BeefPatty>(glm::vec3{4, 1.7, 2}));
-
-    /* std::unique_ptr<ingredient::Ingredient> ing = std::make_unique<ingredient::Lettuce>(glm::vec3{4, 1.7, 2});
-    held_object_.Set(*ing);
-    entities_.emplace_back(std::move(ing)); */
 
     models_.emplace_back(std::make_unique<model::Floor>());
 
@@ -52,7 +49,10 @@ scene::Menu::Menu() : Scene({}, {}) {
                                           glm::vec3(1.0), glm::vec3(0.0, std::numbers::pi_v<float> * 3 / 2, 0.0)));
     }
 
-    player_.SetPosition({3.0F, 0.0, 3.5F, 1.0F});
-    camera_->SetRotation({-2.45, 0.45});
+    models_.emplace_back(std::make_unique<model::Oven>(glm::vec3(3.4F, 0.0, -4.1F)));
+
+    player_.SetPosition({3.0F, 0.0, 0.0F, 1.0F});
+    camera_->SetRotation({0.0, 1.0});
+
     manager_.Init();
 }

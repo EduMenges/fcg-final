@@ -3,7 +3,7 @@
 #include "OpenGL.h"
 
 #include "singleton/Window.hpp"
-#include "scene/Menu.hpp"
+#include "scene/Game.hpp"
 #include "singleton/Input.hpp"
 
 extern "C" void ErrorCallback(int error_code, const char* description) {
@@ -62,7 +62,7 @@ int main() {
 
     Window& window = Window::Instance();
     Input&  input  = Input::Instance();
-    Scene* scene = new scene::Menu();
+    Scene*  scene  = new scene::Game();
 
     input.UpdateMouse();
 
