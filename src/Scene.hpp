@@ -13,11 +13,13 @@
 #include "recipe/Order.hpp"
 #include "singleton/Input.hpp"
 #include "input/Keys.hpp"
+#include "entity/Screen.hpp"
 
 class Scene {
    public:
     using ModelContainer  = std::list<std::unique_ptr<Model>>;
     using EntityContainer = std::list<std::unique_ptr<Entity>>;
+    using ScreenContainer = std::list<std::unique_ptr<entity::Screen>>;
 
     Scene(Scene::ModelContainer&& models, Scene::EntityContainer&& entities);
 
@@ -33,11 +35,13 @@ class Scene {
    protected:
     ModelContainer  models_;
     EntityContainer entities_;
+    ScreenContainer screens_;
 
     Camera* camera_{nullptr};
     HeldObject held_object_{camera_, &entities_};
     IngredientManager manager_{&entities_, &held_object_};
     recipe::Order order_{recipe::Recipe{}};
+
 
     Input& input_;
 
