@@ -1,18 +1,18 @@
 #include "Order.hpp"
+
+#include <utility>
 #include "EIngredient.hpp"
 
 namespace recipe {
 
-Order::Order(Recipe recipe) : recipe_ref(recipe){};
+Order::Order(Recipe recipe) : recipe_ref(std::move(recipe)) {}
 
-int Order::Score(entity::Burger burger) {
+int Order::Score(entity::Burger* burger) const {
     int score = 0;
 
-    std::vector<recipe::EIngredient> recipe = recipe_ref.recipe;
+    std::vector<recipe::EIngredient> recipe = recipe_ref.ingredients_;
     std::vector<recipe::EIngredient> ingredients;
-    ingredients.reserve(burger.ingredients_.size());
-
-    for (const auto& ing : burger.ingredients_) {
+    for (const auto& ing : burger->ingredients_) {
         ingredients.push_back(ing->index_);
     }
 

@@ -4,7 +4,6 @@ namespace recipe {
 enum class EIngredient : int {  // NOLINT
     BOTTOMBUN = 0,
     BEEFPATTY = 1,
-    VEGPATTY = 2,
     KETCHUP = 3,
     MUSTARD = 4,
     LETTUCE = 5,

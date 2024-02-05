@@ -2,8 +2,9 @@
 #include "ingredient/BeefPatty.hpp"
 #include "singleton/Collision.hpp"
 #include "ingredient/IngredientImports.hpp"
+#include <iostream>
 
-entity::Burger::Burger(glm::vec3 position) : Entity(position, glm::vec3(0.09)), is_complete_(false) {
+entity::Burger::Burger(glm::vec3 position) : Entity(position, glm::vec3(0.09)) {
     ComputeHitBoxes();
     y_offset_ = this->GetHitBoxHeight();
 
@@ -31,13 +32,20 @@ void entity::Burger::Draw(Camera& c) {
 }
 
 void entity::Burger::AddIngredient(recipe::EIngredient index) {
-    std::unique_ptr<ingredient::Ingredient> ingredientPtr = GetIngredientByIndex(index);
-    ingredient::Ingredient&                 ingredient    = *ingredientPtr;
+    if (is_complete_) {
+        std::cout << "Still complete " << static_cast<int>(index) << '\n';
+        return;
+    }
+
+    std::unique_ptr<ingredient::Ingredient> ingredient_ptr = GetIngredientByIndex(index);
+    ingredient::Ingredient&                 ingredient    = *ingredient_ptr;
 
     ingredient.position_.y += y_offset_;
     this->y_offset_ += ingredient.GetHitBoxHeight();
     ingredient.rotation_.y += 255 * y_offset_;  // Aleatoriza a rotação do ingrediente no hamburger
-    this->ingredients_.push_back(std::move(ingredientPtr));
+    this->ingredients_.push_back(std::move(ingredient_ptr));
+
+    is_complete_ = (index == recipe::EIngredient::TOPBUN);
 }
 
 std::unique_ptr<ingredient::Ingredient> entity::Burger::GetIngredientByIndex(recipe::EIngredient index) {
@@ -46,42 +54,35 @@ std::unique_ptr<ingredient::Ingredient> entity::Burger::GetIngredientByIndex(rec
     switch (index) {
         case EIngredient::TOPBUN:
             return std::make_unique<ingredient::TopBun>(position_);
-            break;
 
         case EIngredient::BOTTOMBUN:
             return std::make_unique<ingredient::BottomBun>(position_);
-            break;
 
         case EIngredient::KETCHUP:
             return std::make_unique<ingredient::Ketchup>(position_);
-            break;
 
         case EIngredient::MUSTARD:
             return std::make_unique<ingredient::Mustard>(position_);
-            break;
 
         case EIngredient::BACON:
             return std::make_unique<ingredient::Bacon>(position_);
-            break;
 
         case EIngredient::EGG:
             return std::make_unique<ingredient::Egg>(position_);
-            break;
 
         case EIngredient::CHEESE:
             return std::make_unique<ingredient::Cheese>(position_);
-            break;
 
         case EIngredient::LETTUCE:
             return std::make_unique<ingredient::Lettuce>(position_);
-            break;
 
         case EIngredient::TOMATO:
             return std::make_unique<ingredient::Tomato>(position_);
-            break;
 
         case EIngredient::BEEFPATTY:
             return std::make_unique<ingredient::BeefPatty>(position_);
-            break;
+
+        default:
+            return std::make_unique<ingredient::Egg>(position_);
     }
 }

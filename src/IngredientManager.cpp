@@ -30,8 +30,7 @@ void IngredientManager::Init() {
 
 }
 
-void IngredientManager::Update(double delta) {
-    input::Keys keys = Input::Instance().keys_;
+void IngredientManager::Update(double /* delta */) {
     input::Mouse mouse = Input::Instance().mouse_;
 
     // No caso de clicar com M1 para pegar um ingrediente e não estar segurando nenhum
