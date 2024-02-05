@@ -19,7 +19,7 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd /home/alvaro/Desktop/Aula/FCG/TrabalhoFinal/ketchup_texture.png
+map_Kd ./ketchup_texture.png
 
 newmtl Tampa
 Ns 125.550301
