@@ -33,6 +33,15 @@ scene::Menu::Menu() : Scene({}, {}) {
     entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-1.2F, 0.0F, -2.0F}));
     entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{1.2F, 0.0F, 2.0F}));
     entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-1.2F, 0.0F, 2.0F}));
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, 2.0F}));
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{2.0F, 0.0F, 0.7F}));
+    entities_.back()->rotation_.y = 3.14/2;
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{2.0F, 0.0F, -0.7F}));
+    entities_.back()->rotation_.y = 3.14/2;
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-2.0F, 0.0F, 0.7F}));
+    entities_.back()->rotation_.y = 3.14/2;
+    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-2.0F, 0.0F, -0.7F}));
+    entities_.back()->rotation_.y = 3.14/2;
 
     models_.emplace_back(std::make_unique<model::Floor>());
 
