@@ -10,6 +10,7 @@
 #include "model/Floor.hpp"
 #include "model/Wall.hpp"
 #include "model/Oven.hpp"
+#include "model/Generic.hpp"
 #include <iostream>
 #include <numbers>
 
@@ -51,8 +52,11 @@ scene::Game::Game() : Scene({}, {}) {
 
     models_.emplace_back(std::make_unique<model::Oven>(glm::vec3(3.4F, 0.0, -4.1F)));
 
-    player_.SetPosition({3.0F, 0.0, 0.0F, 1.0F});
-    camera_->SetRotation({0.0, 1.0});
+    models_.emplace_back(std::make_unique<model::Generic>("../../../data/fridge/Fridge.obj",
+                                                          glm::vec3{-3.5F, 0.0F, -4.4F}, glm::vec3(0.011F)));
+
+    player_.SetPosition({0.0F, 0.0, 3.0F, 1.0F});
+    camera_->SetRotation({4 * M_PI_4f, 0.0});
 
     manager_.Init();
 }
