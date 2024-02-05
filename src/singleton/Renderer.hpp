@@ -7,6 +7,7 @@
 #include "renderer/GPUProgram.hpp"
 #include "tl/expected.hpp"
 #include "Collision.hpp"
+#include "tiny_obj_loader.h"
 
 class Renderer {
 public:
@@ -22,8 +23,8 @@ public:
      */
     tl::expected<GLuint, std::error_code> LoadTexture(std::string filename);
 
-    void DrawPhong(glm::mat4 model, Camera& cam, HitBox box, std::optional<GLint> texture,
-                   GLuint vertex_array_id, GLenum draw_mode, GLsizei el_count, GLenum type, void *first_index);
+    void DrawPhong(glm::mat4 model, Camera& cam, std::optional<GLint> texture, GLuint vertex_array_id, GLenum draw_mode,
+                   GLsizei el_count, GLenum type, void* first_index, tinyobj::material_t& material);
 
     void DrawGouraud();
 

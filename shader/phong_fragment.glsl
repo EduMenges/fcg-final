@@ -15,15 +15,17 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform vec4 view_vec;
 
-uniform vec3 bbox_min;
-uniform vec3 bbox_Max;
-
-uniform float time;
-
 uniform int use_texture;
 uniform sampler2D color_texture;
+uniform vec3 Kd_notexture;
 
-// O valor de saída ("out") de um Fragment Shader é a cor final do fragmento.
+// Refletância especular
+uniform vec3 Ks;
+
+// Refletância ambiente
+uniform vec3 Ka;
+
+// O valor de saída ("out") de um Fragment Shader, a cor final do fragmento.
 out vec4 color;
 
 void main()
@@ -52,8 +54,6 @@ void main()
     vec4 v = normalize(camera_position - p);
 
     // Vetor que define o sentido da fonte de luz em relação ao ponto atual.
-    //    vec4 l = normalize(vec4(1.0, 1.0, 0.0, 0.0));
-
     vec4 l = v;
 
     // Vetor que define o sentido da reflexão especular ideal.
@@ -62,23 +62,29 @@ void main()
     // Parâmetros que definem as propriedades espectrais da superfície
 
     // Refletância difusa
-    vec3 Kd = texture(color_texture, tex_coord).rgb;
+    vec3 Kd;
 
-    // Refletância especular
-    vec3 Ks = vec3(0.8, 0.8, 0.8);
-    // Refletância ambiente
-    vec3 Ka = Kd * 0.05;
-    // Expoente especular para o modelo de iluminação de Phong
-    float q = 32;
+    if (use_texture == 1) {
+        Kd = texture(color_texture, tex_coord).rgb;
+    } else {
+        Kd = Kd_notexture;
+    }
+
+    // Expoente especular para o modelo de iluminação de bling-phong
+    float q = 80;
 
     // Espectro da fonte de iluminação
     vec3 I = vec3(1, 1, 1);
+
     // Espectro da luz ambiente
-    vec3 Ia = vec3(0.2);
+    vec3 Ia = vec3(0, 0, 0);
+
+    vec4 h = normalize(v + l);
 
     vec3 lambert_diffuse_term = Kd * I * max(0, dot(n, l));
     vec3 ambient_term = Ka * Ia;
-    vec3 phong_specular_term = Ks * I * pow(max(0, dot(r, v)), q);
+    //    vec3 phong_specular_term = Ks * I * pow(max(0, dot(r, v)), q);
+    vec3 phong_specular_term = Ks * I * pow(dot(n, h), q);
 
     // Iluminação
     color.rgb = lambert_diffuse_term + ambient_term + phong_specular_term;

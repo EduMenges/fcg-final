@@ -9,7 +9,8 @@ Renderer::Renderer()
              shader::Fragment("../../../shader/phong_fragment.glsl")),
       gouraud_(shader::Vertex("../../../shader/gouraud_vertex.glsl"),
                shader::Fragment("../../../shader/gouraud_fragment.glsl")) {
-    phong_.InsertLocation("model", "view", "projection", "view_vec", "bbox_min", "bbox_max", "use_texture", "color_texture");
+    phong_.InsertLocation("model", "view", "projection", "view_vec", "use_texture", "color_texture", "Ks", "Ka",
+                          "Kd_notexture");
     gouraud_.InsertLocation("model", "view", "projection", "view_vec", "color_texture");
 
     glEnable(GL_DEPTH_TEST);
@@ -64,8 +65,9 @@ tl::expected<GLuint, std::error_code> Renderer::LoadTexture(std::string filename
     return textureunit;
 }
 
-void Renderer::DrawPhong(glm::mat4 model, Camera& cam, HitBox box, std::optional<GLint> texture, GLuint vertex_array_id,
-                         GLenum draw_mode, GLsizei el_count, GLenum type, void* first_index) {
+void Renderer::DrawPhong(glm::mat4 model, Camera& cam, std::optional<GLint> texture, GLuint vertex_array_id,
+                         GLenum draw_mode, GLsizei el_count, GLenum type, void* first_index,
+                         tinyobj::material_t& material) {
     glUseProgram(phong_.GetId());
 
     glBindVertexArray(vertex_array_id);
@@ -74,15 +76,17 @@ void Renderer::DrawPhong(glm::mat4 model, Camera& cam, HitBox box, std::optional
     glUniformMatrix4fv(phong_.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(cam.GetViewMatrix()));
     glUniformMatrix4fv(phong_.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(perspective_));
     glUniform4fv(phong_.GetUniform("view_vec"), 1, glm::value_ptr(cam.GetViewVec()));
-    glUniform4fv(phong_.GetUniform("bbox_min"), 1, glm::value_ptr(box.min_));
-    glUniform4fv(phong_.GetUniform("bbox_max"), 1, glm::value_ptr(box.max_));
+    glUniform3fv(phong_.GetUniform("Ks"), 1, material.specular);
+    glUniform3fv(phong_.GetUniform("Ka"), 1, material.ambient);
 
     if (texture.has_value()) {
         glUniform1i(phong_.GetUniform("use_texture"), GLFW_TRUE);
         glUniform1i(phong_.GetUniform("color_texture"), *texture);
     } else {
         glUniform1i(phong_.GetUniform("use_texture"), GLFW_FALSE);
+        glUniform3fv(phong_.GetUniform("Kd_notexture"), 1, material.diffuse);
     }
+
     glDrawElements(draw_mode, el_count, type, first_index);
 
     glBindVertexArray(0);
