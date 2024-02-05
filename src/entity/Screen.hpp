@@ -17,6 +17,10 @@ namespace entity {
           Obj& GetObj() override;
 
           Obj& BLT();
+          Obj& Cheeseburger();
+          Obj& Salad();
+          Obj& Meatlover();
+          Obj& Special();
     };
 
 }

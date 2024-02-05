@@ -73,7 +73,7 @@ scene::Game::Game() : Scene({}, {}) {
     player_.SetPosition({0.0F, 0.0, 3.0F, 1.0F});
     camera_->SetRotation({4 * M_PI_4f, 0.0});
 
-    models_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0,2,-4.5), recipe::RecipeName::BLT));
+    models_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0,2,-4.5), recipe::RecipeName::SALAD));
     models_.back()->rotation_.y=-M_PI_2;
 
     manager_.Init();
