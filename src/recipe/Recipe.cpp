@@ -1,11 +1,12 @@
 #include "EIngredient.hpp"
 #include "Recipe.hpp"
 #include <cstdlib>
+#include <ctime>
 
 namespace recipe {
 
     // Define os ingredientes para uma dada receita
-    Recipe::Recipe(RecipeName recipe_name) {
+    Recipe::Recipe(RecipeName recipe_name) : name(recipe_name) {
 
         switch(recipe_name) {
             case RecipeName::BLT:
@@ -36,7 +37,10 @@ namespace recipe {
     }
 
     // Aleatoriza uma receita
-    Recipe::Recipe() : Recipe(static_cast<RecipeName>(std::rand() % static_cast<int>(RecipeName::COUNT))) {
+    Recipe::Recipe() {
+        std::srand(static_cast<unsigned int>(std::time(nullptr)));
+        RecipeName randomRecipe = static_cast<RecipeName>(std::rand() % static_cast<int>(RecipeName::COUNT));
+        *this = Recipe(randomRecipe);
     }
 
 }

@@ -2,6 +2,7 @@
 
 #include <utility>
 #include "EIngredient.hpp"
+#include <iostream>
 
 namespace recipe {
 
@@ -53,6 +54,7 @@ int Order::Score(entity::Burger* burger) const {
     // Bônus de pontuação
     if (score == 100 * recipe.size()) {
         score += 200;
+        std::cout << "CERTA" << std::endl;
     }
 
     return score;
