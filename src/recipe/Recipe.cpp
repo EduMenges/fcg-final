@@ -23,14 +23,14 @@ namespace recipe {
                                 EIngredient::EGG, EIngredient::BEEFPATTY, EIngredient::BACON, EIngredient::TOPBUN};
                 break;
 
-            case RecipeName::VEGAN:
-                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::BEEFPATTY,
-                                EIngredient::CHEESE, EIngredient::KETCHUP, EIngredient::BACON, EIngredient::TOPBUN};
+            case RecipeName::SALAD:
+                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::TOMATO,
+                                EIngredient::MUSTARD, EIngredient::BEEFPATTY, EIngredient::KETCHUP, EIngredient::TOPBUN};
                 break;
 
             case RecipeName::SPECIAL:
-                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::LETTUCE, EIngredient::BEEFPATTY,
-                                EIngredient::CHEESE, EIngredient::KETCHUP, EIngredient::BACON, EIngredient::TOPBUN};
+                this->recipe = {EIngredient::BOTTOMBUN, EIngredient::CHEESE, EIngredient::BEEFPATTY,
+                                EIngredient::TOMATO, EIngredient::BACON, EIngredient::EGG, EIngredient::TOPBUN};
                 break;
         }
     }

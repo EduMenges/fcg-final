@@ -7,7 +7,7 @@ namespace recipe {
 enum class RecipeName : int {  
     BLT = 0,
     CHEESEBURGER = 1,
-    VEGAN = 2,
+    SALAD = 2,
     MEATLOVER = 3,
     SPECIAL = 4,
     COUNT = 5
