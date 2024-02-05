@@ -11,6 +11,8 @@ Window::Window() : window_(glfwCreateWindow(width_, height_, kGameName.data(), n
 
     glfwSetWindowSize(window_, width_, height_);
 
+    glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
     glfwMakeContextCurrent(window_);
 
     gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
