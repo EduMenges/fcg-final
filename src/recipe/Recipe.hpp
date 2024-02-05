@@ -10,6 +10,7 @@ class Recipe {
     Recipe();
 
     explicit Recipe(RecipeName recipe_name);
+    RecipeName name;
 
     std::vector<EIngredient> ingredients_;
 };

@@ -11,6 +11,7 @@
 #include "model/Generic.hpp"
 #include <iostream>
 #include <numbers>
+#include "entity/Screen.hpp"
 
 scene::Game::Game() : Scene({}, {}) {
     auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, -2.0F}));
@@ -71,6 +72,21 @@ scene::Game::Game() : Scene({}, {}) {
 
     player_.SetPosition({0.0F, 0.0, 3.0F, 1.0F});
     camera_->SetRotation({4 * M_PI_4f, 0.0});
+
+    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0,2,-6), recipe::RecipeName::BLT));
+    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0,2,-6), recipe::RecipeName::SALAD));
+    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0,2,-6), recipe::RecipeName::CHEESEBURGER));
+    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0,2,-6), recipe::RecipeName::MEATLOVER));
+    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0,2,-6), recipe::RecipeName::SPECIAL));
+        
+    for (auto& screen : screens_) {
+        
+        if(screen->recipe == order_.recipe_ref.name) {
+            
+            screen->position_.z = -4.5;
+            screen->rotation_.y = -M_PI_2;
+        }
+    }
 
     manager_.Init();
 }

@@ -9,6 +9,10 @@ void Scene::Draw() {
     for (auto& entity : entities_) {
         entity->Draw(*camera_);
     }
+
+    for (auto& screen: screens_) {
+        screen->Draw(*camera_);
+    }
 }
 
 Scene::Scene(Scene::ModelContainer&& models, Scene::EntityContainer&& entities)
@@ -31,8 +35,8 @@ Scene* Scene::Update(double delta) {
 void Scene::CheckDeliverBurger() {
     if(input_.IsOn(GLFW_KEY_ENTER) && !has_been_sent) {
         has_been_sent = true;
-        //int score = order_.Score(held_object_.burger);
-        //std::cout<<score<<std::endl;
+        int score = order_.Score(held_object_.burger);
+        std::cout<<score<<std::endl;
         held_object_.ResetBurger(); 
     }
 
