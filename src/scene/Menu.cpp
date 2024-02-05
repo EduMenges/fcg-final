@@ -1,9 +1,7 @@
 #include "Menu.hpp"
 #include "entity/Burger.hpp"
 #include "entity/Table.hpp"
-#include "entity/KetchupBottle.hpp"
 
-#include "entity/MustardBottle.hpp"
 #include "entity/ingredient/IngredientImports.hpp"
 #include "Player.hpp"
 #include "singleton/Input.hpp"

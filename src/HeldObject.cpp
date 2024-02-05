@@ -25,10 +25,6 @@ void HeldObject::Unset() {
         return;
     }
 
-    // std::cout<<entities->size()<<std::endl;
-    // entities->remove_if([this](const auto& obj) { return obj.get() == object; });
-    // std::cout<<"->"<<entities->size()<<std::endl;
-
     object_->position_ = old_position_;
     object_->rotation_ = old_rotation_;
     object_            = nullptr;
@@ -45,7 +41,6 @@ void HeldObject::Update(double  /*delta*/) {
     glm::vec4 c_position = camera->GetCameraPosition();
     glm::vec4 view_vec   = camera->GetViewVec();
     glm::vec4 right_vec  = CrossProduct(view_vec, glm::vec4{0, 1, 0, 0});
-    // glm::vec4 horizontal = glm::normalize(glm::vec4{view_vec.x, 0, view_vec.z, 0});
 
     right_vec *= 0.2F;
     view_vec *= 0.5F;
@@ -53,17 +48,9 @@ void HeldObject::Update(double  /*delta*/) {
     glm::vec4 held_position = c_position + view_vec + right_vec + glm::vec4{0, -0.15, 0, 0};
 
     float theta = glm::atan(view_vec.x, view_vec.z) + std::numbers::pi_v<float> / 2;
-    // float phi = glm::asin(view_vec.y/Norm(view_vec));
 
     object_->position_   = held_position;
     object_->rotation_.y = theta;
-    // glm::vec4 rotate4 = MatrixRotate(phi, horizontal) * glm::vec4{view};
-    // object->rotation_ = glm::vec3{rotate4.x, theta, rotate4.z};
-    // object->rotation_.x = phi;//0*phi*glm::cos(theta);
-    // object->rotation_.z = phi;//*glm::sin(theta);
-
-    // float dy = static_cast<float>(delta);
-    // object->rotation_.y += dy;
 
     if (mouse.M1 || grab) {
         ToBurger();

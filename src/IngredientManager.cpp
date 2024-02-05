@@ -1,6 +1,5 @@
 #include "IngredientManager.hpp"
 #include "Camera.hpp"
-#include "entity/ingredient/BeefPatty.hpp"
 #include "input/Mouse.hpp"
 #include "singleton/Input.hpp"
 
@@ -27,6 +26,12 @@ void IngredientManager::Init() {
 
     entities_->emplace_back(std::make_unique<ingredient::TopBun>(glm::vec3{0, table_y, 2})); //
     bun_ref = dynamic_cast<ingredient::TopBun*>(entities_->back().get());
+
+    entities_->emplace_back(std::make_unique<ingredient::KetchupBottle>(glm::vec3{1.2, table_y, 2})); 
+    ketchup_ref = dynamic_cast<ingredient::KetchupBottle*>(entities_->back().get());
+
+    entities_->emplace_back(std::make_unique<ingredient::MustardBottle>(glm::vec3{-1.2, table_y, 2})); 
+    mustard_ref = dynamic_cast<ingredient::MustardBottle*>(entities_->back().get());
 
 }
 
@@ -64,6 +69,14 @@ void IngredientManager::Update(double /* delta */) {
 
         else if(bun_ref->IsBeingLooked(camera)){
             held_object_->Set(*bun_ref);
+        }
+
+        else if(ketchup_ref->IsBeingLooked(camera)){
+            held_object_->Set(*ketchup_ref);
+        }
+
+        else if(mustard_ref->IsBeingLooked(camera)){
+            held_object_->Set(*mustard_ref);
         }
     }
 
