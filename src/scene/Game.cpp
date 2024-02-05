@@ -11,6 +11,7 @@
 #include "model/Generic.hpp"
 #include <iostream>
 #include <numbers>
+#include "entity/Screen.hpp"
 
 scene::Game::Game() : Scene({}, {}) {
     auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, -2.0F}));
@@ -71,6 +72,9 @@ scene::Game::Game() : Scene({}, {}) {
 
     player_.SetPosition({0.0F, 0.0, 3.0F, 1.0F});
     camera_->SetRotation({4 * M_PI_4f, 0.0});
+
+    models_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0,2,-4.5), recipe::RecipeName::BLT));
+    models_.back()->rotation_.y=-M_PI_2;
 
     manager_.Init();
 }
