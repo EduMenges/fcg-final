@@ -39,9 +39,7 @@ class Model {
         bool intersects = glm::intersectRaySphere(camera.GetCameraPosition(), camera.GetViewVec(), glm::vec4(position_, 1.0F),
                                        std::pow(radius, 2.0F), distance);
 
-        float distance_from_center = Norm(glm::vec4{position_, 1} - camera.GetCameraPosition());
-
-        return intersects && (distance_from_center <= 2);
+        return intersects && (distance <= 2.0F);
     }
 
     glm::vec3 position_;
