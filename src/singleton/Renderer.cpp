@@ -10,7 +10,7 @@ Renderer::Renderer()
       gouraud_(shader::Vertex("../../../shader/gouraud_vertex.glsl"),
                shader::Fragment("../../../shader/gouraud_fragment.glsl")) {
     phong_.InsertLocation("model", "view", "projection", "view_vec", "use_texture", "color_texture", "Ks", "Ka",
-                          "Kd_notexture");
+                          "Kd_notexture", "q");
     gouraud_.InsertLocation("model", "view", "projection", "view_vec", "color_texture");
 
     glEnable(GL_DEPTH_TEST);
@@ -78,6 +78,7 @@ void Renderer::DrawPhong(glm::mat4 model, Camera& cam, std::optional<GLint> text
     glUniform4fv(phong_.GetUniform("view_vec"), 1, glm::value_ptr(cam.GetViewVec()));
     glUniform3fv(phong_.GetUniform("Ks"), 1, material.specular);
     glUniform3fv(phong_.GetUniform("Ka"), 1, material.ambient);
+    glUniform1f(phong_.GetUniform("q"), material.shininess);
 
     if (texture.has_value()) {
         glUniform1i(phong_.GetUniform("use_texture"), GLFW_TRUE);
