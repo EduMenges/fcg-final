@@ -1,4 +1,4 @@
-#include "Menu.hpp"
+#include "Game.hpp"
 #include "entity/Burger.hpp"
 #include "entity/Table.hpp"
 
@@ -7,24 +7,21 @@
 #include "singleton/Input.hpp"
 #include "model/Floor.hpp"
 #include "model/Wall.hpp"
+#include "model/Oven.hpp"
 #include <iostream>
 #include <numbers>
 
-scene::Menu::Menu() : Scene({}, {}) {
-    auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, -2.0F}));
+scene::Game::Game() : Scene({}, {}) {
+    auto& table   = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, 2.0F}));
     float table_y = table.GetBoundingBox().max_.y;
     manager_.table_y = table_y;
 
     glm::vec3 burger_pos                   = table.position_;
     burger_pos.y                           = table_y;
     std::unique_ptr<entity::Burger> burger = std::make_unique<entity::Burger>(burger_pos);
+
     held_object_.LinkBurger(*burger);
     entities_.emplace_back(std::move(burger));
-    // entities_.emplace_back(std::make_unique<ingredient::BeefPatty>(glm::vec3{4, 1.7, 2}));
-
-    /* std::unique_ptr<ingredient::Ingredient> ing = std::make_unique<ingredient::Lettuce>(glm::vec3{4, 1.7, 2});
-    held_object_.Set(*ing);
-    entities_.emplace_back(std::move(ing)); */
 
     // Demais mesas
     entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{1.2F, 0.0F, -2.0F}));
