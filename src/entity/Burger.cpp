@@ -12,10 +12,14 @@ entity::Burger::Burger(glm::vec3 position) : Entity(position, glm::vec3(0.09)) {
 }
 
 void entity::Burger::Update(double delta) {
-    /* float dy = static_cast<float>(delta);
-    rotation_.y += dy;
-    for(const std::unique_ptr<ingredient::Ingredient>& ing : this->ingredients)
-        ing->rotation_.y += dy; */
+    if(!is_correct_) {
+        return;
+    }
+
+    float dy = static_cast<float>(delta);
+    rotation_.y += 8*dy;
+    for(const std::unique_ptr<ingredient::Ingredient>& ing : this->ingredients_)
+        ing->rotation_.y += 8*dy; 
 }
 
 Obj& entity::Burger::GetObj() {
