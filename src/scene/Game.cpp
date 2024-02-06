@@ -44,7 +44,7 @@ scene::Game::Game() : Scene({}, {}) {
     models_.emplace_back(
         std::make_unique<model::Floor>(glm::vec3{0.0F, 4.0F, 0.0F}, glm::vec3{0.0F, 0.0F, glm::radians(180.0F)}));
 
-    constexpr size_t    kAmountOfWalls = 3;
+    constexpr size_t    kAmountOfWalls = 4;
     constexpr float     kWallSize      = 3.0f;
     constexpr glm::vec3 kCenterDisplacement{-(kWallSize * kAmountOfWalls) / 2, 0.0, (kWallSize * kAmountOfWalls) / 2};
 
@@ -67,24 +67,31 @@ scene::Game::Game() : Scene({}, {}) {
                                           glm::vec3(1.0), glm::vec3(0.0, std::numbers::pi_v<float> * 3 / 2, 0.0)));
     }
 
-    models_.emplace_back(std::make_unique<model::Oven>(glm::vec3(3.4F, 0.0, -4.1F)));
+    models_.emplace_back(std::make_unique<model::Oven>(glm::vec3(3.4F, 0.0, -5.5F)));
 
     models_.emplace_back(std::make_unique<model::Generic>("../../../data/fridge/Fridge.obj",
-                                                          glm::vec3{-3.5F, 0.0F, -4.4F}, glm::vec3(0.011F)));
+                                                          glm::vec3{-3.5F, 0.0F, -5.8F}, glm::vec3(0.011F)));
 
-    player_.SetPosition({0.0F, 0.0, 3.0F, 1.0F});
+    player_.SetPosition({0.0F, 0.0, kWallSize, 1.0F});
     camera_->SetRotation({4 * M_PI_4f, 0.0});
 
-    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0, 2, -6), recipe::RecipeName::BLT));
-    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0, 2, -6), recipe::RecipeName::SALAD));
-    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0, 2, -6), recipe::RecipeName::CHEESEBURGER));
-    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0, 2, -6), recipe::RecipeName::MEATLOVER));
-    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0, 2, -6), recipe::RecipeName::SPECIAL));
+    constexpr float kScreenY = 0.5F;
+    constexpr float kScreenZ = -kWallSize * 3;
+    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::BLT));
+    screens_.emplace_back(
+        std::make_unique<entity::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::SALAD));
+    screens_.emplace_back(
+        std::make_unique<entity::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::CHEESEBURGER));
+    screens_.emplace_back(
+        std::make_unique<entity::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::MEATLOVER));
+    screens_.emplace_back(
+        std::make_unique<entity::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::SPECIAL));
 
     for (auto& screen : screens_) {
         if (screen->recipe == order_.recipe_ref.name) {
-            screen->position_.z = -4.5;
-            screen->rotation_.y = -M_PI_2;
+            screen->position_.z = -5.8F;
+            screen->rotation_.y = -glm::radians(90.0F);
+            screen->scale_      = glm::vec3(0.9);
         }
     }
 
