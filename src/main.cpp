@@ -59,9 +59,7 @@ int main() {
 #endif
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     SetCallbacks();
-
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     Window& window = Window::Instance();
     Input&  input  = Input::Instance();
