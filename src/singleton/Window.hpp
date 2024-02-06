@@ -9,7 +9,7 @@
 
 class Window {
    public:
-    static constexpr std::string_view kGameName = "FooBar";
+    static constexpr std::string_view kGameName = "Undercooked!";
 
     static Window& Instance() {
         static Window instance;
