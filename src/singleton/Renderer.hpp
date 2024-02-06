@@ -26,7 +26,8 @@ public:
     void DrawPhong(glm::mat4 model, Camera& cam, std::optional<GLint> texture, GLuint vertex_array_id, GLenum draw_mode,
                    GLsizei el_count, GLenum type, void* first_index, tinyobj::material_t& material);
 
-    void DrawGouraud();
+    void DrawGouraud(glm::mat4 model, Camera& cam, std::optional<GLint> texture, GLuint vertex_array_id,
+                     GLenum draw_mode, GLsizei el_count, GLenum type, void* first_index, tinyobj::material_t& material);
 
     void SetScreenRatio(float ratio) {
         perspective_ = MatrixPerspective(kFov, ratio, kNearPlane, kFarPlane);

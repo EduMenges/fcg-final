@@ -10,7 +10,7 @@
 #include "singleton/Renderer.hpp"
 #include <array>
 
-Obj::Obj(const std::filesystem::path& file_name, glm::vec3 position, glm::vec3 scale) {
+Obj::Obj(const std::filesystem::path& file_name, bool phong) : phong_(phong) {
     if (!is_regular_file(file_name)) {
         throw std::runtime_error("Could not find obj file");
     }
@@ -251,11 +251,9 @@ void Obj::Draw(Camera& c, glm::mat4 model_matrix) {
                                            GL_UNSIGNED_INT, reinterpret_cast<void*>(first_index_[i] * sizeof(GLuint)),
                                            materials_[i]);
         } else {
-            //            GraphicsManager::DrawElementsGouraud(kModel, c, min_[i], max[i],
-            //                                                 texture_id_[i], vbo_ids_[i], GL_TRIANGLES,
-            //                                                 index_count_[i], GL_UNSIGNED_INT,
-            //                                                 reinterpret_cast<void *>(first_index_[i] *
-            //                                                 sizeof(GLuint)));
+            Renderer::Instance().DrawGouraud(model_matrix, c, texture_id_[i], vbo_ids_[i], GL_TRIANGLES,
+                                             index_count_[i], GL_UNSIGNED_INT,
+                                             reinterpret_cast<void*>(first_index_[i] * sizeof(GLuint)), materials_[i]);
         }
     }
 }

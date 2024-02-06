@@ -2,7 +2,7 @@
 
 namespace model {
 Obj& Oven::GetObj() {
-    static Obj instance("../../../data/oven/fkc.obj");
+    static Obj instance("../../../data/oven/fkc.obj", true);
     return instance;
 }
 }

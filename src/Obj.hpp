@@ -20,8 +20,7 @@ class Obj {
         glm::vec3 bbox_max;
     };
 
-    explicit Obj(const std::filesystem::path& file_name, glm::vec3 position = glm::vec3(0),
-                 glm::vec3 scale = glm::vec3(1));
+    explicit Obj(const std::filesystem::path& file_name, bool phong = true);
 
     Obj(Obj&& other) = default;
 
@@ -31,7 +30,8 @@ class Obj {
 
     std::vector<HitBox> boxes_;
 
-    bool phong_ = true;  // Should I render using phong_ shading?
+    /// @c true -> Use phong shading, @c false -> Use (cursed) goraud shading
+    bool phong_ = true;
 
    private:
     void ComputeNormals();

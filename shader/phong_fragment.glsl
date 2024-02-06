@@ -63,25 +63,25 @@ void main()
     // Parâmetros que definem as propriedades espectrais da superfície
 
     // Refletância difusa
-    vec3 Kd;
+    vec4 Kd;
 
     if (use_texture == 1) {
-        Kd = texture(color_texture, tex_coord).rgb;
+        Kd = texture(color_texture, tex_coord);
     } else {
-        Kd = Kd_notexture;
+        Kd = vec4(Kd_notexture, 1.0);
     }
 
     // Espectro da fonte de iluminação
     vec3 I = vec3(0.5, 0.5, 0.5);
 
     // Espectro da luz ambiente
-    vec3 Ia = vec3(0.0, 0.0, 0.0);
+    vec3 Ia = vec3(0.01);
 
     // Halfway vector
     vec4 h = normalize(v + l);
 
     // Diffuse lighting
-    vec3 lambert_diffuse_term = Kd * I * max(0.0, dot(n, l));
+    vec3 lambert_diffuse_term = Kd.rgb * I * max(0.0, dot(n, l));
 
     // Specular lighting
     float specularFactor = pow(max(dot(h, n), 0.0), q);
@@ -96,4 +96,5 @@ void main()
     // Cor final com correção gamma, considerando monitor sRGB.
     // Veja https://en.wikipedia.org/w/index.php?title=Gamma_correction&oldid=751281772#Windows.2C_Mac.2C_sRGB_and_TV.2Fvideo_standard_gammas
     color.rgb = pow(color.rgb, vec3(1.0, 1.0, 1.0) / 2.2);
+    color.a = Kd.a;
 }

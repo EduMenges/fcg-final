@@ -4,10 +4,10 @@ namespace model {
 
 std::unordered_map<std::filesystem::path, Obj> Generic::map_{};
 
-Generic::Generic(std::filesystem::path model, glm::vec3 position, glm::vec3 scale, glm::vec3 rotation)
+Generic::Generic(std::filesystem::path&& model, glm::vec3 position, glm::vec3 scale, glm::vec3 rotation, bool phong)
     : Model(position, scale, rotation), model_(std::move(model)) {
     if (!map_.contains(model_)) {
-        map_.emplace(model_, Obj(model_));
+        map_.emplace(model_, Obj(model_, true));
     }
 }
 }

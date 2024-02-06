@@ -11,7 +11,8 @@ Renderer::Renderer()
                shader::Fragment("../../../shader/gouraud_fragment.glsl")) {
     phong_.InsertLocation("model", "view", "projection", "view_vec", "use_texture", "color_texture", "Ks", "Ka",
                           "Kd_notexture", "q");
-    gouraud_.InsertLocation("model", "view", "projection", "view_vec", "color_texture");
+    gouraud_.InsertLocation("model", "view", "projection", "view_vec", "use_texture", "color_texture", "Ks", "Ka",
+                            "Kd_notexture", "q");
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -86,6 +87,34 @@ void Renderer::DrawPhong(glm::mat4 model, Camera& cam, std::optional<GLint> text
     } else {
         glUniform1i(phong_.GetUniform("use_texture"), GLFW_FALSE);
         glUniform3fv(phong_.GetUniform("Kd_notexture"), 1, material.diffuse);
+    }
+
+    glDrawElements(draw_mode, el_count, type, first_index);
+
+    glBindVertexArray(0);
+}
+
+void Renderer::DrawGouraud(glm::mat4 model, Camera& cam, std::optional<GLint> texture, GLuint vertex_array_id,
+                           GLenum draw_mode, GLsizei el_count, GLenum type, void* first_index,
+                           tinyobj::material_t& material) {
+    glUseProgram(gouraud_.GetId());
+
+    glBindVertexArray(vertex_array_id);
+
+    glUniformMatrix4fv(gouraud_.GetUniform("model"), 1, GL_FALSE, glm::value_ptr(model));
+    glUniformMatrix4fv(gouraud_.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(cam.GetViewMatrix()));
+    glUniformMatrix4fv(gouraud_.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(perspective_));
+    glUniform4fv(gouraud_.GetUniform("view_vec"), 1, glm::value_ptr(cam.GetViewVec()));
+    //    glUniform3fv(gouraud_.GetUniform("Ks"), 1, material.specular);
+    //    glUniform3fv(gouraud_.GetUniform("Ka"), 1, material.ambient);
+    //    glUniform1f(gouraud_.GetUniform("q"), material.shininess);
+
+    if (texture.has_value()) {
+        glUniform1i(gouraud_.GetUniform("use_texture"), GLFW_TRUE);
+        glUniform1i(gouraud_.GetUniform("color_texture"), *texture);
+    } else {
+        glUniform1i(gouraud_.GetUniform("use_texture"), GLFW_FALSE);
+        glUniform3fv(gouraud_.GetUniform("Kd_notexture"), 1, material.diffuse);
     }
 
     glDrawElements(draw_mode, el_count, type, first_index);
