@@ -55,6 +55,7 @@ int Order::Score(entity::Burger* burger) const {
     if (score == 100 * recipe.size()) {
         score += 200;
         std::cout << "CERTA" << std::endl;
+        burger->is_correct_ = true;
     }
 
     return score;

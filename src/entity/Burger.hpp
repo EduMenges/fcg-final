@@ -12,6 +12,8 @@ class Burger : public Entity {
     explicit Burger(glm::vec3 position);
     bool is_complete_ = false; // Indica se ainda pode receber ingredientes;
 
+    bool is_correct_ = false;
+
     void Update(double delta) override;
 
     void Draw(Camera& c) override;

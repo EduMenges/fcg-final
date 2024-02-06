@@ -37,7 +37,9 @@ void Scene::CheckDeliverBurger() {
         has_been_sent = true;
         int score = order_.Score(held_object_.burger);
         std::cout<<score<<std::endl;
-        held_object_.ResetBurger(); 
+        if(!held_object_.burger->is_correct_) {
+            held_object_.ResetBurger(); 
+        }
     }
 
     else {
