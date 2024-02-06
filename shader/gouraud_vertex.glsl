@@ -29,6 +29,8 @@ uniform vec3 Ka;
 // É o "shininess" do material
 uniform float q;
 
+uniform float dissolve;
+
 void main()
 {
     gl_Position = projection * view * model * model_coefficients;
@@ -91,5 +93,6 @@ void main()
 
     // Cor final com correção gamma, considerando monitor sRGB.
     vertexColor.rgb = pow(vertexColor.rgb, vec3(1.0, 1.0, 1.0) / 2.2);
+    vertexColor.a = dissolve;
 }
 

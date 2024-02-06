@@ -10,9 +10,9 @@ Renderer::Renderer()
       gouraud_(shader::Vertex("../../../shader/gouraud_vertex.glsl"),
                shader::Fragment("../../../shader/gouraud_fragment.glsl")) {
     phong_.InsertLocation("model", "view", "projection", "view_vec", "use_texture", "color_texture", "Ks", "Ka",
-                          "Kd_notexture", "q");
+                          "Kd_notexture", "q", "dissolve");
     gouraud_.InsertLocation("model", "view", "projection", "view_vec", "use_texture", "color_texture", "Ks", "Ka",
-                            "Kd_notexture", "q");
+                            "Kd_notexture", "q", "dissolve");
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
@@ -80,6 +80,7 @@ void Renderer::DrawPhong(glm::mat4 model, Camera& cam, std::optional<GLint> text
     glUniform3fv(phong_.GetUniform("Ks"), 1, material.specular);
     glUniform3fv(phong_.GetUniform("Ka"), 1, material.ambient);
     glUniform1f(phong_.GetUniform("q"), material.shininess);
+    glUniform1f(phong_.GetUniform("dissolve"), material.dissolve);
 
     if (texture.has_value()) {
         glUniform1i(phong_.GetUniform("use_texture"), GLFW_TRUE);
@@ -105,9 +106,10 @@ void Renderer::DrawGouraud(glm::mat4 model, Camera& cam, std::optional<GLint> te
     glUniformMatrix4fv(gouraud_.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(cam.GetViewMatrix()));
     glUniformMatrix4fv(gouraud_.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(perspective_));
     glUniform4fv(gouraud_.GetUniform("view_vec"), 1, glm::value_ptr(cam.GetViewVec()));
-    //    glUniform3fv(gouraud_.GetUniform("Ks"), 1, material.specular);
-    //    glUniform3fv(gouraud_.GetUniform("Ka"), 1, material.ambient);
-    //    glUniform1f(gouraud_.GetUniform("q"), material.shininess);
+    glUniform3fv(gouraud_.GetUniform("Ks"), 1, material.specular);
+    glUniform3fv(gouraud_.GetUniform("Ka"), 1, material.ambient);
+    glUniform1f(gouraud_.GetUniform("q"), material.shininess);
+    glUniform1f(phong_.GetUniform("dissolve"), material.dissolve);
 
     if (texture.has_value()) {
         glUniform1i(gouraud_.GetUniform("use_texture"), GLFW_TRUE);
