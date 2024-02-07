@@ -76,18 +76,18 @@ void main()
     // Espectro da luz ambiente
     vec3 Ia = vec3(0.01);
 
-    // Halfway vector
-    vec4 h = normalize(v + l);
+    // Vetor que define o sentido da reflexão especular ideal.
+    vec4 r = -l + 2 * n * (dot(n, l));
 
     // Diffuse lighting
     vec3 lambert_diffuse_term = Kd * I * max(0.0, dot(n, l));
 
     // Specular lighting
-    float specularFactor = pow(max(dot(h, n), 0.0), q);
-    vec3 bling_phong_specular_term = Ks * I * specularFactor;
+    float specularFactor = pow(max(0, dot(r, v)), q);
+    vec3 phong_specular_term = Ks * I * specularFactor;
 
     vec3 ambient_term = Ka * Ia;
-    vec3 result = lambert_diffuse_term + ambient_term + bling_phong_specular_term;
+    vec3 result = lambert_diffuse_term + ambient_term + phong_specular_term;
 
     // Iluminação
     color.rgb = clamp(result, 0.0, 1.0);
