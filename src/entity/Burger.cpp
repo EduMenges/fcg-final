@@ -13,7 +13,7 @@ entity::Burger::Burger(glm::vec3 position) : Entity(position, glm::vec3(0.09)) {
 }
 
 void entity::Burger::Update(double delta) {
-    if(!is_correct_ || position_.z > 7) {
+    if(!is_correct_ || position_.z > 7 || !is_traveling_) {
         return;
     }
 
