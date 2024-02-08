@@ -15,7 +15,7 @@ class Burger : public Entity {
 
     bool is_correct_ = false;
 
-    CubicBezier bezier_{{position_, glm::vec3{2,1,-6}, glm::vec3{3,3,4}, glm::vec3{2, 2, 8}}, 10, true};
+    CubicBezier bezier_{{position_, glm::vec3{2,1,-6}, glm::vec3{3,3,4}, glm::vec3{2, 2, 8}}, 10, false};
 
     void Update(double delta) override;
 

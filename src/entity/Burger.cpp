@@ -13,7 +13,7 @@ entity::Burger::Burger(glm::vec3 position) : Entity(position, glm::vec3(0.09)) {
 }
 
 void entity::Burger::Update(double delta) {
-    if(!is_correct_) {
+    if(!is_correct_ || position_.z > 7) {
         return;
     }
 
@@ -44,7 +44,6 @@ void entity::Burger::Draw(Camera& c) {
 
 void entity::Burger::AddIngredient(recipe::EIngredient index) {
     if (is_complete_) {
-        //std::cout << "Still complete " << static_cast<int>(index) << '\n';
         return;
     }
 
