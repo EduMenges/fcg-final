@@ -29,10 +29,11 @@ void IngredientManager::Init() {
 
     entities_->emplace_back(std::make_unique<ingredient::KetchupBottle>(glm::vec3{1.2, table_y, 2})); 
     ketchup_ref = dynamic_cast<ingredient::KetchupBottle*>(entities_->back().get());
+    ketchup_ref->rotation_.y = glm::radians(180.0F);
 
     entities_->emplace_back(std::make_unique<ingredient::MustardBottle>(glm::vec3{-1.2, table_y, 2})); 
     mustard_ref = dynamic_cast<ingredient::MustardBottle*>(entities_->back().get());
-
+    mustard_ref->rotation_.y = glm::radians(180.0F);
 }
 
 void IngredientManager::Update(double /* delta */) {

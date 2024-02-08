@@ -70,10 +70,7 @@ scene::Game::Game() : Scene({}, {}) {
     models_.emplace_back(std::make_unique<model::Oven>(glm::vec3(3.4F, 0.0, -5.5F)));
 
     models_.emplace_back(std::make_unique<model::Generic>(
-        "../../../data/fridge/Fridge.obj", glm::vec3{-3.5F, 0.0F, -5.8F}, glm::vec3(0.011F), glm::vec3(0.0F), false));
-
-    models_.emplace_back(std::make_unique<model::Generic>("../../../data/kitchenware/lavandino.obj", glm::vec3(2.0),
-                                                          glm::vec3(0.4F), glm::vec3(0.0), false));
+        "../../../data/fridge/Fridge.obj", glm::vec3{-3.5F, 0.0F, -5.8F}, glm::vec3(0.011F), glm::vec3(0.0F)));
 
     player_.SetPosition({0.0F, 0.0, kWallSize * 1.5, 1.0F});
     camera_->SetRotation({4 * M_PI_4f, 0.0});
