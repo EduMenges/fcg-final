@@ -13,7 +13,7 @@ entity::Burger::Burger(glm::vec3 position) : Entity(position, glm::vec3(0.09)) {
 }
 
 void entity::Burger::Update(double delta) {
-    if(!is_correct_ || position_.z > 7) {
+    if(!is_correct_ || position_.z > 7 || !is_traveling_) {
         return;
     }
 
@@ -52,6 +52,7 @@ void entity::Burger::AddIngredient(recipe::EIngredient index) {
 
     ingredient.position_.y += y_offset_;
     this->y_offset_ += ingredient.GetHitBoxHeight();
+    sphere_.AddToRadius(ingredient.GetHitBoxHeight());
     ingredient.rotation_.y += 255 * y_offset_;  // Aleatoriza a rotação do ingrediente no hamburger
     this->ingredients_.push_back(std::move(ingredient_ptr));
 

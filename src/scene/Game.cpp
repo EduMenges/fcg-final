@@ -12,6 +12,7 @@
 #include <iostream>
 #include <numbers>
 #include "entity/Screen.hpp"
+#include "entity/UFO.hpp"
 
 scene::Game::Game() : Scene({}, {}) {
     auto& table      = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, -2.0F}));
@@ -23,6 +24,7 @@ scene::Game::Game() : Scene({}, {}) {
     std::unique_ptr<entity::Burger> burger = std::make_unique<entity::Burger>(burger_pos);
 
     held_object_.LinkBurger(*burger);
+    entities_.emplace_back(std::make_unique<entity::UFO>(*burger));
     entities_.emplace_back(std::move(burger));
 
     // Demais mesas
@@ -113,7 +115,7 @@ void scene::Game::CheckDeliverBurger() {
     if (input_.IsOn(GLFW_KEY_ENTER) && !has_been_sent) {
         has_been_sent = true;
         int score     = order_.Score(held_object_.burger);
-        std::cout << score << std::endl;
+        //std::cout << score << std::endl;
         if (!held_object_.burger->is_correct_) {
             held_object_.ResetBurger();
         }
