@@ -17,6 +17,8 @@ class Burger : public Entity {
 
     CubicBezier bezier_{{position_, glm::vec3{2,1,-6}, glm::vec3{3,3,4}, glm::vec3{2, 2, 8}}, 10, false};
 
+    HitSphere sphere_{position_, 0.1};
+
     void Update(double delta) override;
 
     void Draw(Camera& c) override;

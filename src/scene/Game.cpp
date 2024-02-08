@@ -12,6 +12,7 @@
 #include <iostream>
 #include <numbers>
 #include "entity/Screen.hpp"
+#include "entity/UFO.hpp"
 
 scene::Game::Game() : Scene({}, {}) {
     auto& table      = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, -2.0F}));
@@ -23,6 +24,7 @@ scene::Game::Game() : Scene({}, {}) {
     std::unique_ptr<entity::Burger> burger = std::make_unique<entity::Burger>(burger_pos);
 
     held_object_.LinkBurger(*burger);
+    entities_.emplace_back(std::make_unique<entity::UFO>(*burger));
     entities_.emplace_back(std::move(burger));
 
     // Demais mesas
