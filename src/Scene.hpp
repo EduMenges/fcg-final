@@ -38,13 +38,7 @@ class Scene {
     ScreenContainer screens_;
 
     Camera* camera_{nullptr};
-    HeldObject held_object_{camera_, &entities_};
-    IngredientManager manager_{&entities_, &held_object_};
-    recipe::Order order_{recipe::Recipe{}};
-
 
     Input& input_;
 
-    void CheckDeliverBurger();
-    bool has_been_sent = false;
 };

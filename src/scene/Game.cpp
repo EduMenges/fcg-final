@@ -97,3 +97,27 @@ scene::Game::Game() : Scene({}, {}) {
 
     manager_.Init();
 }
+
+Scene* scene::Game::Update(double delta) {
+    Scene::Update(delta);
+
+    held_object_.Update(delta);
+    manager_.Update(delta);
+
+    CheckDeliverBurger();
+
+    return this;
+}
+
+void scene::Game::CheckDeliverBurger() {
+    if (input_.IsOn(GLFW_KEY_ENTER) && !has_been_sent) {
+        has_been_sent = true;
+        int score     = order_.Score(held_object_.burger);
+        std::cout << score << std::endl;
+        if (!held_object_.burger->is_correct_) {
+            held_object_.ResetBurger();
+        }
+    } else {
+        has_been_sent = input_.IsOn(GLFW_KEY_ENTER);
+    }
+}
