@@ -7,8 +7,8 @@
 Renderer::Renderer()
     : phong_(shader::Vertex("../../../shader/phong_vertex.glsl"),
              shader::Fragment("../../../shader/phong_fragment.glsl")),
-      gouraud_(shader::Vertex("../../../shader/gouraud_vertex.glsl"),
-               shader::Fragment("../../../shader/gouraud_fragment.glsl")) {
+      gouraud_(shader::Vertex("../../../shader/goraud_vertex.glsl"),
+               shader::Fragment("../../../shader/goraud_fragment.glsl")) {
     phong_.InsertLocation("model", "view", "projection", "view_vec", "use_texture", "color_texture", "Ks", "Ka",
                           "Kd_notexture", "q");
     gouraud_.InsertLocation("model", "view", "projection", "view_vec", "use_texture", "color_texture", "Ks", "Ka",

@@ -34,10 +34,6 @@ out vec4 color;
 
 void main()
 {
-    if (use_texture == 0) {
-        discard;
-    }
-
     // Obtemos a posição da câmera utilizando a inversa da matriz que define o
     // sistema de coordenadas da câmera.
     vec4 origin = vec4(0.0, 0.0, 0.0, 1.0);
