@@ -111,11 +111,7 @@ void Obj::BuildTriangles(const std::filesystem::path& base_path) {
         size_t       first_index   = indices.size();
         const size_t kNumTriangles = shape.mesh.num_face_vertices.size();
 
-        uint32_t material_id = 0;
-
-        if (!shape.mesh.material_ids.empty()) {
-            material_id = shape.mesh.material_ids[0];
-        }
+        uint32_t material_id = shape.mesh.material_ids[0];
 
         glm::vec3 bbox_min = glm::vec3(kMaxval, kMaxval, kMaxval);
         glm::vec3 bbox_max = glm::vec3(kMinval, kMinval, kMinval);
@@ -249,7 +245,7 @@ void Obj::Draw(Camera& c, glm::mat4 model_matrix) {
         if (phong_) {
             Renderer::Instance().DrawPhong(model_matrix, c, texture_id_[i], vbo_ids_[i], GL_TRIANGLES, index_count_[i],
                                            GL_UNSIGNED_INT, reinterpret_cast<void*>(first_index_[i] * sizeof(GLuint)),
-                                           materials_[i]);
+                                           *material_id_[i]);
         } else {
             Renderer::Instance().DrawGouraud(model_matrix, c, texture_id_[i], vbo_ids_[i], GL_TRIANGLES,
                                              index_count_[i], GL_UNSIGNED_INT,

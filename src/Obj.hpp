@@ -11,15 +11,6 @@
 
 class Obj {
    public:
-    struct VertexPackage {
-        GLuint    vbo_id;
-        int       first_index;
-        int       index_count;
-        GLuint    texture_id;
-        glm::vec3 bbox_min;
-        glm::vec3 bbox_max;
-    };
-
     explicit Obj(const std::filesystem::path& file_name, bool phong = true);
 
     Obj(Obj&& other) = default;
@@ -47,6 +38,4 @@ class Obj {
     std::vector<int>                  index_count_;
     std::vector<std::optional<GLint>> texture_id_;
     std::vector<tinyobj::material_t*> material_id_;
-
-    std::vector<VertexPackage> vertexes_;
 };
