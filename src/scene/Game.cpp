@@ -32,20 +32,20 @@ scene::Game::Game() : Scene({}, {}) {
     entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-1.2F, 0.0F, 2.0F}));
     entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, 2.0F}));
     entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{2.0F, 0.0F, 0.7F}));
-    entities_.back()->rotation_.y = 3.14 / 2;
+    entities_.back()->rotation_.y = glm::radians(90.0F);
     entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{2.0F, 0.0F, -0.7F}));
-    entities_.back()->rotation_.y = 3.14 / 2;
+    entities_.back()->rotation_.y = glm::radians(90.0F);
     entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-2.0F, 0.0F, 0.7F}));
-    entities_.back()->rotation_.y = 3.14 / 2;
+    entities_.back()->rotation_.y = glm::radians(90.0F);
     entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-2.0F, 0.0F, -0.7F}));
-    entities_.back()->rotation_.y = 3.14 / 2;
+    entities_.back()->rotation_.y = glm::radians(90.0F);
 
     models_.emplace_back(std::make_unique<model::Floor>());
     models_.emplace_back(
         std::make_unique<model::Floor>(glm::vec3{0.0F, 4.0F, 0.0F}, glm::vec3{0.0F, 0.0F, glm::radians(180.0F)}));
 
     constexpr size_t    kAmountOfWalls = 4;
-    constexpr float     kWallSize      = 3.0f;
+    constexpr float     kWallSize      = 3.0F;
     constexpr glm::vec3 kCenterDisplacement{-(kWallSize * kAmountOfWalls) / 2, 0.0, (kWallSize * kAmountOfWalls) / 2};
 
     for (size_t i = 0; i < kAmountOfWalls; ++i) {
@@ -69,7 +69,7 @@ scene::Game::Game() : Scene({}, {}) {
 
     models_.emplace_back(std::make_unique<model::Oven>(glm::vec3(3.4F, 0.0, -5.5F)));
 
-    auto& fridge = *models_.emplace_back(std::make_unique<model::Generic>(
+    models_.emplace_back(std::make_unique<model::Generic>(
         "../../../data/fridge/Fridge.obj", glm::vec3{-3.5F, 0.0F, -5.8F}, glm::vec3(0.011F), glm::vec3(0.0F), false));
 
     models_.emplace_back(std::make_unique<model::Generic>("../../../data/kitchenware/lavandino.obj", glm::vec3(2.0),
