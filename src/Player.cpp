@@ -3,6 +3,10 @@
 #include "singleton/Collision.hpp"
 
 void Player::Update(double delta) {
+    if (paused_) {
+        return;
+    }
+
     camera_.ComputeRotation(Input::Instance().GetDelta() * kMouseAcceleration);
 
     // Camera target

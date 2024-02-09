@@ -11,5 +11,7 @@ namespace trait {
         virtual void Update(double /* delta */) {
 
         };
+
+        bool paused_ = false;
     };
 }

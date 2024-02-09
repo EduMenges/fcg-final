@@ -11,9 +11,7 @@ class Camera {
     Camera()          = default;
     virtual ~Camera() = default;
 
-    [[nodiscard]] glm::vec4 GetCameraPosition() const {
-        return GetCenter();
-    }
+    [[nodiscard]] glm::vec4 GetCameraPosition() const { return GetCenter(); }
 
     [[nodiscard]] virtual glm::mat4 GetViewMatrix() const;
 
@@ -24,10 +22,10 @@ class Camera {
     void ComputeRotation(glm::dvec2 mouse_delta);
 
     static constexpr glm::vec4 kUp{0.0F, 1.0F, 0.0F, 0.0F};
-   protected:
 
+   protected:
     [[nodiscard]] virtual glm::vec4 GetCenter() const = 0;
-    glm::dvec2          rotation_{0.0, 0.0};
+    glm::dvec2                      rotation_{0.0, 0.0};
 };
 
 class LookAtCamera : public Camera {
@@ -36,18 +34,22 @@ class LookAtCamera : public Camera {
 
     [[nodiscard]] glm::vec4 GetViewVec() const override;
 
+    constexpr void SetLookAt(glm::vec3 look_at) { look_at_ = look_at; }
+
    private:
     [[nodiscard]] glm::vec4 GetCenter() const override;
 
+    /// Where the camera shall be looking to
     glm::vec3 look_at_;
-    double    distance_ = 3.5;
+    /// How far the camera shall stay at
+    double distance_ = 5.0F;
 };
 
 class FreeCamera : public Camera {
    public:
     FreeCamera() = default;
 
-    explicit FreeCamera(glm::vec4 position): position_(position) {}
+    explicit FreeCamera(glm::vec4 position) : position_(position) {}
 
     [[nodiscard]] glm::vec4 GetViewVec() const override;
 
