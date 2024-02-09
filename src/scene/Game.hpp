@@ -27,6 +27,6 @@ class Game : public Scene {
     recipe::Order     order_{recipe::Recipe{}};
     entity::Screen*   active_recipe_{nullptr};
     CameraState       camera_state_{CameraState::kPlayer};
-    LookAtCamera      look_at_camera_;
+    LookAtCamera      look_at_camera_{glm::vec3(0.0)};
 };
 }
