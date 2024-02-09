@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 3,
   "configurePresets": [
     {
       "name": "default",
@@ -27,6 +27,13 @@
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
       }
+    },
+    {
+      "name": "windows-release",
+      "inherits": [
+        "windows",
+        "release"
+      ]
     },
     {
       "name": "mingw",
@@ -86,6 +93,11 @@
       "name": "windows-debug",
       "configurePreset": "windows",
       "displayName": "Windows Debug"
+    },
+    {
+      "name": "windows-release",
+      "configurePreset": "windows-release",
+      "displayName": "Windows Release"
     }
   ]
 }

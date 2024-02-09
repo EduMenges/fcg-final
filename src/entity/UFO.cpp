@@ -17,11 +17,11 @@ void entity::UFO::Update(double delta) {
 
     else if (!burger_.is_traveling_) {
         burger_.is_traveling_ = true;
-        distance_to_burger    = position_.y - burger_.position_.y;
+        distance_to_burger_   = position_.y - burger_.position_.y;
     }
 
     else {
-        position_ = burger_.position_ + glm::vec3{0, distance_to_burger, 0};
+        position_ = burger_.position_ + glm::vec3{0, distance_to_burger_, 0};
     }
 }
 

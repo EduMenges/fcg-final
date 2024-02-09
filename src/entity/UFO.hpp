@@ -10,10 +10,10 @@ class UFO : public Entity {
    public:
     explicit UFO(entity::Burger& burger);
 
-    CubicBezier     bezier_;
     entity::Burger& burger_;
+    CubicBezier     bezier_;
     HitSphere       sphere_{position_, 0.2};
-    float           distance_to_burger;
+    float           distance_to_burger_;
 
     void Update(double delta) override;
 
