@@ -1,6 +1,9 @@
 # fcg-final
 Trabalho final de Fundamentos de Computação Gráfica
 
+![image](https://github.com/EduMenges/fcg-final/assets/108766073/c2f47ff4-8c6a-4d86-b1b4-9fb0fd7e1f57)
+
+
 ## Contribuições de cada membro
 ### Álvaro
 Produção dos modelos e texturas dos ingredientes, garrafas, mesas e OVNI; implementação da colisão esfera-esfera; implementação das animações; implementação das transformações controladas por usuário (pegar e carregar ingrediente, adicionar ingrediente a hambúrguer, resetar hambúrguer).
@@ -24,6 +27,9 @@ São usados três tipos de teste de intersecção: teste cubo-cubo, para testar 
 - Botão direito do mouse ou tecla Q: devolve ingrediente sendo segurado
 - Tecla Enter: verifica se o hambúrguer está certo de acordo com a receita
 O objetivo do jogo consiste em montar o hambúrguer mostrado na tela de receita (aleatorizada toda vez que é rodado o jogo). Se a receita estiver incorreta, apertar a tecla Enter removerá todos os ingredientes adicionados, para que o jogador possa tentar novamente.
+
+![image](https://github.com/EduMenges/fcg-final/assets/108766073/d21c49b5-72c1-4022-a7af-68102ea196dc)
+
 
 ## Compilação
 
