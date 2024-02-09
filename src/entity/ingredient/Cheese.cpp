@@ -1,7 +1,7 @@
 #include "Cheese.hpp"
 #include "singleton/Collision.hpp"
 
-ingredient::Cheese::Cheese(glm::vec3 position) : Ingredient(position, glm::vec3(0.1), recipe::EIngredient::CHEESE) {
+ingredient::Cheese::Cheese(glm::vec3 position) : Ingredient(position, glm::vec3(0.1), recipe::EIngredient::kCheese) {
     ComputeHitBoxes();
 }
 

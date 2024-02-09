@@ -81,11 +81,8 @@ glm::mat4 MatrixRotateZ(float angle) {
                   0.0F, 0.0F, 0.0F, 1.0F);
 }
 
-float Norm(glm::vec4 v) {
-    float vx = v.x;
-    float vy = v.y;
-    float vz = v.z;
-
+float Norm(glm::vec3 v) {
+    auto [vx, vy, vz] = v;
     return std::sqrt(vx * vx + vy * vy + vz * vz);
 }
 

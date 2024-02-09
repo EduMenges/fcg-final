@@ -12,5 +12,5 @@ class Entity : public trait::Updatable, public Model {
 
     Entity(Entity&& other) = default;
 
-    ~Entity() override;
+    ~Entity() override = default;
 };

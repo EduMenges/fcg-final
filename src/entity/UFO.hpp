@@ -12,7 +12,7 @@ class UFO : public Entity {
 
     entity::Burger& burger_;
     CubicBezier     bezier_;
-    HitSphere       sphere_{position_, 0.2};
+    HitSphere       sphere_{position_, 0.2F};
     float           distance_to_burger_;
 
     void Update(double delta) override;

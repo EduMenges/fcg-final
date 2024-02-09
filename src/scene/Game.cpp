@@ -1,6 +1,6 @@
 #include "Game.hpp"
 #include "entity/Burger.hpp"
-#include "entity/Table.hpp"
+#include "model/Table.hpp"
 
 #include "entity/ingredient/IngredientImports.hpp"
 #include "Player.hpp"
@@ -11,16 +11,16 @@
 #include "model/Generic.hpp"
 #include <iostream>
 #include <numbers>
-#include "entity/Screen.hpp"
+#include "model/Screen.hpp"
 #include "singleton/Window.hpp"
 #include "entity/UFO.hpp"
 
 scene::Game::Game() : Scene({}, {}) {
-    auto& table      = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, -2.0F}));
-    float table_y    = table.GetBoundingBox().max_.y;
+    auto& table      = models_.emplace_back(std::make_unique<model::Table>(glm::vec3{0.0F, 0.0F, -2.0F}));
+    float table_y    = table->GetBoundingBox().max_.y;
     manager_.table_y = table_y;
 
-    glm::vec3 burger_pos                   = table.position_;
+    glm::vec3 burger_pos                   = table->position_;
     burger_pos.y                           = table_y;
     std::unique_ptr<entity::Burger> burger = std::make_unique<entity::Burger>(burger_pos);
 
@@ -29,23 +29,27 @@ scene::Game::Game() : Scene({}, {}) {
     entities_.emplace_back(std::move(burger));
 
     // Demais mesas
-    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{1.2F, 0.0F, -2.0F}));
-    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-1.2F, 0.0F, -2.0F}));
-    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{1.2F, 0.0F, 2.0F}));
-    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-1.2F, 0.0F, 2.0F}));
-    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, 2.0F}));
-    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{2.0F, 0.0F, 0.7F}));
-    entities_.back()->rotation_.y = glm::radians(90.0F);
-    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{2.0F, 0.0F, -0.7F}));
-    entities_.back()->rotation_.y = glm::radians(90.0F);
-    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-2.0F, 0.0F, 0.7F}));
-    entities_.back()->rotation_.y = glm::radians(90.0F);
-    entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{-2.0F, 0.0F, -0.7F}));
-    entities_.back()->rotation_.y = glm::radians(90.0F);
+
+    models_.emplace_back(std::make_unique<model::Table>(glm::vec3{1.2F, 0.0F, -2.0F}));
+    models_.emplace_back(std::make_unique<model::Table>(glm::vec3{-1.2F, 0.0F, -2.0F}));
+    models_.emplace_back(std::make_unique<model::Table>(glm::vec3{1.2F, 0.0F, 2.0F}));
+    models_.emplace_back(std::make_unique<model::Table>(glm::vec3{-1.2F, 0.0F, 2.0F}));
+    models_.emplace_back(std::make_unique<model::Table>(glm::vec3{0.0F, 0.0F, 2.0F}));
+
+    models_.emplace_back(std::make_unique<model::Table>(glm::vec3{2.0F, 0.0F, 0.7F}))->rotation_.y =
+        glm::radians(90.0F);
+    models_.emplace_back(std::make_unique<model::Table>(glm::vec3{2.0F, 0.0F, -0.7F}))->rotation_.y =
+        glm::radians(90.0F);
+    models_.emplace_back(std::make_unique<model::Table>(glm::vec3{-2.0F, 0.0F, 0.7F}))->rotation_.y =
+        glm::radians(90.0F);
+    models_.emplace_back(std::make_unique<model::Table>(glm::vec3{-2.0F, 0.0F, -0.7F}))->rotation_.y =
+        glm::radians(90.0F);
 
     models_.emplace_back(std::make_unique<model::Floor>());
     models_.emplace_back(
         std::make_unique<model::Floor>(glm::vec3{0.0F, 4.0F, 0.0F}, glm::vec3{0.0F, 0.0F, glm::radians(180.0F)}));
+
+    // Coloca as paredes no lugar
 
     constexpr size_t    kAmountOfWalls = 4;
     constexpr float     kWallSize      = 3.0F;
@@ -80,15 +84,14 @@ scene::Game::Game() : Scene({}, {}) {
 
     constexpr float kScreenY = 0.5F;
     constexpr float kScreenZ = -kWallSize * 3;
-    screens_.emplace_back(std::make_unique<entity::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::BLT));
+    screens_.emplace_back(std::make_unique<model::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::BLT));
+    screens_.emplace_back(std::make_unique<model::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::SALAD));
     screens_.emplace_back(
-        std::make_unique<entity::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::SALAD));
+        std::make_unique<model::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::CHEESEBURGER));
     screens_.emplace_back(
-        std::make_unique<entity::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::CHEESEBURGER));
+        std::make_unique<model::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::MEATLOVER));
     screens_.emplace_back(
-        std::make_unique<entity::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::MEATLOVER));
-    screens_.emplace_back(
-        std::make_unique<entity::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::SPECIAL));
+        std::make_unique<model::Screen>(glm::vec3(0, kScreenY, kScreenZ), recipe::RecipeName::SPECIAL));
 
     for (auto& screen : screens_) {
         if (screen->recipe == order_.recipe_ref.name) {
@@ -108,6 +111,8 @@ Scene* scene::Game::Update(double delta) {
     for (auto& screen : screens_) {
         screen->Draw(*camera_);
     }
+
+    // We need to use this instead of the input singleton due to its latency.
 
     static bool was_on;
     static bool is_on;

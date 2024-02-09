@@ -32,7 +32,7 @@ class Renderer {
     void SetScreenRatio(float ratio) { perspective_ = MatrixPerspective(kFov, ratio, kNearPlane, kFarPlane); }
 
    private:
-    static constexpr float kFov       = std::numbers::pi_v<float> / 3.0F;
+    static constexpr float kFov       = glm::radians(60.0F);
     static constexpr float kNearPlane = -0.1F;
     static constexpr float kFarPlane  = -60.0F;
 

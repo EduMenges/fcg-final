@@ -105,9 +105,9 @@ void Renderer::DrawGouraud(glm::mat4 model, Camera& cam, std::optional<GLint> te
     glUniformMatrix4fv(gouraud_.GetUniform("view"), 1, GL_FALSE, glm::value_ptr(cam.GetViewMatrix()));
     glUniformMatrix4fv(gouraud_.GetUniform("projection"), 1, GL_FALSE, glm::value_ptr(perspective_));
     glUniform4fv(gouraud_.GetUniform("view_vec"), 1, glm::value_ptr(cam.GetViewVec()));
-    //    glUniform3fv(gouraud_.GetUniform("Ks"), 1, material.specular);
-    //    glUniform3fv(gouraud_.GetUniform("Ka"), 1, material.ambient);
-    //    glUniform1f(gouraud_.GetUniform("q"), material.shininess);
+    glUniform3fv(gouraud_.GetUniform("Ks"), 1, material.specular);
+    glUniform3fv(gouraud_.GetUniform("Ka"), 1, material.ambient);
+    glUniform1f(gouraud_.GetUniform("q"), material.shininess);
 
     if (texture.has_value()) {
         glUniform1i(gouraud_.GetUniform("use_texture"), GLFW_TRUE);

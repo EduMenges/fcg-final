@@ -1,10 +1,11 @@
 #pragma once
 
+#include "Model.hpp"
 #include "Entity.hpp"
 
-namespace entity {
+namespace model {
 
-class Table : public Entity {
+class Table : public Model {
    public:
     explicit Table(glm::vec3 position);
 

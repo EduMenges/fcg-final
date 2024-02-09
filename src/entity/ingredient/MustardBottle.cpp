@@ -2,7 +2,7 @@
 #include "singleton/Collision.hpp"
 
 ingredient::MustardBottle::MustardBottle(glm::vec3 position)
-    : Ingredient(position, glm::vec3(0.12), recipe::EIngredient::MUSTARD) {
+    : Ingredient(position, glm::vec3(0.12), recipe::EIngredient::kMustard) {
     ComputeHitBoxes();
 }
 

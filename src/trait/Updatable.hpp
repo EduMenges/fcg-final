@@ -12,6 +12,7 @@ class Updatable {
 
     };
 
+    /// To be used by updatables that overload @ref Update
     bool paused_ = false;
 };
 }

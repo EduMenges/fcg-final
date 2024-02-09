@@ -66,7 +66,7 @@ void HeldObject::ToBurger() {
         return;
     }
 
-    if (object_->index_ != recipe::EIngredient::COUNT) {
+    if (object_->index_ != recipe::EIngredient::kCount) {
         burger->AddIngredient(object_->index_);
     }
 
@@ -79,5 +79,5 @@ void HeldObject::ResetBurger() {
     burger->ingredients_.clear();
     burger->is_complete_ = false;
     burger->y_offset_    = burger->GetHitBoxHeight();
-    burger->AddIngredient(recipe::EIngredient::BOTTOMBUN);
+    burger->AddIngredient(recipe::EIngredient::kBottomBun);
 }

@@ -2,16 +2,16 @@
 
 namespace recipe {
 enum class EIngredient : int {  // NOLINT
-    BOTTOMBUN = 0,
-    BEEFPATTY = 1,
-    KETCHUP   = 3,
-    MUSTARD   = 4,
-    LETTUCE   = 5,
-    TOMATO    = 6,
-    CHEESE    = 7,
-    EGG       = 8,
-    BACON     = 9,
-    TOPBUN    = 10,
-    COUNT     = 11
+    kBottomBun = 0,
+    kBeefPatty = 1,
+    kKetchup   = 3,
+    kMustard   = 4,
+    kLettuce   = 5,
+    kTomato    = 6,
+    kCheese    = 7,
+    kEgg       = 8,
+    kBacon     = 9,
+    kTopBun    = 10,
+    kCount     = 11
 };
 }

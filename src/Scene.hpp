@@ -13,7 +13,7 @@
 #include "recipe/Order.hpp"
 #include "singleton/Input.hpp"
 #include "input/Keys.hpp"
-#include "entity/Screen.hpp"
+#include "model/Screen.hpp"
 
 class Scene {
    public:
