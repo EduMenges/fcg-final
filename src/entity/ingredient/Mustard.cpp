@@ -8,6 +8,6 @@ ingredient::Mustard::Mustard(glm::vec3 position) : Ingredient(position, glm::vec
 void ingredient::Mustard::Update(double delta) {}
 
 Obj& ingredient::Mustard::GetObj() {
-    static Obj obj("../../../data/ingredients/mustard-splash.obj");
+    static Obj obj("../../../data/ingredients/mustard-splash.obj", false);
     return obj;
 }
