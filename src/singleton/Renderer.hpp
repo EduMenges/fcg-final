@@ -10,8 +10,8 @@
 #include "tiny_obj_loader.h"
 
 class Renderer {
-public:
-    static Renderer &Instance() {
+   public:
+    static Renderer& Instance() {
         static Renderer instance;
         return instance;
     }
@@ -29,11 +29,9 @@ public:
     void DrawGouraud(glm::mat4 model, Camera& cam, std::optional<GLint> texture, GLuint vertex_array_id,
                      GLenum draw_mode, GLsizei el_count, GLenum type, void* first_index, tinyobj::material_t& material);
 
-    void SetScreenRatio(float ratio) {
-        perspective_ = MatrixPerspective(kFov, ratio, kNearPlane, kFarPlane);
-    }
+    void SetScreenRatio(float ratio) { perspective_ = MatrixPerspective(kFov, ratio, kNearPlane, kFarPlane); }
 
-private:
+   private:
     static constexpr float kFov       = std::numbers::pi_v<float> / 3.0F;
     static constexpr float kNearPlane = -0.1F;
     static constexpr float kFarPlane  = -60.0F;

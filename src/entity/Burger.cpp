@@ -9,11 +9,10 @@ entity::Burger::Burger(glm::vec3 position) : Entity(position, glm::vec3(0.09)) {
     y_offset_ = this->GetHitBoxHeight();
 
     AddIngredient(recipe::EIngredient::BOTTOMBUN);
-
 }
 
 void entity::Burger::Update(double delta) {
-    if(!is_correct_ || position_.z > 7 || !is_traveling_) {
+    if (!is_correct_ || position_.z > 7 || !is_traveling_) {
         return;
     }
 
@@ -21,10 +20,10 @@ void entity::Burger::Update(double delta) {
     bezier_.Update(delta);
     glm::vec3 adjustment = bezier_.Get() - position_;
 
-    rotation_.y += 8*dy;
+    rotation_.y += 8 * dy;
     position_ += adjustment;
-    for(const std::unique_ptr<ingredient::Ingredient>& ing : this->ingredients_) {
-        ing->rotation_.y += 8*dy; 
+    for (const std::unique_ptr<ingredient::Ingredient>& ing : this->ingredients_) {
+        ing->rotation_.y += 8 * dy;
         ing->position_ += adjustment;
     }
 }
@@ -48,7 +47,7 @@ void entity::Burger::AddIngredient(recipe::EIngredient index) {
     }
 
     std::unique_ptr<ingredient::Ingredient> ingredient_ptr = GetIngredientByIndex(index);
-    ingredient::Ingredient&                 ingredient    = *ingredient_ptr;
+    ingredient::Ingredient&                 ingredient     = *ingredient_ptr;
 
     ingredient.position_.y += y_offset_;
     this->y_offset_ += ingredient.GetHitBoxHeight();

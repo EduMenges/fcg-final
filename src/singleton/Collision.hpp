@@ -36,16 +36,16 @@ class HitSphere {
    public:
     HitSphere(glm::vec3 center, float radius) : center_(center), radius_(radius) {}
 
-    void AddToRadius(float dr) {radius_ += dr;}
-    glm::vec3 GetCenter() {return center_;}
-    float GetRadius() {return radius_;}
-    bool CollidesWith(HitSphere sph2) {
+    void      AddToRadius(float dr) { radius_ += dr; }
+    glm::vec3 GetCenter() { return center_; }
+    float     GetRadius() { return radius_; }
+    bool      CollidesWith(HitSphere sph2) {
         glm::vec3 to_center = sph2.GetCenter() - center_;
-        float center_distance = sqrt(to_center.x*to_center.x + to_center.y*to_center.y + to_center.z*to_center.z);
-        //std::cout<<center_distance<<std::endl;
+        float center_distance = sqrt(to_center.x * to_center.x + to_center.y * to_center.y + to_center.z * to_center.z);
+        // std::cout<<center_distance<<std::endl;
         return center_distance <= radius_ + sph2.GetRadius();
     }
-    void SetCenter(glm::vec3 center) {center_ = center;}
+    void SetCenter(glm::vec3 center) { center_ = center; }
 
    private:
     glm::vec3 center_;

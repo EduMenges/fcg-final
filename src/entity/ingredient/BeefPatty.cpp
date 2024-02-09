@@ -1,7 +1,8 @@
 #include "BeefPatty.hpp"
 #include "singleton/Collision.hpp"
 
-ingredient::BeefPatty::BeefPatty(glm::vec3 position) : Ingredient(position, glm::vec3(0.11), recipe::EIngredient::BEEFPATTY) {
+ingredient::BeefPatty::BeefPatty(glm::vec3 position)
+    : Ingredient(position, glm::vec3(0.11), recipe::EIngredient::BEEFPATTY) {
     ComputeHitBoxes();
 }
 

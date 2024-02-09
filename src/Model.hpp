@@ -36,8 +36,8 @@ class Model {
     [[nodiscard]] bool IsBeingLooked(const Camera& camera, float radius = 0.4F) const {
         // How distant we are from this model. Might be used later.
         float distance;
-        bool intersects = glm::intersectRaySphere(camera.GetCameraPosition(), camera.GetViewVec(), glm::vec4(position_, 1.0F),
-                                       std::pow(radius, 2.0F), distance);
+        bool  intersects = glm::intersectRaySphere(camera.GetCameraPosition(), camera.GetViewVec(),
+                                                   glm::vec4(position_, 1.0F), std::pow(radius, 2.0F), distance);
 
         return intersects && (distance <= 2.0F);
     }

@@ -31,6 +31,7 @@ class Scene {
     virtual void Draw();
 
     Player player_;
+
    protected:
     ModelContainer  models_;
     EntityContainer entities_;
@@ -38,5 +39,4 @@ class Scene {
     Camera* camera_{nullptr};
 
     Input& input_;
-
 };

@@ -18,7 +18,7 @@ Window::Window() : window_(glfwCreateWindow(width_, height_, kGameName.data(), n
     gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
 }
 
-void Window::FrameBufferSizeCallback(int width, int height)  {
+void Window::FrameBufferSizeCallback(int width, int height) {
     glViewport(0, 0, width, height);
     width_  = width;
     height_ = height;

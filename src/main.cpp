@@ -92,6 +92,5 @@ int main() {
             delete scene;
             scene = next;
         }
-
     }
 }

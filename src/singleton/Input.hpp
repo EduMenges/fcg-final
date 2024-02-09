@@ -4,25 +4,21 @@
 #include "input/Mouse.hpp"
 
 class Input {
-public:
-    static Input &Instance() {
+   public:
+    static Input& Instance() {
         static Input instance;
         return instance;
     }
 
-    [[nodiscard]] bool IsOn(int code) const {
-        return keys_.IsOn(code);
-    }
+    [[nodiscard]] bool IsOn(int code) const { return keys_.IsOn(code); }
 
-    [[nodiscard]] auto GetDelta() const {
-        return mouse_.GetDelta();
-    }
+    [[nodiscard]] auto GetDelta() const { return mouse_.GetDelta(); }
 
     void UpdateMouse();
 
-    input::Keys keys_;
+    input::Keys  keys_;
     input::Mouse mouse_;
 
-private:
+   private:
     Input() = default;
 };

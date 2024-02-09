@@ -9,7 +9,7 @@
 
 class IngredientManager {
    public:
-    static constexpr float kY = 0.0f;
+    static constexpr float  kY                = 0.0f;
     static constexpr size_t kIngredientAmount = 10;
 
     using EntityContainer = std::list<std::unique_ptr<Entity>>;

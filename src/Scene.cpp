@@ -12,7 +12,10 @@ void Scene::Draw() {
 }
 
 Scene::Scene(Scene::ModelContainer&& models, Scene::EntityContainer&& entities)
-    : models_(std::move(models)), entities_(std::move(entities)), camera_(player_.GetCamera()), input_(Input::Instance()) {}
+    : models_(std::move(models)),
+      entities_(std::move(entities)),
+      camera_(player_.GetCamera()),
+      input_(Input::Instance()) {}
 
 Scene* Scene::Update(double delta) {
     for (auto& entity : entities_) {

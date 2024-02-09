@@ -1,11 +1,12 @@
 #include "MustardBottle.hpp"
 #include "singleton/Collision.hpp"
 
-ingredient::MustardBottle::MustardBottle(glm::vec3 position) : Ingredient(position, glm::vec3(0.12), recipe::EIngredient::MUSTARD){
+ingredient::MustardBottle::MustardBottle(glm::vec3 position)
+    : Ingredient(position, glm::vec3(0.12), recipe::EIngredient::MUSTARD) {
     ComputeHitBoxes();
 }
 
-void ingredient::MustardBottle::Update(double delta) { }
+void ingredient::MustardBottle::Update(double delta) {}
 
 Obj& ingredient::MustardBottle::GetObj() {
     static Obj obj("../../../data/condiments/mustard.obj");

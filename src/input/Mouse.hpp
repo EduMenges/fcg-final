@@ -16,9 +16,7 @@ class Mouse {
         last_y = std::exchange(y, ypos);
     }
 
-    [[nodiscard]] glm::dvec2 GetDelta() const {
-        return {x - last_x, y - last_y};
-    }
+    [[nodiscard]] glm::dvec2 GetDelta() const { return {x - last_x, y - last_y}; }
 
     bool M1 = false;
     bool M2 = false;

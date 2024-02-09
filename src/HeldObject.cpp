@@ -30,9 +30,9 @@ void HeldObject::Unset() {
     object_            = nullptr;
 }
 
-void HeldObject::Update(double  /*delta*/) {
+void HeldObject::Update(double /*delta*/) {
     input::Mouse mouse = Input::Instance().mouse_;
-    bool grab = Input::Instance().IsOn(GLFW_KEY_E);
+    bool         grab  = Input::Instance().IsOn(GLFW_KEY_E);
 
     if (object_ == nullptr) {
         return;
