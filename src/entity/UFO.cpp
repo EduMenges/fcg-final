@@ -1,6 +1,6 @@
 #include "UFO.hpp"
 
-entity::UFO::UFO(entity::Burger& burger) : Entity(glm::vec3{burger.position_.x, 9, burger.position_.z}, glm::vec3{0.3}), burger_(burger), bezier_(burger.bezier_) {}
+entity::UFO::UFO(entity::Burger& burger) : Entity(glm::vec3{burger.position_.x, 8, burger.position_.z}, glm::vec3{0.3}), burger_(burger), bezier_(burger.bezier_) {}
 
 
 void entity::UFO::Update(double delta) {
