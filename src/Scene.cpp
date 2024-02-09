@@ -9,10 +9,6 @@ void Scene::Draw() {
     for (auto& entity : entities_) {
         entity->Draw(*camera_);
     }
-
-    for (auto& screen: screens_) {
-        screen->Draw(*camera_);
-    }
 }
 
 Scene::Scene(Scene::ModelContainer&& models, Scene::EntityContainer&& entities)

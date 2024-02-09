@@ -5,16 +5,28 @@
 namespace scene {
 class Game : public Scene {
    public:
+    using ScreenContainer = std::list<std::unique_ptr<entity::Screen>>;
+
+    enum class CameraState : int8_t {
+        kLookAt = -1,
+        kPlayer,
+    };
+
     Game();
 
     Scene* Update(double delta) override;
 
     void CheckDeliverBurger();
 
-    bool has_been_sent = false;
+    void UpdateLookAt();
 
+    bool              has_been_sent = false;
+    ScreenContainer   screens_;
     HeldObject        held_object_{camera_, &entities_};
     IngredientManager manager_{&entities_, &held_object_};
     recipe::Order     order_{recipe::Recipe{}};
+    entity::Screen*   active_recipe_{nullptr};
+    CameraState       camera_state_{CameraState::kPlayer};
+    LookAtCamera      look_at_camera_;
 };
 }

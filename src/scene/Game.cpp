@@ -12,8 +12,9 @@
 #include <iostream>
 #include <numbers>
 #include "entity/Screen.hpp"
+#include "singleton/Window.hpp"
 
-scene::Game::Game() : Scene({}, {}) {
+scene::Game::Game() : Scene({}, {}), look_at_camera_(glm::vec3(0.0, 1.0, 0.0)) {
     auto& table      = *entities_.emplace_back(std::make_unique<entity::Table>(glm::vec3{0.0F, 0.0F, -2.0F}));
     float table_y    = table.GetBoundingBox().max_.y;
     manager_.table_y = table_y;
@@ -92,6 +93,7 @@ scene::Game::Game() : Scene({}, {}) {
             screen->position_.z = -5.8F;
             screen->rotation_.y = -glm::radians(90.0F);
             screen->scale_      = glm::vec3(0.9);
+            active_recipe_      = screen.get();
         }
     }
 
@@ -100,6 +102,37 @@ scene::Game::Game() : Scene({}, {}) {
 
 Scene* scene::Game::Update(double delta) {
     Scene::Update(delta);
+
+    for (auto& screen : screens_) {
+        screen->Draw(*camera_);
+    }
+
+    static bool was_on;
+    static bool is_on;
+
+    was_on = is_on;
+    is_on  = glfwGetKey(Window::Instance().GetWindow(), GLFW_KEY_L) == GLFW_PRESS;
+
+    if (camera_state_ == CameraState::kLookAt) {
+        UpdateLookAt();
+    }
+
+    if (is_on && !was_on) {
+        switch (camera_state_) {
+            case CameraState::kLookAt:
+                camera_state_   = CameraState::kPlayer;
+                camera_         = player_.GetCamera();
+                player_.paused_ = false;
+                break;
+            case CameraState::kPlayer:
+                camera_state_ = CameraState::kLookAt;
+                camera_       = &look_at_camera_;
+                look_at_camera_.SetLookAt(active_recipe_->position_ + glm::vec3(0.0, 1.0F, 0.0));
+                look_at_camera_.SetRotation({0.0F, 0.0F});
+                player_.paused_ = true;
+                break;
+        }
+    }
 
     held_object_.Update(delta);
     manager_.Update(delta);
@@ -120,4 +153,9 @@ void scene::Game::CheckDeliverBurger() {
     } else {
         has_been_sent = input_.IsOn(GLFW_KEY_ENTER);
     }
+}
+
+void scene::Game::UpdateLookAt() {
+    auto [dx, dy] = Input::Instance().GetDelta() * 0.01;
+    look_at_camera_.ComputeRotation({dx, dy});
 }
